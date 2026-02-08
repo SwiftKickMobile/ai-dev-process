@@ -8,12 +8,44 @@ This repo is designed to be installed as a **git submodule** and activated by an
 - writes **managed files** only (safe updates),
 - generates IDE-specific artifacts (e.g., Cursor `.mdc`) into the host repo.
 
-## Quick start (recommended): ask your agent
+## Quick start (recommended)
 
-- **Cursor**
-  - “Install/update `ai-dev-process` using `Install/Cursor/install-update-cursor.md`.”
-- **Android Studio + Claude Code**
-  - “Install/update `ai-dev-process` using `Install/AndroidStudio-ClaudeCode/install-update-androidstudio-claudecode.md`.”
+### 1) Add the submodule (one-time)
+
+From your host repo root:
+
+```bash
+git submodule add <REPO_URL> Dev/ai-dev-process
+git submodule update --init --recursive
+```
+
+If you already have the submodule installed, just run:
+
+```bash
+git submodule update --init --recursive
+```
+
+### 2) Ask your agent to install/update (copy/paste)
+
+Paste ONE of these prompts into your agent chat (from the host repo root).
+
+#### Cursor prompt
+
+“Install/update `ai-dev-process` in this repo by following `Dev/ai-dev-process/Install/Cursor/install-update-cursor.md`.
+
+- If `Dev/ai-dev-process` submodule is missing, add it there.
+- Do a discovery pass first, then propose a migration plan, then WAIT for approval before writing.
+- Use `docs/ai-dev-process/integration.md` as the project-owned Integration doc and migrate any legacy `xcode-commands.md` content into it (do not delete legacy files unless I explicitly approve).
+- Only overwrite files that contain the managed header (`Managed-By: ai-dev-process`). Treat lookalike files without the header as legacy candidates.”
+
+#### Android Studio + Claude Code prompt
+
+“Install/update `ai-dev-process` in this repo by following `Dev/ai-dev-process/Install/AndroidStudio-ClaudeCode/install-update-androidstudio-claudecode.md`.
+
+- If `Dev/ai-dev-process` submodule is missing, add it there.
+- Do a discovery pass first, then propose a migration plan, then WAIT for approval before writing.
+- Use `docs/ai-dev-process/integration.md` as the project-owned Integration doc and migrate any legacy build/test command notes into it (do not delete legacy files unless I explicitly approve).
+- Only overwrite files that contain the managed header (`Managed-By: ai-dev-process`). Treat lookalike files without the header as legacy candidates.”
 
 ## How installs stay safe
 
