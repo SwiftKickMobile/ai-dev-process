@@ -34,6 +34,7 @@ Follow the discover → classify → plan → confirm → execute workflow.
 
 Classify each discovered artifact:
 - **Managed**: has the managed header (`Managed-By: ai-dev-process`) → safe to overwrite.
+- **Managed symlink**: a symlink that points into `Submodules/ai-dev-process/...` at the expected target path → safe to replace/update.
 - **Legacy candidate**: looks like a managed asset but lacks the header → do not overwrite.
 - **Project-owned**: custom → do not overwrite.
 
@@ -41,7 +42,7 @@ Classify each discovered artifact:
 
 Prepare a concrete plan:
 - Files to create
-- Files to update (managed only)
+- Files to update (managed only, including managed symlinks)
 - Legacy candidates to supersede (create new managed files in canonical locations)
 - Integration doc migration items (move legacy `xcode-commands.md` content into `docs/ai-dev-process/integration.md`)
 - Legacy cleanup proposals (explicitly permission-gated):

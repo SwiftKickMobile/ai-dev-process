@@ -36,6 +36,33 @@ When you change assets, keep these in sync:
 - IDE-specific outputs (e.g., Cursor `.mdc`) are generated into host repos by installer runbooks under `Install/`.
 - Keep examples project-agnostic (use the shared fictional theme, currently “LumenNotes”).
 
+## Installer invariants (do not regress)
+
+The install/update runbooks must remain robust across:
+- returning to a host repo later,
+- updating the submodule,
+- starting a fresh LLM session,
+- running install/update again.
+
+To preserve that:
+
+- **Idempotency**: re-running install/update should converge to the same end state without manual cleanup.
+- **Managed overwrites only**:
+  - Generated host files are overwriteable only if they contain the managed header (`Install/managed-header.md`).
+  - **Symlinks** are overwriteable only if they point at the expected `Submodules/ai-dev-process/...` targets (symlinks cannot contain headers).
+- **Legacy candidates are permission-gated**:
+  - Identify legacy candidates.
+  - Propose delete/replace (often replace-with-symlink), but do not execute without explicit approval.
+- **Gray areas must be surfaced**:
+  - Example: legacy `.cursor/rules/debugging.mdc` should be flagged and deletion should be proposed only after migrating any project-specific logging conventions into the Integration doc and getting approval.
+
+## If you change install/runbooks
+
+After editing anything under `Install/`:
+- Ensure `Install/conflict-precedence-policy.md` still matches the runbooks (managed header vs managed symlink behavior).
+- Ensure `assets.manifest.json` includes any new policy/guide/runbook IDs referenced by the installer.
+- Ensure `README.md` Quick start prompts still point at the correct submodule path (`Submodules/ai-dev-process/...`).
+
 ## How to guide an LLM (prompt template)
 
 Use this as a starting prompt when maintaining this repo:
