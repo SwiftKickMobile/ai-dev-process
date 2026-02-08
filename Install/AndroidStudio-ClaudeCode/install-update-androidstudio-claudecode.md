@@ -62,14 +62,14 @@ Present the plan and wait for human approval before writing.
 1. Ensure submodule is present/updated.
 2. Create/update `docs/ai-dev-process/integration.md` (migrate legacy command docs into it; do not delete legacy docs by default).
 3. Create/update the Claude instruction file (`claude.md` vs `CLAUDE.md`) using managed headers.
-4. Link/copy key guides into a convenient location for prompting (project-selected).
+4. Symlink repo-owned guides into a convenient location for prompting (project-selected).
 5. Optionally propose cleanup of legacy candidates as a separate explicit step.
 
 ## Android adapter install targets
 
 In the host repo, create:
 - `docs/ai-dev-process/` (Integration doc)
-- `docs/ai-dev-process/process/` (managed copies of guides/policies for prompting)
+- `docs/ai-dev-process/process/` (symlinks to repo-owned guides/policies for prompting)
 
 ## Testing stack defaults (initial)
 
@@ -79,7 +79,7 @@ Observed defaults from real Android projects:
 
 ## Installing guide copies for prompting
 
-Copy (not symlink) these repo files into `docs/ai-dev-process/process/` as managed files:
+Symlink these repo-owned files into `docs/ai-dev-process/process/` (updates come from submodule updates):
 - `Core/debugging-guide.md`
 - `Spec/work-spec.md`
 - `Spec/work-spec-implementation.md`

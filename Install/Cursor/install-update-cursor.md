@@ -14,7 +14,7 @@ Key responsibilities:
 - Detect existing installs (including legacy copies of guides/rules) and plan a safe migration.
 - Create/update `docs/ai-dev-process/integration.md` (and migrate legacy `xcode-commands.md` content into it).
 - Generate managed Cursor `.mdc` rule files into `.cursor/rules/ai-dev-process/`.
-- Place convenient guide links/copies into `.cursor/ai-dev-process/`.
+- Place convenient guide symlinks into `.cursor/ai-dev-process/`.
 - Never overwrite project-owned files; only overwrite managed files; treat lookalike files as legacy candidates.
 
 ## Migration-capable algorithm (required)
@@ -54,7 +54,7 @@ Present the plan and wait for human approval before writing.
 1. Ensure submodule is present/updated.
 2. Create/update `docs/ai-dev-process/integration.md` (migrate legacy command docs into it; do not delete legacy docs by default).
 3. Generate managed Cursor `.mdc` rule files into `.cursor/rules/ai-dev-process/`.
-4. Link/copy key guides into `.cursor/ai-dev-process/` for convenient prompting.
+4. Symlink key guides into `.cursor/ai-dev-process/` for convenient prompting.
 5. Optionally propose cleanup of legacy candidates as a separate explicit step.
 
 ## Cursor install targets
@@ -85,7 +85,7 @@ Recommended generated rules (filenames are stable):
 
 ## Installing guide copies for prompting
 
-Copy (not symlink) these repo files into `.cursor/ai-dev-process/` as managed files:
+Symlink these repo-owned files into `.cursor/ai-dev-process/` (updates come from submodule updates):
 - `Core/debugging-guide.md`
 - `Spec/work-spec.md`
 - `Spec/work-spec-implementation.md`

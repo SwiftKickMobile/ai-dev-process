@@ -6,6 +6,7 @@ This repo is designed to be installed as a **git submodule** and activated by an
 - inspects the host repo (including legacy installs),
 - proposes a migration plan,
 - writes **managed files** only (safe updates),
+- **symlinks repo-owned assets** into the host repo’s expected directories (IDE/agent-specific),
 - generates IDE-specific artifacts (e.g., Cursor `.mdc`) into the host repo.
 
 ## Quick start (recommended)
