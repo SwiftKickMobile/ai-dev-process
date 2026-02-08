@@ -65,14 +65,14 @@ The authoritative list of assets and their intended usage is in `assets.manifest
 - `Spec/work-spec.md`
   - Work-spec workflow in three phases:
     - Planning (clarify scope, assumptions, inputs, open questions, and **API Sketches**)
-    - PRD creation/update (normalize externally observable behavior into canonical requirements, when applicable)
+    - PRD creation/update (normalize externally observable behavior into `/requirements/**`)
     - Work spec creation (two-pass: high-level tasks for review, then detailed subtasks)
 
 - `Spec/work-spec-implementation.md`
   - How an agent executes a work spec using 🟡 markers and `begin/next/continue` checkpoints.
 
 - `Spec/retro-prd.md`
-  - How to retrofit/normalize externally observable behavior into `/requirements/**` (when your org uses a canonical requirements repo).
+  - How to incrementally build and refine `/requirements/**` from an existing codebase during work sessions (infer contracts, add missing requirements, correct outdated ones).
 
 - `Test/unit-testing-guide.md`
   - Orchestrator for the unit testing workflow; delegates to the three sub-guides.
