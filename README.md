@@ -64,7 +64,7 @@ The authoritative list of assets and their intended usage is in `assets.manifest
 
 - `Spec/work-spec.md`
   - Work-spec workflow in three phases:
-    - Planning (clarify scope, assumptions, inputs, and open questions)
+    - Planning (clarify scope, assumptions, inputs, open questions, and **API Sketches**)
     - PRD creation/update (normalize externally observable behavior into canonical requirements, when applicable)
     - Work spec creation (two-pass: high-level tasks for review, then detailed subtasks)
 
