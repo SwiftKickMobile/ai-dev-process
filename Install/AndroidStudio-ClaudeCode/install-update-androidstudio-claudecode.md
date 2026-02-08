@@ -108,7 +108,7 @@ Copy (not symlink) these repo files into `docs/ai-dev-process/process/` as manag
 
 ### Step 1 — Ensure submodule exists and is updated
 
-- If missing: add submodule at project-chosen location (recommended: `Dev/ai-dev-process`).
+- If missing: add submodule at project-chosen location (recommended: `Submodules/ai-dev-process`).
 - Init/update submodule recursively.
 
 ### Step 2 — Ensure Integration doc exists (project-owned source of truth)
