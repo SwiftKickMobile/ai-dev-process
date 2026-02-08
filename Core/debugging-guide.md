@@ -1,3 +1,9 @@
+Managed-By: ai-dev-process
+Managed-Id: guide.debugging-core
+Managed-Source: Core/debugging-guide.md
+Managed-Adapter: repo-source
+Managed-Updated-At: 2026-02-08
+
 # Debugging / Problem-Resolution Guide (Core)
 
 Goal: prevent “guessing fixes” loops by using evidence, clear tactics, and explicit stopping conditions.

@@ -1,3 +1,9 @@
+Managed-By: ai-dev-process
+Managed-Id: guide.retro-prd
+Managed-Source: Spec/retro-prd.md
+Managed-Adapter: repo-source
+Managed-Updated-At: 2026-02-08
+
 Prerequisite: read `Spec/work-spec.md`.
 
 Based on the reviewed code and discussion above:

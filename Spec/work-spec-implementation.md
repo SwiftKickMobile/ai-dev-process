@@ -1,3 +1,9 @@
+Managed-By: ai-dev-process
+Managed-Id: guide.work-spec-implementation
+Managed-Source: Spec/work-spec-implementation.md
+Managed-Adapter: repo-source
+Managed-Updated-At: 2026-02-08
+
 
 # Work Task Development Rules
 

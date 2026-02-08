@@ -5,6 +5,7 @@ This policy defines how installers and update runbooks must behave in the presen
 ## File classes
 
 - **Managed file**: contains the managed header (`Managed-By: ai-dev-process`).
+- **Managed symlink**: a symlink created by the installer that points at the expected repo-owned target path.
 - **Legacy candidate**: appears to be an older copy of a managed asset but lacks the managed header.
 - **Project-owned file**: anything else (custom project content).
 
@@ -12,6 +13,7 @@ This policy defines how installers and update runbooks must behave in the presen
 
 - Never overwrite project-owned files.
 - Managed files may be overwritten deterministically.
+- Managed symlinks may be overwritten deterministically if they already point to an `ai-dev-process` target.
 - Legacy candidates must not be overwritten by default.
   - Migrate by generating new managed outputs in the current target locations.
   - Leave legacy candidates in place unless the human approves cleanup.
@@ -20,6 +22,9 @@ This policy defines how installers and update runbooks must behave in the presen
 
 - If destination does not exist: create it.
 - If destination exists and is managed: overwrite/update it.
+- If destination exists and is a symlink:
+  - If it points to the expected `ai-dev-process` target: treat as managed symlink → update/replace as needed.
+  - Otherwise: treat as project-owned → do not overwrite.
 - If destination exists and is not managed:
   - Treat it as project-owned by default.
   - If it looks like a legacy candidate, classify it as legacy candidate and do not overwrite.
@@ -29,6 +34,6 @@ This policy defines how installers and update runbooks must behave in the presen
 
 Cleanup of legacy candidates is always a separate step:
 - Present the list of legacy candidates.
-- Ask whether to delete, keep, or strip overlapping content.
+- Ask whether to delete, keep, replace with a symlink, or strip overlapping content.
 - Do not delete or strip without explicit approval.
 

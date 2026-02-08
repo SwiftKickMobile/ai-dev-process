@@ -1,3 +1,9 @@
+Managed-By: ai-dev-process
+Managed-Id: guide.unit-test-infrastructure
+Managed-Source: Test/unit-test-infrastructure-guide.md
+Managed-Adapter: repo-source
+Managed-Updated-At: 2026-02-08
+
 # Unit Test Infrastructure Guide
 
 ## Purpose
