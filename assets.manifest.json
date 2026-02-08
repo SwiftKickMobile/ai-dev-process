@@ -1,0 +1,116 @@
+{
+  "manifestVersion": 1,
+  "repo": "ai-dev-process",
+  "theme": "LumenNotes",
+  "assets": [
+    {
+      "id": "policy.coding-patterns",
+      "type": "policy",
+      "sourcePath": "Policies/coding-patterns.md",
+      "tags": ["core"]
+    },
+    {
+      "id": "policy.error-handling",
+      "type": "policy",
+      "sourcePath": "Policies/error-handling.md",
+      "tags": ["core"]
+    },
+    {
+      "id": "policy.unauthorized-changes",
+      "type": "policy",
+      "sourcePath": "Policies/unauthorized-changes.md",
+      "tags": ["core"]
+    },
+    {
+      "id": "policy.safe-operations",
+      "type": "policy",
+      "sourcePath": "Policies/safe-operations.md",
+      "tags": ["core"]
+    },
+    {
+      "id": "policy.swift-code-organization",
+      "type": "policy",
+      "sourcePath": "Policies/swift-code-organization.md",
+      "tags": ["swift", "adapter:xcode"]
+    },
+    {
+      "id": "guide.debugging-core",
+      "type": "guide",
+      "sourcePath": "Core/debugging-guide.md",
+      "tags": ["core"]
+    },
+    {
+      "id": "template.integration-doc",
+      "type": "template",
+      "sourcePath": "Templates/docs/ai-dev-process/integration.md",
+      "tags": ["core"]
+    },
+    {
+      "id": "guide.work-spec",
+      "type": "guide",
+      "sourcePath": "Spec/work-spec.md",
+      "tags": ["core"]
+    },
+    {
+      "id": "guide.work-spec-implementation",
+      "type": "guide",
+      "sourcePath": "Spec/work-spec-implementation.md",
+      "tags": ["core"]
+    },
+    {
+      "id": "guide.retro-prd",
+      "type": "guide",
+      "sourcePath": "Spec/retro-prd.md",
+      "tags": ["core"]
+    },
+    {
+      "id": "guide.unit-testing",
+      "type": "guide",
+      "sourcePath": "Test/unit-testing-guide.md",
+      "tags": ["adapter:xcode", "swift"]
+    },
+    {
+      "id": "guide.unit-test-planning",
+      "type": "guide",
+      "sourcePath": "Test/unit-test-planning-guide.md",
+      "tags": ["adapter:xcode", "swift"]
+    },
+    {
+      "id": "guide.unit-test-infrastructure",
+      "type": "guide",
+      "sourcePath": "Test/unit-test-infrastructure-guide.md",
+      "tags": ["adapter:xcode", "swift"]
+    },
+    {
+      "id": "guide.unit-test-writing",
+      "type": "guide",
+      "sourcePath": "Test/unit-test-writing-guide.md",
+      "tags": ["adapter:xcode", "swift"]
+    },
+    {
+      "id": "runbook.cursor-install-update",
+      "type": "runbook",
+      "sourcePath": "Install/Cursor/install-update-cursor.md",
+      "tags": ["adapter:cursor"]
+    },
+    {
+      "id": "runbook.androidstudio-claudecode-install-update",
+      "type": "runbook",
+      "sourcePath": "Install/AndroidStudio-ClaudeCode/install-update-androidstudio-claudecode.md",
+      "tags": ["adapter:android-studio", "adapter:claude-code"]
+    },
+    {
+      "id": "install-policy.managed-header",
+      "type": "install-policy",
+      "sourcePath": "Install/managed-header.md",
+      "tags": ["core"]
+    },
+    {
+      "id": "install-policy.conflict-precedence",
+      "type": "install-policy",
+      "sourcePath": "Install/conflict-precedence-policy.md",
+      "tags": ["core"]
+    }
+  ]
+}
+
