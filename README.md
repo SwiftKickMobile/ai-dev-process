@@ -57,13 +57,16 @@ Paste ONE of these prompts into your agent chat (from the host repo root).
 
 The authoritative list of assets and their intended usage is in `assets.manifest.json`.
 
-### Developer-facing guides (file-level)
+### Human-facing guides (file-level)
 
 - `Core/debugging-guide.md`
   - Debugging / problem-resolution tactics, evidence-first loop, and stop conditions (human-in-the-loop).
 
 - `Spec/work-spec.md`
-  - How to write a work specification for complex tasks (two-pass: high-level then detailed).
+  - Work-spec workflow in three phases:
+    - Planning (clarify scope, assumptions, inputs, and open questions)
+    - PRD creation/update (normalize externally observable behavior into canonical requirements, when applicable)
+    - Work spec creation (two-pass: high-level tasks for review, then detailed subtasks)
 
 - `Spec/work-spec-implementation.md`
   - How an agent executes a work spec using 🟡 markers and `begin/next/continue` checkpoints.
@@ -83,41 +86,17 @@ The authoritative list of assets and their intended usage is in `assets.manifest
 - `Test/unit-test-writing-guide.md`
   - Write, run, and iterate on tests; capture evidence; debug failures using the core debugging guide.
 
-### Templates (copied into host repos)
+### Human-facing templates (copied into host repos)
 
 - `Templates/docs/ai-dev-process/integration.md`
   - Template for the project-owned Integration doc (`docs/ai-dev-process/integration.md`).
 
-### Policies (agent behavior + coding rules)
+### Reference (mostly for the installer/LLM, not humans day-to-day)
 
-- `Policies/unauthorized-changes.md`
-  - Hard stop: don’t make changes without explicit authorization in discussion/troubleshooting.
-
-- `Policies/safe-operations.md`
-  - Safety rules for install/update and general agent operations (no commits, no deletes, managed-only overwrites, etc.).
-
-- `Policies/coding-patterns.md`
-  - General coding patterns intended to be broadly applicable across stacks.
-
-- `Policies/error-handling.md`
-  - Error handling principles (wrapping, logging at source, taxonomy) with project-agnostic examples.
-
-- `Policies/swift-code-organization.md`
-  - Swift-specific code organization policy (only install for Swift repos).
-
-### Install/runbooks (agent entrypoints)
-
-- `Install/Cursor/install-update-cursor.md`
-  - Cursor install/update runbook (generates Cursor `.mdc` into the host repo).
-
-- `Install/AndroidStudio-ClaudeCode/install-update-androidstudio-claudecode.md`
-  - Android Studio + Claude Code install/update runbook (sets up project-local instructions + guide copies).
-
-- `Install/managed-header.md`
-  - Required header format for managed files (safe deterministic overwrites).
-
-- `Install/conflict-precedence-policy.md`
-  - Conflict/precedence rules (managed vs legacy candidates vs project-owned).
+- `Install/`
+  - IDE-specific install/update runbooks and policies (managed header, precedence rules).
+- `Policies/`
+  - Agent behavior and coding policies (some stack-specific, e.g. Swift code organization).
 
 ## Development guide (for contributors)
 
