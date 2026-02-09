@@ -117,13 +117,13 @@ Symlink these repo-owned files into `.cursor/ai-dev-process/` (updates come from
 - `Test/unit-test-infrastructure-guide.md`
 - `Test/unit-test-writing-guide.md`
 
-## Legacy path adoption (recommended, permission-gated)
+## Legacy path adoption (required, permission-gated)
 
 If the host repo already has legacy copies of these guides at older locations (common examples):
 - `.cursor/work-spec.md`
 - `.cursor/work-spec-implementation.md`
 
-Then the installer should propose a cleanup plan:
+Then the installer MUST propose a cleanup plan:
 - **Preferred**: replace those legacy files with symlinks pointing at the canonical versions under `.cursor/ai-dev-process/`.
 - **Alternative**: delete them (only with explicit approval).
 

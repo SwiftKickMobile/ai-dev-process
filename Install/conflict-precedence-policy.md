@@ -16,7 +16,7 @@ This policy defines how installers and update runbooks must behave in the presen
 - Managed symlinks may be overwritten deterministically if they already point to an `ai-dev-process` target.
 - Legacy candidates must not be overwritten by default.
   - Migrate by generating new managed outputs in the current target locations.
-  - Leave legacy candidates in place unless the human approves cleanup.
+  - Default migration plan should propose a cleanup action for any legacy candidates that are known install artifacts (delete or replace-with-symlink), but never execute without explicit human approval.
 
 ## When destination path already exists
 
