@@ -127,6 +127,19 @@ Populate (or migrate) key integration details:
 
 Do not delete legacy docs; add pointers if you migrate content.
 
+If you cannot find the required integration information in-repo:
+- Create/seed the Integration doc from `Templates/docs/ai-dev-process/integration.md`.
+- Fill only what you can source with high confidence.
+- Add explicit 🟡 placeholders for missing items.
+- STOP and ask the human for the missing items before proceeding with Step 3.
+
+Required Integration doc fields to request (minimum set):
+- Build/compile command(s)
+- Unit test command(s): run all + run a single test/subset
+- How to capture full output (paths/artifacts the human should paste back)
+- Emulator/device conventions (if applicable)
+- Known evidence-capture limitations (if any)
+
 ### Step 3 — Create/update Claude Code instructions
 
 Decide instruction file location:

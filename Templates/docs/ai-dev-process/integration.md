@@ -4,6 +4,9 @@ This document is the project-owned source of truth for operational details requi
 
 Do not store secrets here.
 
+Conventions:
+- Use 🟡 to mark any missing information that must be filled in for agents to run workflows deterministically.
+
 ## Repositories and tooling
 
 - **Primary IDE(s)**:

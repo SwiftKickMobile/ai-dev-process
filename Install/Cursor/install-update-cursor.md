@@ -62,9 +62,21 @@ Present the plan and wait for human approval before writing.
 
 1. Ensure submodule is present/updated.
 2. Create/update `docs/ai-dev-process/integration.md` (migrate legacy command docs into it; do not delete legacy docs by default).
+   - If you cannot find the required integration information in-repo:
+     - Create/seed the Integration doc from `Templates/docs/ai-dev-process/integration.md`.
+     - Fill only what you can source with high confidence.
+     - Add explicit 🟡 placeholders for missing items.
+     - STOP and ask the human for the missing items before proceeding with the rest of the install.
 3. Generate managed Cursor `.mdc` rule files into `.cursor/rules/ai-dev-process/`.
 4. Symlink key guides into `.cursor/ai-dev-process/` for convenient prompting.
 5. If approved, perform legacy cleanup (delete or replace with symlinks).
+
+Required Integration doc fields to request (minimum set):
+- Build/compile command(s)
+- Unit test command(s): run all + run a single test/subset
+- How to capture full output (paths/artifacts the human should paste back)
+- Simulator/device destination conventions (if applicable)
+- Known evidence-capture limitations (if any)
 
 ## Cursor install targets
 
