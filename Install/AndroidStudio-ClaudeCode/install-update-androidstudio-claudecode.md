@@ -146,6 +146,7 @@ If you cannot find the required integration information in-repo:
 - Fill only what you can source with high confidence.
 - Add explicit 🟡 placeholders for missing items.
 - STOP and ask the human for the missing items before proceeding with Step 3.
+ - Prefer non-interactive command-line commands (e.g., `./gradlew ...`) over GUI instructions. If you can’t produce command-line commands with high confidence, leave 🟡 placeholders and ask.
 
 Required Integration doc fields to request (minimum set):
 - Build/compile command(s)

@@ -74,6 +74,7 @@ If updating the submodule, include an “update review” section:
      - Fill only what you can source with high confidence.
      - Add explicit 🟡 placeholders for missing items.
      - STOP and ask the human for the missing items before proceeding with the rest of the install.
+   - When filling “Build / compile” and “Unit tests”, prefer non-interactive command-line commands (e.g., `xcodebuild ...`) over GUI instructions (“open Xcode…”). If you can’t produce command-line commands with high confidence, leave 🟡 placeholders and ask.
 2.5 Create/update ignore files (permission-gated if the files already exist and are project-owned):
    - Update `.cursorignore` by inserting/updating a managed block:
      - Exclude `.claude/**` so Cursor sessions don’t ingest Claude-specific assets by default.

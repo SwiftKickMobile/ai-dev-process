@@ -6,6 +6,9 @@ Do not store secrets here.
 
 Conventions:
 - Use 🟡 to mark any missing information that must be filled in for agents to run workflows deterministically.
+- Prefer **non-interactive, command-line** commands over GUI instructions so:
+  - humans can paste output back to agents
+  - agents can reason deterministically about what ran
 
 ## Repositories and tooling
 
@@ -15,13 +18,15 @@ Conventions:
 
 ## Build / compile
 
-- (fill in project-specific commands)
+- 🟡 **Build/compile command(s)** (must be copy/pasteable)
+- 🟡 **How to list targets/schemes/modules** (if applicable)
+- 🟡 **How to choose a destination** (simulator/device/emulator), if applicable
 
 ## Unit tests
 
-- **How to run all unit tests**:
-- **How to run a single test / subset**:
-- **How to capture full output**:
+- 🟡 **How to run all unit tests** (command)
+- 🟡 **How to run a single test / subset** (command)
+- 🟡 **How to capture full output** (exact command + artifact paths, e.g. output file + result bundle)
 
 ## UI / instrumentation tests (if applicable)
 
@@ -32,6 +37,16 @@ Conventions:
 
 - Preferred devices/OS versions:
 - How to list/select destinations:
+
+## Xcode/Swift (if applicable)
+
+If this is an Xcode project, provide `xcodebuild`-based commands (not “open Xcode” steps).
+
+- 🟡 **List schemes**:
+- 🟡 **Build** (`xcodebuild ... build`):
+- 🟡 **Run unit tests (all)** (`xcodebuild ... test`):
+- 🟡 **Run unit tests (subset)** (`-only-testing:...`):
+- 🟡 **Result bundle + full output capture** (`-resultBundlePath ...` + redirect/tee output):
 
 ## Output and evidence collection (human-in-the-loop)
 
