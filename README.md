@@ -8,6 +8,11 @@ This repo is designed to be installed as a **git submodule** and activated by an
 - writes **managed files** only (safe updates),
 - **symlinks repo-owned assets** into the host repo’s expected directories (IDE/agent-specific),
 - generates IDE-specific artifacts (e.g., Cursor `.mdc`) into the host repo.
+- updates Cursor/Claude ignore files using managed blocks so multi-agent installs can coexist cleanly (permission-gated if the ignore files already exist).
+
+Recommended host locations for agent-facing docs:
+- Cursor: `.cursor/agent/ai-dev-process/`
+- Claude Code: `.claude/agent/ai-dev-process/`
 
 ## Quick start (recommended)
 
@@ -39,7 +44,26 @@ Paste ONE of these prompts into your agent chat (from the host repo root).
 > - Use `docs/ai-dev-process/integration.md` as the project-owned Integration doc and migrate any legacy `xcode-commands.md` content into it (do not delete legacy files unless I explicitly approve).
 > - Only overwrite files that contain the managed header (`Managed-By: ai-dev-process`). Treat lookalike files without the header as legacy candidates.
 
-#### Android Studio + Claude Code prompt
+#### JetBrains (IntelliJ IDEA) + Claude Code prompt
+
+> Install/update `ai-dev-process` in this repo by following `Submodules/ai-dev-process/Install/JetBrains-ClaudeCode/install-update-jetbrains-claudecode.md`.
+>
+> - If the `Submodules/ai-dev-process` submodule is missing, add it there.
+> - Do a discovery pass first, then propose a migration plan, then WAIT for approval before writing.
+> - Use `docs/ai-dev-process/integration.md` as the project-owned Integration doc and migrate any legacy build/test command notes into it (do not delete legacy files unless I explicitly approve).
+> - Only overwrite files that contain the managed header (`Managed-By: ai-dev-process`). Treat lookalike files without the header as legacy candidates.
+
+#### Xcode (MCP-hosted) + Claude Code prompt (EXPERIMENTAL)
+
+> Install/update `ai-dev-process` in this repo by following `Submodules/ai-dev-process/Install/Xcode-ClaudeCode/install-update-xcode-claudecode.md`.
+>
+> - If the `Submodules/ai-dev-process` submodule is missing, add it there.
+> - Do a discovery pass first, then propose a migration plan, then WAIT for approval before writing.
+> - Use `docs/ai-dev-process/integration.md` as the project-owned Integration doc and migrate any legacy build/test command notes into it (do not delete legacy files unless I explicitly approve).
+> - Only overwrite files that contain the managed header (`Managed-By: ai-dev-process`). Treat lookalike files without the header as legacy candidates.
+> - This runbook is experimental: if any Xcode+MCP assumption doesn’t match this repo’s setup, STOP and ask me what convention to use.
+
+#### Android Studio + Claude Code prompt (Android stack)
 
 > Install/update `ai-dev-process` in this repo by following `Submodules/ai-dev-process/Install/AndroidStudio-ClaudeCode/install-update-androidstudio-claudecode.md`.
 >
@@ -53,6 +77,30 @@ Paste ONE of these prompts into your agent chat (from the host repo root).
 - **Integration doc (project-owned)**: `docs/ai-dev-process/integration.md` is the single source of truth for project-specific commands/paths (build/test/lint/etc). Templates live in `Templates/`.
 - **Managed files**: host-project files written by the installer have a required header (see `Install/managed-header.md`). The installer overwrites only files that already contain this header.
 - **Legacy installs**: lookalike files without the header are treated as **legacy candidates** and are not overwritten by default (see `Install/conflict-precedence-policy.md`).
+
+## IDE clutter / autocomplete (recommended)
+
+To reduce duplicate autocomplete/search results (submodule sources + installed symlinks), hide the submodule in your editor UI while keeping the submodule `README.md` visible.
+
+Example for Cursor/VS Code workspace settings (`.vscode/settings.json`):
+
+```json
+{
+  "files.exclude": {
+    "**/Submodules/ai-dev-process/**": true,
+    "**/Submodules/ai-dev-process/README.md": false
+  },
+  "search.exclude": {
+    "**/Submodules/ai-dev-process/**": true,
+    "**/Submodules/ai-dev-process/README.md": false
+  }
+}
+```
+
+Android Studio (JetBrains):
+- In the Project tool window, right-click `Submodules/ai-dev-process` → **Mark Directory as** → **Excluded**.
+- Optionally also exclude `.claude/agent/ai-dev-process` if you don’t want the agent-doc symlinks in search results.
+- Prefer local IDE excludes over committing `.idea` changes unless your repo explicitly versions IDE config.
 
 ## Asset inventory
 

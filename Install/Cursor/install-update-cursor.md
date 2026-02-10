@@ -14,7 +14,8 @@ Key responsibilities:
 - Detect existing installs (including legacy copies of guides/rules) and plan a safe migration.
 - Create/update `docs/ai-dev-process/integration.md` (and migrate legacy `xcode-commands.md` content into it).
 - Generate managed Cursor `.mdc` rule files into `.cursor/rules/ai-dev-process/`.
-- Place convenient guide symlinks into `.cursor/ai-dev-process/`.
+- Place convenient guide symlinks into `.cursor/agent/ai-dev-process/`.
+- Update `.cursorignore` (and, if present, `.claudeignore`) via managed blocks so Cursor and Claude installs can coexist without clutter.
 - Never overwrite project-owned files; only overwrite managed files; treat lookalike files as legacy candidates.
 
 ## Migration-capable algorithm (required)
@@ -24,6 +25,7 @@ Follow the discover → classify → plan → confirm → execute workflow.
 ### 1) Discover (read-only)
 
 - Identify whether `ai-dev-process` is already present as a submodule (and where).
+- If this is an update, record the current submodule commit SHA (pre-update) and the intended new SHA (post-update).
 - Inventory existing install artifacts:
   - `.cursor/rules/**`, `.cursor/**`
   - `docs/**`
@@ -58,6 +60,11 @@ Required gray-area checks (ask the human, then reflect the decision in the plan)
 
 Present the plan and wait for human approval before writing.
 
+If updating the submodule, include an “update review” section:
+- Summarize changes between the old SHA and new SHA for relevant paths:
+  - `Core/`, `Policies/`, `Spec/`, `Test/`, `Templates/`, `Install/`, `assets.manifest.json`, `README.md`
+- If you cannot compute the diff yourself, STOP and ask the human to provide the diff output.
+
 ### 5) Execute (safe order)
 
 1. Ensure submodule is present/updated.
@@ -67,8 +74,16 @@ Present the plan and wait for human approval before writing.
      - Fill only what you can source with high confidence.
      - Add explicit 🟡 placeholders for missing items.
      - STOP and ask the human for the missing items before proceeding with the rest of the install.
+2.5 Create/update ignore files (permission-gated if the files already exist and are project-owned):
+   - Update `.cursorignore` by inserting/updating a managed block:
+     - Exclude `.claude/**` so Cursor sessions don’t ingest Claude-specific assets by default.
+     - Exclude `Submodules/ai-dev-process/**` to reduce clutter, but un-exclude:
+       - `Submodules/ai-dev-process/README.md`
+       - `Submodules/ai-dev-process/Install/**`
+       - `Submodules/ai-dev-process/assets.manifest.json`
+   - If `.claudeignore` exists, propose inserting/updating an equivalent managed block to exclude `.cursor/**` (ask approval before changing).
 3. Generate managed Cursor `.mdc` rule files into `.cursor/rules/ai-dev-process/`.
-4. Symlink key guides into `.cursor/ai-dev-process/` for convenient prompting.
+4. Symlink key guides into `.cursor/agent/ai-dev-process/` for convenient prompting.
 5. If approved, perform legacy cleanup (delete or replace with symlinks).
 
 Required Integration doc fields to request (minimum set):
@@ -82,7 +97,7 @@ Required Integration doc fields to request (minimum set):
 
 Create these directories in the host repo:
 - `.cursor/rules/ai-dev-process/`
-- `.cursor/ai-dev-process/`
+- `.cursor/agent/ai-dev-process/`
 
 ## Generating Cursor rule files (`.mdc`)
 
@@ -107,7 +122,7 @@ Recommended generated rules (filenames are stable):
 
 ## Installing guide copies for prompting
 
-Symlink these repo-owned files into `.cursor/ai-dev-process/` (updates come from submodule updates):
+Symlink these repo-owned files into `.cursor/agent/ai-dev-process/` (updates come from submodule updates):
 - `Core/debugging-guide.md`
 - `Spec/work-spec.md`
 - `Spec/work-spec-implementation.md`
@@ -124,7 +139,7 @@ If the host repo already has legacy copies of these guides at older locations (c
 - `.cursor/work-spec-implementation.md`
 
 Then the installer MUST propose a cleanup plan:
-- **Preferred**: replace those legacy files with symlinks pointing at the canonical versions under `.cursor/ai-dev-process/`.
+- **Preferred**: replace those legacy files with symlinks pointing at the canonical versions under `.cursor/agent/ai-dev-process/`.
 - **Alternative**: delete them (only with explicit approval).
 
 Rationale: leaving legacy copies in place increases the chance that humans/agents keep reading the wrong file out of habit.

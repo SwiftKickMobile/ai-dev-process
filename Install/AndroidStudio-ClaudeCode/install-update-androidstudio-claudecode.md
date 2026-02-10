@@ -32,6 +32,7 @@ Follow the discover → classify → plan → confirm → execute workflow.
 ### 1) Discover (read-only)
 
 - Identify whether `ai-dev-process` is already present as a submodule (and where).
+- If this is an update, record the current submodule commit SHA (pre-update) and the intended new SHA (post-update).
 - Inventory existing install artifacts:
   - Claude instruction files (`claude.md`, `CLAUDE.md`, `.claude/**`)
   - IDE config folders (if any)
@@ -58,19 +59,32 @@ Prepare a concrete plan:
 
 Present the plan and wait for human approval before writing.
 
+If updating the submodule, include an “update review” section:
+- Summarize changes between the old SHA and new SHA for relevant paths:
+  - `Core/`, `Policies/`, `Spec/`, `Test/`, `Templates/`, `Install/`, `assets.manifest.json`, `README.md`
+- If you cannot compute the diff yourself, STOP and ask the human to provide the diff output.
+
 ### 5) Execute (safe order)
 
 1. Ensure submodule is present/updated.
 2. Create/update `docs/ai-dev-process/integration.md` (migrate legacy command docs into it; do not delete legacy docs by default).
 3. Create/update the Claude instruction file (`claude.md` vs `CLAUDE.md`) using managed headers.
-4. Symlink repo-owned guides into a convenient location for prompting (project-selected).
+4. Symlink repo-owned guides into `.claude/agent/ai-dev-process/` for convenient prompting.
+4.5 Create/update ignore files (permission-gated if the files already exist and are project-owned):
+   - Update `.claudeignore` by inserting/updating a managed block:
+     - Exclude `.cursor/**` so Claude sessions don’t ingest Cursor-specific assets by default.
+     - Exclude `Submodules/ai-dev-process/**` to reduce clutter, but un-exclude:
+       - `Submodules/ai-dev-process/README.md`
+       - `Submodules/ai-dev-process/Install/**`
+       - `Submodules/ai-dev-process/assets.manifest.json`
+   - If `.cursorignore` exists, propose inserting/updating an equivalent managed block to exclude `.claude/**` (ask approval before changing).
 5. Optionally propose cleanup of legacy candidates as a separate explicit step.
 
 ## Android adapter install targets
 
 In the host repo, create:
 - `docs/ai-dev-process/` (Integration doc)
-- `docs/ai-dev-process/process/` (symlinks to repo-owned guides/policies for prompting)
+- `.claude/agent/ai-dev-process/` (symlinks to repo-owned guides/policies for prompting)
 
 ## Testing stack defaults (initial)
 
@@ -80,7 +94,7 @@ Observed defaults from real Android projects:
 
 ## Installing guide copies for prompting
 
-Symlink these repo-owned files into `docs/ai-dev-process/process/` (updates come from submodule updates):
+Symlink these repo-owned files into `.claude/agent/ai-dev-process/` (updates come from submodule updates):
 - `Core/debugging-guide.md`
 - `Spec/work-spec.md`
 - `Spec/work-spec-implementation.md`

@@ -106,6 +106,18 @@
       "tags": ["adapter:android-studio", "adapter:claude-code"]
     },
     {
+      "id": "runbook.jetbrains-claudecode-install-update",
+      "type": "runbook",
+      "sourcePath": "Install/JetBrains-ClaudeCode/install-update-jetbrains-claudecode.md",
+      "tags": ["adapter:jetbrains", "adapter:claude-code"]
+    },
+    {
+      "id": "runbook.xcode-claudecode-install-update",
+      "type": "runbook",
+      "sourcePath": "Install/Xcode-ClaudeCode/install-update-xcode-claudecode.md",
+      "tags": ["adapter:xcode", "adapter:claude-code", "experimental"]
+    },
+    {
       "id": "install-policy.managed-header",
       "type": "install-policy",
       "sourcePath": "Install/managed-header.md",

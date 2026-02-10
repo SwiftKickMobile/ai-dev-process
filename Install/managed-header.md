@@ -27,3 +27,17 @@ Rules:
 ## Symlinks
 
 Symlinks cannot “contain” a managed header. For symlinked installs, treat a host path as managed if it is a symlink pointing at the expected `ai-dev-process` target path.
+
+## Ignore files (`.cursorignore`, `.claudeignore`)
+
+Ignore files are typically gitignore-style and are often project-owned. Installers must not overwrite them wholesale.
+
+Instead, installers may manage a delimited block using comment markers, for example:
+
+```
+# BEGIN Managed-By: ai-dev-process
+... patterns ...
+# END Managed-By: ai-dev-process
+```
+
+The installer may create the file if it does not exist, and may update only the block if it exists.
