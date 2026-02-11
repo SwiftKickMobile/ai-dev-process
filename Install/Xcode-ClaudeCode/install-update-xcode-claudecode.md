@@ -74,15 +74,13 @@ If updating the submodule, include an “update review” section:
      - Add explicit 🟡 placeholders for missing items.
      - STOP and ask the human for the missing items before proceeding.
    - Prefer non-interactive command-line commands (e.g., `xcodebuild ...`) over GUI instructions (“open Xcode…”). If you can’t produce command-line commands with high confidence, leave 🟡 placeholders and ask.
+   - Never invent a simulator/device model. If a canonical `xcodebuild -destination` string is not already established in-repo, propose one and ask the human to confirm before writing it.
 3. Create/update the Claude instruction file (`claude.md` vs `CLAUDE.md`) using managed headers.
 4. Symlink repo-owned guides into `.claude/agent/ai-dev-process/` for convenient prompting.
 5. Create/update ignore files (permission-gated if they already exist and are project-owned):
    - Update `.claudeignore` by inserting/updating a managed block:
      - Exclude `.cursor/**` so Claude sessions don’t ingest Cursor-specific assets by default.
-     - Exclude `Submodules/ai-dev-process/**` to reduce clutter, but un-exclude:
-       - `Submodules/ai-dev-process/README.md`
-       - `Submodules/ai-dev-process/Install/**`
-       - `Submodules/ai-dev-process/assets.manifest.json`
+     - Do NOT exclude `Submodules/ai-dev-process/**` here; use editor UI excludes for autocomplete/search clutter instead.
 6. Optionally propose cleanup of legacy candidates as a separate explicit step.
 
 Required Integration doc fields to request (minimum set):

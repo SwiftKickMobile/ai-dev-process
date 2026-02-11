@@ -19,5 +19,6 @@
   - use 🟡 only (no ✅ completion markers)
   - place test work docs and artifacts under `work/<branch>/testing/<suite>/...`
   - reference `docs/ai-dev-process/integration.md` instead of `xcode-commands.md` / `.cursor/*`
+- Improved the Integration template for Xcode: clarified agent-filled command variables and multi-scheme/test-plan conventions; standardized `xcodebuild`/`.xcresult`/`xcresulttool` patterns.
 - Added `assets.manifest.json` to enumerate assets and adapter applicability.
 

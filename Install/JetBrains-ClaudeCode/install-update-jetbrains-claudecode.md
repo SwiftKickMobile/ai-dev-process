@@ -70,10 +70,7 @@ If updating the submodule, include an “update review” section:
 5. Create/update ignore files (permission-gated if they already exist and are project-owned):
    - Update `.claudeignore` by inserting/updating a managed block:
      - Exclude `.cursor/**` so Claude sessions don’t ingest Cursor-specific assets by default.
-     - Exclude `Submodules/ai-dev-process/**` to reduce clutter, but un-exclude:
-       - `Submodules/ai-dev-process/README.md`
-       - `Submodules/ai-dev-process/Install/**`
-       - `Submodules/ai-dev-process/assets.manifest.json`
+     - Do NOT exclude `Submodules/ai-dev-process/**` here; use editor UI excludes for autocomplete/search clutter instead.
 6. Optionally propose cleanup of legacy candidates as a separate explicit step.
 
 Required Integration doc fields to request (minimum set):
