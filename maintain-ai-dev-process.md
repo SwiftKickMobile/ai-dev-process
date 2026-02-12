@@ -28,13 +28,14 @@ When you change assets, keep these in sync:
 - `README.md`
   - update the file-level Asset inventory for developer-facing guides
 - `CHANGELOG.md`
-  - add an entry under “Unreleased” for user-visible changes
+  - add an entry under "Unreleased" for user-visible changes
 
 ## Content rules (project goals)
 
 - Prefer IDE-neutral `.md` sources in this repo.
 - IDE-specific outputs (e.g., Cursor `.mdc`) are generated into host repos by installer runbooks under `Install/`.
-- Keep examples project-agnostic (use the shared fictional theme, currently “LumenNotes”).
+- Keep examples project-agnostic (use the shared fictional theme, currently "LumenNotes").
+- **Cross-references between assets**: policies and guides are installed into host repos via symlinks (e.g., `Core/debugging-guide.md` is symlinked into `.cursor/agent/ai-dev-process/`). When one asset references another, use the installed filename with `@` notation (e.g., `@debugging-guide.md`), not source-repo-relative paths like `Core/debugging-guide.md`.
 
 ## Installer invariants (do not regress)
 
@@ -73,4 +74,3 @@ Use this as a starting prompt when maintaining this repo:
 > Update `assets.manifest.json`, `README.md` (asset inventory), and `CHANGELOG.md` as needed.
 > Do not commit or delete files unless I explicitly ask.
 > After edits, summarize exactly what changed and list touched files.
-
