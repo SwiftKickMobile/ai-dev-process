@@ -2,20 +2,30 @@
 
 Use this after making changes to `ai-dev-process` to ensure nothing was forgotten.
 
-## 1) Inventory: what changed?
+## Retro intent (read this first)
 
-- List the files you changed/added/removed.
-- State whether the change is user-visible (affects host repo installs) or internal only.
+This retro is a **backstop for completeness**, not a git/diff report.
+
+- Do **not** do a detailed “what changed” writeup unless explicitly asked.
+- Prefer scanning docs/templates/runbooks for **consistency and missing updates**.
+- The expected output is either:
+  - a short list of **misses / follow-ups**, or
+  - **“Retro complete; no misses found.”**
+
+## 1) Inventory (high level only)
+
+- In 1–2 bullets: what you changed (e.g., “Integration template format”, “runbook behavior”, “new asset added”).
+- State whether it’s **host-install-visible** (affects host repo installs) or internal only.
 
 ## 2) Required bookkeeping
 
-- Update `CHANGELOG.md` (Unreleased) to reflect major changes.
-- Update `assets.manifest.json` if you added/moved/renamed any installable asset or installer dependency (templates/sections/runbooks/policies).
-- Update `README.md`:
+- Ensure `CHANGELOG.md` reflects major user-visible changes (section naming/versioning is fine either way).
+- Ensure `assets.manifest.json` is updated if you added/moved/renamed any installable asset or installer dependency (templates/sections/runbooks/policies).
+- Ensure `README.md` is updated if needed:
   - Quick start prompts if any runbook paths changed
   - Asset inventory (human-facing guides at file level)
   - Any new conventions/invariants developers need to know
-- Update `maintain-ai-dev-process.md` if you changed invariants or introduced a new maintenance rule.
+- Ensure `maintain-ai-dev-process.md` is updated if you changed invariants or introduced a new maintenance rule.
 
 ## 3) Integration doc architecture checks (common misses)
 
@@ -24,6 +34,7 @@ Use this after making changes to `ai-dev-process` to ensure nothing was forgotte
   - Stack-specific templates exist under `Templates/docs/ai-dev-process/integration-sections/`.
   - Runbooks still describe how to merge/update/remove the managed blocks.
   - 🟡 is used only for true project-specific constants/mappings (not for variables or standard procedures).
+  - Integration section templates are **integration-doc-ready** content (no 🟡 TODO lists; no installer/human instruction prose; include copy/pasteable CLI templates with `<...>` variables).
 
 ## 4) Installer safety checks
 
@@ -39,8 +50,8 @@ Use this after making changes to `ai-dev-process` to ensure nothing was forgotte
 - Search for stale paths (e.g. old install target directories) and update all occurrences.
 - Ensure new files referenced by runbooks exist at those paths.
 
-## 6) Final report
+## 6) Retro output (keep it short)
 
-- Provide a short summary of what changed and why.
-- List touched files.
+- If you found misses: list them as **actionable follow-ups** (1–6 bullets).
+- If you found none: say **“Retro complete; no misses found.”**
 

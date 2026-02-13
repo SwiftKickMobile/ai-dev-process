@@ -145,11 +145,7 @@ If you cannot find the required integration information in-repo:
 - STOP and ask the human for the missing items before proceeding with Step 3.
  - Prefer non-interactive command-line commands (e.g., `./gradlew ...`) over GUI instructions. If you can’t produce command-line commands with high confidence, leave 🟡 placeholders and ask.
 
-Update the Integration doc by managing its LLM-owned blocks:
-- Read the “Special instructions / overrides” section first and obey it.
-- Insert/update stack sections inside the `BEGIN/END Managed-By: ai-dev-process` blocks from:
-  - `Templates/docs/ai-dev-process/integration-sections/android-gradle.md`
-- Remove irrelevant managed blocks if the corresponding stack is not present (or the human says to omit).
+Follow `Install/integration-doc-install-update.md` for how to update the Integration doc safely (managed blocks + human overrides).
 
 Required Integration doc fields to request (minimum set):
 - Build/compile command(s)

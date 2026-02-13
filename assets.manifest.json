@@ -142,6 +142,12 @@
       "tags": ["core"]
     },
     {
+      "id": "install-policy.integration-doc-install-update",
+      "type": "install-policy",
+      "sourcePath": "Install/integration-doc-install-update.md",
+      "tags": ["core"]
+    },
+    {
       "id": "guide.maintain-retro",
       "type": "guide",
       "sourcePath": "maintain-retro.md",

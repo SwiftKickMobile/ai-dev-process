@@ -1,18 +1,57 @@
-# Managed section: Android / Gradle
-
-This section is maintained by `ai-dev-process` and merged into the host project’s Integration doc during install/update.
-
-Do not edit this block directly in the host repo; instead, add overrides in the Integration doc’s “Special instructions / overrides” section.
-
 ## Android/Gradle
 
-Goal: provide copy/pasteable, non-interactive `./gradlew` commands that agents can run (or humans can run and paste output/artifacts back).
+Provide copy/pasteable, non-interactive `./gradlew` commands.
 
-🟡 The installer should fill these based on the repo’s Gradle setup (modules, variants/flavors) or ask the human for minimal missing values.
+Placeholders like `<Variant>`, `<ModulePath>`, and `<TestNamePattern>` are **variables** the agent fills per task context (and asks the human only if unclear).
 
-- 🟡 Build/compile command(s):
-- 🟡 Unit tests (all):
-- 🟡 Unit tests (single module / subset):
-- 🟡 Instrumentation/UI tests (if applicable):
-- 🟡 Where reports/results are written (e.g. `**/build/reports/**`, `**/build/test-results/**`):
+### Build / compile
+
+```bash
+./gradlew <AssembleTask> --no-daemon --stacktrace 2>&1 | tee <output-path>.txt
+```
+
+Examples for `<AssembleTask>` (pick based on the repo’s modules/variants):
+- `assemble`
+- `assembleDebug`
+- `:app:assembleDebug`
+
+### Unit tests (all)
+
+```bash
+./gradlew test --no-daemon --stacktrace 2>&1 | tee <output-path>.txt
+```
+
+### Unit tests (single module / variant)
+
+```bash
+./gradlew <ModulePath>:test<Variant>UnitTest --no-daemon --stacktrace 2>&1 | tee <output-path>.txt
+```
+
+Examples:
+- `<ModulePath>`: `:app`, `:core`, `:feature:notes`
+- `<Variant>`: `Debug`, `Release`, `FreeDebug`
+
+### Unit tests (subset)
+
+Prefer a repo-supported mechanism (varies by test framework and Gradle config). Common patterns include:
+
+```bash
+./gradlew <ModulePath>:test<Variant>UnitTest --tests '<TestNamePattern>' --no-daemon --stacktrace 2>&1 | tee <output-path>.txt
+```
+
+### Instrumentation / UI tests (if applicable)
+
+```bash
+./gradlew <AndroidTestTask> --no-daemon --stacktrace 2>&1 | tee <output-path>.txt
+```
+
+Examples for `<AndroidTestTask>`:
+- `connectedAndroidTest`
+- `<ModulePath>:connected<Variant>AndroidTest`
+
+### Reports / results (typical locations; repo may differ)
+
+- Unit test reports: `**/build/reports/tests/**`
+- Unit test results: `**/build/test-results/**`
+- Android test reports/results: `**/build/reports/androidTests/**` / `**/build/outputs/androidTest-results/**`
 

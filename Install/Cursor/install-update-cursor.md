@@ -76,12 +76,7 @@ If updating the submodule, include an “update review” section:
      - STOP and ask the human for the missing items before proceeding with the rest of the install.
    - When filling “Build / compile” and “Unit tests”, prefer non-interactive command-line commands (e.g., `xcodebuild ...`) over GUI instructions (“open Xcode…”). If you can’t produce command-line commands with high confidence, leave 🟡 placeholders and ask.
    - For Xcode projects: never invent a simulator/device model. If a canonical `xcodebuild -destination` string is not already established in-repo, propose one and ask the human to confirm before writing it.
-   - Update the Integration doc by managing its LLM-owned blocks:
-     - Read the “Special instructions / overrides” section first and obey it.
-     - Insert/update stack sections inside the `BEGIN/END Managed-By: ai-dev-process` blocks from:
-       - `Templates/docs/ai-dev-process/integration-sections/xcode.md` (when Xcode/Swift is present)
-       - `Templates/docs/ai-dev-process/integration-sections/android-gradle.md` (when Gradle/Android is present)
-     - Remove irrelevant managed blocks if the corresponding stack is not present (or the human says to omit).
+   - Follow `Install/integration-doc-install-update.md` for how to update the Integration doc safely (managed blocks + human overrides).
 2.5 Create/update ignore files (permission-gated if the files already exist and are project-owned):
    - Update `.cursorignore` by inserting/updating a managed block:
      - Exclude `.claude/**` so Cursor sessions don’t ingest Claude-specific assets by default.

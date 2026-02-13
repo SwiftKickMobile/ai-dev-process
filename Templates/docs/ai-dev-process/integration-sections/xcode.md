@@ -1,9 +1,3 @@
-# Managed section: Xcode / Swift
-
-This section is maintained by `ai-dev-process` and merged into the host project’s Integration doc during install/update.
-
-Do not edit this block directly in the host repo; instead, add overrides in the Integration doc’s “Special instructions / overrides” section.
-
 ## Xcode/Swift
 
 Provide `xcodebuild`-based commands (not “open Xcode” steps).

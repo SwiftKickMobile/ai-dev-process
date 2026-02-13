@@ -65,12 +65,7 @@ If updating the submodule, include an “update review” section:
      - Add explicit 🟡 placeholders for missing items.
      - STOP and ask the human for the missing items before proceeding.
    - Prefer non-interactive command-line commands over GUI instructions. If you can’t produce command-line commands with high confidence, leave 🟡 placeholders and ask.
-   - Update the Integration doc by managing its LLM-owned blocks:
-     - Read the “Special instructions / overrides” section first and obey it.
-     - Insert/update stack sections inside the `BEGIN/END Managed-By: ai-dev-process` blocks from:
-       - `Templates/docs/ai-dev-process/integration-sections/xcode.md` (when Xcode/Swift is present)
-       - `Templates/docs/ai-dev-process/integration-sections/android-gradle.md` (when Gradle/Android is present)
-     - Remove irrelevant managed blocks if the corresponding stack is not present (or the human says to omit).
+   - Follow `Install/integration-doc-install-update.md` for how to update the Integration doc safely (managed blocks + human overrides).
 3. Create/update the Claude instruction file (`claude.md` vs `CLAUDE.md`) using managed headers.
 4. Symlink repo-owned guides into `.claude/agent/ai-dev-process/` for convenient prompting.
 5. Create/update ignore files (permission-gated if they already exist and are project-owned):

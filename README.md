@@ -78,6 +78,22 @@ Paste ONE of these prompts into your agent chat (from the host repo root).
 - **Managed files**: host-project files written by the installer have a required header (see `Install/managed-header.md`). The installer overwrites only files that already contain this header.
 - **Legacy installs**: lookalike files without the header are treated as **legacy candidates** and are not overwritten by default (see `Install/conflict-precedence-policy.md`).
 
+## Integration document (how to use it)
+
+The Integration doc (`docs/ai-dev-process/integration.md`) is the **project-owned** place where `ai-dev-process` workflows get the concrete, copy/pasteable details they need to run deterministically (build/test commands, destinations, artifact paths, evidence expectations).
+
+Why it matters:
+- It prevents agents from guessing project-specific constants (like `xcodebuild -destination` strings, scheme/test plan conventions, or where `.xcresult` / logs are stored).
+- It makes install/update migrations safe: the installer can preserve your filled values while updating the managed template structure around them.
+
+How humans should fill it:
+- **🟡 means “required project-specific value is missing.”**
+- Under a 🟡 item you may see one or more `INSTRUCTION:` lines. Those are **not part of the long-term document**; they exist only to explain what to fill in.
+- When you fill a value:
+  - remove the 🟡 marker
+  - delete the `INSTRUCTION:` line(s) under it
+- If a future install/update can’t infer a required value with high confidence, the installer may **restore** 🟡 + `INSTRUCTION:` prompts so the doc remains a complete, reliable source of truth.
+
 ## IDE clutter / autocomplete (recommended)
 
 To reduce duplicate autocomplete/search results (submodule sources + installed symlinks), hide the submodule in your editor UI while keeping the submodule `README.md` visible.

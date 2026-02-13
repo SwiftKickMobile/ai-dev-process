@@ -28,14 +28,13 @@ When you change assets, keep these in sync:
 - `README.md`
   - update the file-level Asset inventory for developer-facing guides
 - `CHANGELOG.md`
-  - add an entry under "Unreleased" for user-visible changes
+  - add an entry under “Unreleased” for user-visible changes
 
 ## Content rules (project goals)
 
 - Prefer IDE-neutral `.md` sources in this repo.
 - IDE-specific outputs (e.g., Cursor `.mdc`) are generated into host repos by installer runbooks under `Install/`.
-- Keep examples project-agnostic (use the shared fictional theme, currently "LumenNotes").
-- **Cross-references between assets**: policies and guides are installed into host repos via symlinks (e.g., `Core/debugging-guide.md` is symlinked into `.cursor/agent/ai-dev-process/`). When one asset references another, use the installed filename with `@` notation (e.g., `@debugging-guide.md`), not source-repo-relative paths like `Core/debugging-guide.md`.
+- Keep examples project-agnostic (use the shared fictional theme, currently “LumenNotes”).
 
 ## Installer invariants (do not regress)
 
@@ -60,17 +59,36 @@ To preserve that:
 
 ## Integration doc architecture (do not regress)
 
-The Integration doc is project-owned at `docs/ai-dev-process/integration.md`, but is structured to support safe automation:
+The Integration doc is project-owned at `docs/ai-dev-process/integration.md`, but is structured to support safe automation.
 
-- Humans edit only the **Special instructions / overrides** section.
-- The installer owns stack-specific sections inside `BEGIN/END Managed-By: ai-dev-process` blocks.
+Format rules:
+- `Templates/docs/ai-dev-process/integration.md` must be **minimal** and must not contain “meta” guidance.
+  - No instructions to the installer/LLM (those belong in `Install/integration-doc-install-update.md`).
+  - No instructions to humans about how to clear 🟡 markers (those belong in `README.md`).
+
+Ownership rules:
+- Humans may edit only the **Special instructions / overrides** section (freeform).
+- The installer owns:
+  - the `required-values` “form” block (structure + restoration of missing fields)
+  - stack-specific sections inside `BEGIN/END Managed-By: ai-dev-process` blocks.
 - Stack-specific templates live under:
   - `Templates/docs/ai-dev-process/integration-sections/`
 
 When changing Integration templates/sections:
-- Keep 🟡 markers only for true project-specific missing constants/mappings (not for variables or standard procedures).
-- Ensure section templates treat placeholders like `<Scheme>`, `<TestPlan>`, `<TestTarget>` as **variables** (agent-filled per task).
-- Ensure runbooks describe how to merge/update/remove managed blocks based on detected stacks and human overrides.
+- Keep managed block markers minimal and stable:
+  - `<!-- BEGIN Managed-By: ai-dev-process | Section: <id> -->`
+  - `<!-- END Managed-By: ai-dev-process | Section: <id> -->`
+- Keep 🟡 markers only for true project-specific missing constants/mappings.
+  - Do not mark variables (e.g., `<Scheme>`, `<TestPlan>`, `<TestTarget>`) with 🟡.
+  - Do not mark standard procedures/patterns with 🟡.
+- Ensure section templates treat placeholders like `<Scheme>`, `<TestPlan>`, `<TestTarget>` as **variables** (agent-filled per task context).
+- Ensure section templates are **integration-doc-ready** content:
+  - no 🟡 TODO lists
+  - no “installer/human instructions” (those belong in `README.md` and `Install/integration-doc-install-update.md`)
+  - include copy/pasteable CLI command templates with `<...>` variables
+- Ensure `Install/integration-doc-install-update.md` remains the canonical installer guidance for:
+  - managed block merge/update/remove behavior
+  - `{human response}` placeholders + `INSTRUCTION:` formatting and restoration rules
 
 ## If you change install/runbooks
 
@@ -94,3 +112,4 @@ Use this as a starting prompt when maintaining this repo:
 > Update `assets.manifest.json`, `README.md` (asset inventory), and `CHANGELOG.md` as needed.
 > Do not commit or delete files unless I explicitly ask.
 > After edits, summarize exactly what changed and list touched files.
+
