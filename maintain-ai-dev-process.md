@@ -29,6 +29,9 @@ When you change assets, keep these in sync:
   - update the file-level Asset inventory for developer-facing guides
 - `CHANGELOG.md`
   - add an entry under “Unreleased” for user-visible changes
+ - Cursor skills (if you add/change them):
+   - templates live at `Templates/cursor/skills/**/SKILL.md`
+   - Cursor installer installs them into host repos at `.cursor/skills/`
 
 ## Content rules (project goals)
 

@@ -1,0 +1,21 @@
+---
+name: ai-dev-process-unit-testing
+description: Plans and writes unit tests using ai-dev-process (planning, infrastructure, writing, and evidence-first handling of failures). Use when the user asks for unit tests, test planning, improving test coverage, or debugging test failures.
+---
+
+<!-- Managed-By: ai-dev-process | Managed-Id: cursor-skill.ai-dev-process-unit-testing | Managed-Source: Submodules/ai-dev-process/Templates/cursor/skills/ai-dev-process-unit-testing/SKILL.md | Managed-Adapter: cursor | Managed-Updated-At: 2026-02-13 -->
+
+# AI Dev Process: Unit testing
+
+## Instructions
+
+- Read:
+  - `Submodules/ai-dev-process/Test/unit-testing-guide.md`
+  - `Submodules/ai-dev-process/Test/unit-test-planning-guide.md`
+  - `Submodules/ai-dev-process/Test/unit-test-infrastructure-guide.md`
+  - `Submodules/ai-dev-process/Test/unit-test-writing-guide.md`
+- When tests fail, follow the debugging process:
+  - `Submodules/ai-dev-process/Policies/debugging-process-rule.md`
+  - `Submodules/ai-dev-process/Core/debugging-guide.md`
+- Store test work docs/artifacts under `work/<branch>/testing/<suite>/...` per the guides.
+

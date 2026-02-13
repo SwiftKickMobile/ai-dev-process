@@ -14,7 +14,7 @@ Key responsibilities:
 - Detect existing installs (including legacy copies of guides/rules) and plan a safe migration.
 - Create/update `docs/ai-dev-process/integration.md` (and migrate any legacy integration command notes into it).
 - Generate managed Cursor `.mdc` rule files into `.cursor/rules/ai-dev-process/`.
-- Place convenient guide symlinks into `.cursor/agent/ai-dev-process/`.
+- Install `ai-dev-process` Cursor skills into `.cursor/skills/` (no symlinks; wrappers point at `Submodules/ai-dev-process/...` sources).
 - Update `.cursorignore` (and, if present, `.claudeignore`) via managed blocks so Cursor and Claude installs can coexist without clutter.
 - Never overwrite project-owned files; only overwrite managed files; treat lookalike files as legacy candidates.
 
@@ -85,7 +85,7 @@ If updating the submodule, include an “update review” section:
      - Do NOT exclude `Submodules/ai-dev-process/**` here; use editor UI excludes for autocomplete/search clutter instead.
    - If `.claudeignore` exists, propose inserting/updating an equivalent managed block to exclude `.cursor/**` (ask approval before changing).
 3. Generate managed Cursor `.mdc` rule files into `.cursor/rules/ai-dev-process/`.
-4. Symlink key guides into `.cursor/agent/ai-dev-process/` for convenient prompting.
+4. Install `ai-dev-process` Cursor skills into `.cursor/skills/`.
 5. If approved, perform legacy cleanup (delete or replace with symlinks).
 
 Required Integration doc fields to request (minimum set):
@@ -99,7 +99,7 @@ Required Integration doc fields to request (minimum set):
 
 Create these directories in the host repo:
 - `.cursor/rules/ai-dev-process/`
-- `.cursor/agent/ai-dev-process/`
+- `.cursor/skills/`
 
 ## Generating Cursor rule files (`.mdc`)
 
@@ -122,17 +122,29 @@ Recommended generated rules (filenames are stable):
 - `.cursor/rules/ai-dev-process/safe-operations.mdc` ← `Policies/safe-operations.md`
 - `.cursor/rules/ai-dev-process/swift-code-organization.mdc` ← `Policies/swift-code-organization.md` (Swift stack only)
 
-## Installing guide copies for prompting
+## Installing Cursor skills (recommended; no symlinks)
 
-Symlink these repo-owned files into `.cursor/agent/ai-dev-process/` (updates come from submodule updates):
-- `Core/debugging-guide.md`
-- `Spec/work-spec.md`
-- `Spec/work-spec-implementation.md`
-- `Spec/retro-prd.md`
-- `Test/unit-testing-guide.md`
-- `Test/unit-test-planning-guide.md`
-- `Test/unit-test-infrastructure-guide.md`
-- `Test/unit-test-writing-guide.md`
+Create these skills in the host repo under `.cursor/skills/` by copying the templates from the submodule.
+
+Rules:
+- Each destination `SKILL.md` is considered managed only if it contains the managed marker comment described in `Install/managed-header.md`.
+- Overwrite only if destination is missing or already contains the managed marker.
+
+Install these skill wrappers:
+- `.cursor/skills/ai-dev-process-debugging/SKILL.md`
+  - source: `Submodules/ai-dev-process/Templates/cursor/skills/ai-dev-process-debugging/SKILL.md`
+- `.cursor/skills/ai-dev-process-work-spec/SKILL.md`
+  - source: `Submodules/ai-dev-process/Templates/cursor/skills/ai-dev-process-work-spec/SKILL.md`
+- `.cursor/skills/ai-dev-process-unit-testing/SKILL.md`
+  - source: `Submodules/ai-dev-process/Templates/cursor/skills/ai-dev-process-unit-testing/SKILL.md`
+- `.cursor/skills/ai-dev-process-unit-test-planning/SKILL.md`
+  - source: `Submodules/ai-dev-process/Templates/cursor/skills/ai-dev-process-unit-test-planning/SKILL.md`
+- `.cursor/skills/ai-dev-process-unit-test-infrastructure/SKILL.md`
+  - source: `Submodules/ai-dev-process/Templates/cursor/skills/ai-dev-process-unit-test-infrastructure/SKILL.md`
+- `.cursor/skills/ai-dev-process-unit-test-writing/SKILL.md`
+  - source: `Submodules/ai-dev-process/Templates/cursor/skills/ai-dev-process-unit-test-writing/SKILL.md`
+- `.cursor/skills/ai-dev-process-retro-prd/SKILL.md`
+  - source: `Submodules/ai-dev-process/Templates/cursor/skills/ai-dev-process-retro-prd/SKILL.md`
 
 ## Legacy path adoption (required, permission-gated)
 
@@ -141,8 +153,10 @@ If the host repo already has legacy copies of these guides at older locations (c
 - `.cursor/work-spec-implementation.md`
 
 Then the installer MUST propose a cleanup plan:
-- **Preferred**: replace those legacy files with symlinks pointing at the canonical versions under `.cursor/agent/ai-dev-process/`.
-- **Alternative**: delete them (only with explicit approval).
+- **Preferred**: delete them (only with explicit approval).
+- **Alternative**: replace them with a short redirect note that points at:
+  - the Cursor skills under `.cursor/skills/ai-dev-process-*/`
+  - and/or the canonical submodule sources under `Submodules/ai-dev-process/Spec/...`
 
 Rationale: leaving legacy copies in place increases the chance that humans/agents keep reading the wrong file out of habit.
 

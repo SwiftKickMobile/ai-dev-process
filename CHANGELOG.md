@@ -7,7 +7,7 @@
 - Added migration-capable install/update discussion record in `DISCUSSION.md`.
 - Added a Debugging Process rule to enforce evidence-first debugging and prevent “guessing fixes” loops.
 - Expanded install/update support for multiple agent platforms coexisting in one repo:
-  - Cursor installs to `.cursor/rules/ai-dev-process/` and `.cursor/agent/ai-dev-process/`
+  - Cursor installs to `.cursor/rules/ai-dev-process/` and `.cursor/skills/ai-dev-process-*/`
   - Claude Code installs to `.claude/agent/ai-dev-process/`
 - Added/expanded Claude Code runbooks:
   - JetBrains (IntelliJ IDEA) + Claude Code

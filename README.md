@@ -6,12 +6,12 @@ This repo is designed to be installed as a **git submodule** and activated by an
 - inspects the host repo (including legacy installs),
 - proposes a migration plan,
 - writes **managed files** only (safe updates),
-- **symlinks repo-owned assets** into the host repo’s expected directories (IDE/agent-specific),
+- installs agent-facing assets into the host repo’s expected directories (IDE/agent-specific),
 - generates IDE-specific artifacts (e.g., Cursor `.mdc`) into the host repo.
 - updates Cursor/Claude ignore files using managed blocks so multi-agent installs can coexist cleanly (permission-gated if the ignore files already exist).
 
 Recommended host locations for agent-facing docs:
-- Cursor: `.cursor/agent/ai-dev-process/`
+- Cursor: `.cursor/skills/ai-dev-process-*/`
 - Claude Code: `.claude/agent/ai-dev-process/`
 
 ## Quick start (recommended)
@@ -41,7 +41,7 @@ Paste ONE of these prompts into your agent chat (from the host repo root).
 >
 > - If the `Submodules/ai-dev-process` submodule is missing, add it there.
 > - Do a discovery pass first, then propose a migration plan, then WAIT for approval before writing.
-> - Use `docs/ai-dev-process/integration.md` as the project-owned Integration doc and migrate any legacy `xcode-commands.md` content into it (do not delete legacy files unless I explicitly approve).
+> - Use `docs/ai-dev-process/integration.md` as the project-owned Integration doc and migrate any legacy build/test command notes into it (do not delete legacy files unless I explicitly approve).
 > - Only overwrite files that contain the managed header (`Managed-By: ai-dev-process`). Treat lookalike files without the header as legacy candidates.
 
 #### JetBrains (IntelliJ IDEA) + Claude Code prompt
@@ -96,7 +96,7 @@ How humans should fill it:
 
 ## IDE clutter / autocomplete (recommended)
 
-To reduce duplicate autocomplete/search results (submodule sources + installed symlinks), hide the submodule in your editor UI while keeping the submodule `README.md` visible.
+To reduce duplicate autocomplete/search results (submodule sources + installed assets), hide the submodule in your editor UI while keeping the submodule `README.md` visible.
 
 Example for Cursor/VS Code workspace settings (`.vscode/settings.json`):
 
@@ -115,7 +115,7 @@ Example for Cursor/VS Code workspace settings (`.vscode/settings.json`):
 
 Android Studio (JetBrains):
 - In the Project tool window, right-click `Submodules/ai-dev-process` → **Mark Directory as** → **Excluded**.
-- Optionally also exclude `.claude/agent/ai-dev-process` if you don’t want the agent-doc symlinks in search results.
+- Optionally also exclude `.claude/agent/ai-dev-process` if you don’t want the agent-doc install artifacts in search results.
 - Prefer local IDE excludes over committing `.idea` changes unless your repo explicitly versions IDE config.
 
 ## Asset inventory

@@ -24,6 +24,24 @@ Rules:
 
 - For file formats that require comment prefixes, the header should still be present as plain text at the top of the file unless that breaks the format. If it breaks the format, adapt by prefixing each line with the file’s comment marker while preserving the same keys.
 
+## Cursor skills (`.cursor/skills/**/SKILL.md`)
+
+Cursor skill files require YAML frontmatter at the top of the file, so the standard managed header cannot appear as the literal first lines.
+
+For these files only, treat a skill file as managed if it contains a managed marker comment **immediately after the YAML frontmatter**, for example:
+
+```markdown
+---
+name: ai-dev-process-debugging
+description: ...
+---
+<!-- Managed-By: ai-dev-process | Managed-Id: cursor-skill.ai-dev-process-debugging | Managed-Source: Submodules/ai-dev-process/Templates/cursor/skills/ai-dev-process-debugging/SKILL.md | Managed-Adapter: cursor | Managed-Updated-At: 2026-02-13 -->
+```
+
+Rules:
+- Installers may overwrite a skill file only when this marker is present (or when the destination does not exist).
+- `Managed-Id` must match an entry in `assets.manifest.json`.
+
 ## Symlinks
 
 Symlinks cannot “contain” a managed header. For symlinked installs, treat a host path as managed if it is a symlink pointing at the expected `ai-dev-process` target path.
