@@ -18,6 +18,7 @@ This policy defines how installers and update runbooks must behave in the presen
 - Managed Cursor skill files may be overwritten deterministically when the managed marker is present.
 - Managed symlinks may be overwritten deterministically if they already point to an `ai-dev-process` target.
 - Managed block files may be updated deterministically, but only within the managed block.
+- Deprecated install artifacts should be identified during discovery and proposed for cleanup (permission-gated).
 - Legacy candidates must not be overwritten by default.
   - Migrate by generating new managed outputs in the current target locations.
   - Default migration plan should propose a cleanup action for any legacy candidates that are known install artifacts (delete or replace-with-symlink), but never execute without explicit human approval.

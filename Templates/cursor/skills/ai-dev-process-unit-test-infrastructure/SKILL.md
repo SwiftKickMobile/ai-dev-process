@@ -10,8 +10,8 @@ description: Sets up unit test infrastructure using ai-dev-process rules. Use wh
 ## Instructions
 
 - Read:
-  - `Submodules/ai-dev-process/Test/unit-test-infrastructure-guide.md`
+  - `Submodules/ai-dev-process/Guides/Test/unit-test-infrastructure-guide.md`
 - If test failures require debugging, follow:
   - `Submodules/ai-dev-process/Policies/debugging-process-rule.md`
-  - `Submodules/ai-dev-process/Core/debugging-guide.md`
+  - `Submodules/ai-dev-process/Guides/Core/debugging-guide.md`
 

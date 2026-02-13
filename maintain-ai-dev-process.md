@@ -18,6 +18,7 @@ This file is instructions for an LLM making changes **to the `ai-dev-process` re
    - template change
    - repo metadata change (manifest/changelog/readme)
 3. Propose a short plan and then proceed.
+4. After significant edits (multi-file changes, path moves, installer behavior changes), run `maintain-retro.md` and fix straightforward misses immediately.
 
 ## Required bookkeeping (most common misses)
 

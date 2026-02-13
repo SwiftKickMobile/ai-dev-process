@@ -28,6 +28,9 @@ Follow the discover → classify → plan → confirm → execute workflow.
 - If this is an update, record the current submodule commit SHA (pre-update) and the intended new SHA (post-update).
 - Inventory existing install artifacts:
   - `.cursor/rules/**`, `.cursor/**`
+  - specifically scan for prior `ai-dev-process` install targets under `.cursor/**` (do not assume current targets only):
+    - `.cursor/skills/**`
+    - `.cursor/agent/**` (deprecated install target; see cleanup guidance below)
   - `docs/**`
   - any “integration glue” docs/notes (build/test commands, destinations, artifact paths), wherever they live (README, docs, CI scripts, etc.)
 - Inventory any existing Integration doc candidates and existing rule/policy docs (do not assume specific filenames).
@@ -50,6 +53,8 @@ Prepare a concrete plan:
 - Legacy cleanup proposals (explicitly permission-gated):
   - delete legacy candidates
   - or replace legacy candidates with symlinks to the new canonical locations
+ - Deprecated install artifact cleanup proposals (explicitly permission-gated):
+   - remove managed outputs that were installed by older versions of this runbook but are no longer part of the current install targets
 
 Required gray-area checks (ask the human, then reflect the decision in the plan):
 - Search for legacy debugging rule candidates (common examples: `.cursor/rules/debugging*.mdc`, `.cursor/rules/*debug*.mdc`, or other Cursor rules that encode project-specific logging/API conventions).
@@ -64,7 +69,7 @@ Present the plan and wait for human approval before writing.
 
 If updating the submodule, include an “update review” section:
 - Summarize changes between the old SHA and new SHA for relevant paths:
-  - `Core/`, `Policies/`, `Spec/`, `Test/`, `Templates/`, `Install/`, `assets.manifest.json`, `README.md`
+  - `Guides/`, `Policies/`, `Templates/`, `Install/`, `assets.manifest.json`, `README.md`
 - If you cannot compute the diff yourself, STOP and ask the human to provide the diff output.
 
 ### 5) Execute (safe order)
@@ -143,8 +148,8 @@ Install these skill wrappers:
   - source: `Submodules/ai-dev-process/Templates/cursor/skills/ai-dev-process-unit-test-infrastructure/SKILL.md`
 - `.cursor/skills/ai-dev-process-unit-test-writing/SKILL.md`
   - source: `Submodules/ai-dev-process/Templates/cursor/skills/ai-dev-process-unit-test-writing/SKILL.md`
-- `.cursor/skills/ai-dev-process-retro-prd/SKILL.md`
-  - source: `Submodules/ai-dev-process/Templates/cursor/skills/ai-dev-process-retro-prd/SKILL.md`
+- `.cursor/skills/ai-dev-process-dev-retro/SKILL.md`
+  - source: `Submodules/ai-dev-process/Templates/cursor/skills/ai-dev-process-dev-retro/SKILL.md`
 
 ## Legacy path adoption (required, permission-gated)
 
@@ -156,12 +161,37 @@ Then the installer MUST propose a cleanup plan:
 - **Preferred**: delete them (only with explicit approval).
 - **Alternative**: replace them with a short redirect note that points at:
   - the Cursor skills under `.cursor/skills/ai-dev-process-*/`
-  - and/or the canonical submodule sources under `Submodules/ai-dev-process/Spec/...`
+  - and/or the canonical submodule sources under `Submodules/ai-dev-process/Guides/Spec/...`
 
 Rationale: leaving legacy copies in place increases the chance that humans/agents keep reading the wrong file out of habit.
+
+## Deprecated Cursor agent-doc install target (required, permission-gated)
+
+Older installs of `ai-dev-process` may have placed symlinked “agent docs” under:
+- `.cursor/agent/ai-dev-process/` (deprecated)
+
+Current installs use Cursor skills under `.cursor/skills/ai-dev-process-*/` instead (no symlinks).
+
+Required behavior:
+- If `.cursor/agent/ai-dev-process/` exists:
+  - If it contains symlinks that point into `Submodules/ai-dev-process/...`, treat them as **deprecated managed symlinks** and propose deleting the whole directory (only with explicit approval).
+  - If it contains non-symlink or project-authored content, treat it as project-owned and STOP to ask the human what to do.
+
+## Deprecated Cursor skill: `ai-dev-process-retro-prd` (required, permission-gated)
+
+Older installs may have installed:
+- `.cursor/skills/ai-dev-process-retro-prd/` (deprecated)
+
+It is superseded by:
+- `.cursor/skills/ai-dev-process-dev-retro/`
+
+Required behavior:
+- If `.cursor/skills/ai-dev-process-retro-prd/` exists:
+  - If it contains only managed skill files (managed marker comment present), propose deleting the deprecated skill directory (only with explicit approval).
+  - Otherwise treat as project-owned and STOP to ask what to do.
 
 ## Legacy debugging rule (special case, permission-gated)
 
 If the host repo contains `.cursor/rules/debugging.mdc` (legacy, no managed header), treat it as a gray area:
 - It may contain project-specific logging conventions that should be migrated into `docs/ai-dev-process/integration.md`.
-- The installer should propose deleting it (because debugging should be guided by `Core/debugging-guide.md` plus the Debugging Process rule), but must ask for explicit approval before deleting.
+- The installer should propose deleting it (because debugging should be guided by `Guides/Core/debugging-guide.md` plus the Debugging Process rule), but must ask for explicit approval before deleting.

@@ -10,8 +10,8 @@ description: Creates and executes work specs using ai-dev-process (planning, PRD
 ## Instructions
 
 - Read:
-  - `Submodules/ai-dev-process/Spec/work-spec.md`
-  - `Submodules/ai-dev-process/Spec/work-spec-implementation.md`
+  - `Submodules/ai-dev-process/Guides/Spec/work-spec.md`
+  - `Submodules/ai-dev-process/Guides/Spec/work-spec-implementation.md`
 - Use 🟡 to mark TODOs and stopping points; when the human says “begin/next/continue”, remove the 🟡 you’re acting on and proceed.
 - If the workflow needs project-specific commands/paths, read `docs/ai-dev-process/integration.md` and STOP to ask for missing required values.
 

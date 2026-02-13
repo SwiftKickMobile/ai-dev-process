@@ -1,6 +1,6 @@
 Managed-By: ai-dev-process
 Managed-Id: guide.work-spec-implementation
-Managed-Source: Spec/work-spec-implementation.md
+Managed-Source: Guides/Spec/work-spec-implementation.md
 Managed-Adapter: repo-source
 Managed-Updated-At: 2026-02-08
 
@@ -125,7 +125,7 @@ The human controls task progression. Removing 🟡 from the current task would s
 
 ## Unit Testing Tasks
 
-When a task involves implementing unit tests, follow the **Unit Testing Guide** (`Test/unit-testing-guide.md`) as a mandatory sub-process.
+When a task involves implementing unit tests, follow the **Unit Testing Guide** (`Guides/Test/unit-testing-guide.md`) as a mandatory sub-process.
 
 **Integration with task workflow:**
 1. The work spec task defines *what* to test (e.g., "Write unit tests for TemplateRenderer")

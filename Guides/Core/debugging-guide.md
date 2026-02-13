@@ -1,6 +1,6 @@
 Managed-By: ai-dev-process
 Managed-Id: guide.debugging-core
-Managed-Source: Core/debugging-guide.md
+Managed-Source: Guides/Core/debugging-guide.md
 Managed-Adapter: repo-source
 Managed-Updated-At: 2026-02-08
 

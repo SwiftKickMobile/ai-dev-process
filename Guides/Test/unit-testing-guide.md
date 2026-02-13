@@ -1,6 +1,6 @@
 Managed-By: ai-dev-process
 Managed-Id: guide.unit-testing
-Managed-Source: Test/unit-testing-guide.md
+Managed-Source: Guides/Test/unit-testing-guide.md
 Managed-Adapter: repo-source
 Managed-Updated-At: 2026-02-08
 
@@ -23,9 +23,9 @@ When testing multiple types in a single session:
 3. **Sequential by file** - Aligns with work spec subtask structure
 
 **Sub-guides:**
-- **Planning**: `Test/unit-test-planning-guide.md`
-- **Infrastructure**: `Test/unit-test-infrastructure-guide.md`
-- **Writing & Execution**: `Test/unit-test-writing-guide.md`
+- **Planning**: `Guides/Test/unit-test-planning-guide.md`
+- **Infrastructure**: `Guides/Test/unit-test-infrastructure-guide.md`
+- **Writing & Execution**: `Guides/Test/unit-test-writing-guide.md`
 
 ---
 
@@ -123,7 +123,7 @@ The testing process is designed for:
 
 **Trigger:** Next Command
 
-**Process:** Execute `Test/unit-test-planning-guide.md`
+**Process:** Execute `Guides/Test/unit-test-planning-guide.md`
 
 **Output:** Test file with sections marked 🟡 (indicating TODO)
 
@@ -138,12 +138,12 @@ The testing process is designed for:
 **For each section marked 🟡:**
 
 1. **Infrastructure Phase**
-   - Execute `Test/unit-test-infrastructure-guide.md` for this section
+   - Execute `Guides/Test/unit-test-infrastructure-guide.md` for this section
    - Stops at checkpoints defined in that guide
    - Next Command after infrastructure complete → Proceed to Writing Phase
 
 2. **Writing & Execution Phase**
-   - Execute `Test/unit-test-writing-guide.md` for this section
+   - Execute `Guides/Test/unit-test-writing-guide.md` for this section
    - Stops at checkpoints defined in that guide
    - When all tests pass and work documented, writing phase is complete
 

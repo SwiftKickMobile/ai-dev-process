@@ -42,7 +42,7 @@
     {
       "id": "guide.debugging-core",
       "type": "guide",
-      "sourcePath": "Core/debugging-guide.md",
+      "sourcePath": "Guides/Core/debugging-guide.md",
       "tags": ["core"]
     },
     {
@@ -66,43 +66,43 @@
     {
       "id": "guide.work-spec",
       "type": "guide",
-      "sourcePath": "Spec/work-spec.md",
+      "sourcePath": "Guides/Spec/work-spec.md",
       "tags": ["core"]
     },
     {
       "id": "guide.work-spec-implementation",
       "type": "guide",
-      "sourcePath": "Spec/work-spec-implementation.md",
+      "sourcePath": "Guides/Spec/work-spec-implementation.md",
       "tags": ["core"]
     },
     {
-      "id": "guide.retro-prd",
+      "id": "guide.dev-retro",
       "type": "guide",
-      "sourcePath": "Spec/retro-prd.md",
+      "sourcePath": "Guides/dev-retro.md",
       "tags": ["core"]
     },
     {
       "id": "guide.unit-testing",
       "type": "guide",
-      "sourcePath": "Test/unit-testing-guide.md",
+      "sourcePath": "Guides/Test/unit-testing-guide.md",
       "tags": ["adapter:xcode", "swift"]
     },
     {
       "id": "guide.unit-test-planning",
       "type": "guide",
-      "sourcePath": "Test/unit-test-planning-guide.md",
+      "sourcePath": "Guides/Test/unit-test-planning-guide.md",
       "tags": ["adapter:xcode", "swift"]
     },
     {
       "id": "guide.unit-test-infrastructure",
       "type": "guide",
-      "sourcePath": "Test/unit-test-infrastructure-guide.md",
+      "sourcePath": "Guides/Test/unit-test-infrastructure-guide.md",
       "tags": ["adapter:xcode", "swift"]
     },
     {
       "id": "guide.unit-test-writing",
       "type": "guide",
-      "sourcePath": "Test/unit-test-writing-guide.md",
+      "sourcePath": "Guides/Test/unit-test-writing-guide.md",
       "tags": ["adapter:xcode", "swift"]
     },
     {
@@ -184,9 +184,9 @@
       "tags": ["adapter:cursor"]
     },
     {
-      "id": "cursor-skill.ai-dev-process-retro-prd",
+      "id": "cursor-skill.ai-dev-process-dev-retro",
       "type": "cursor-skill",
-      "sourcePath": "Templates/cursor/skills/ai-dev-process-retro-prd/SKILL.md",
+      "sourcePath": "Templates/cursor/skills/ai-dev-process-dev-retro/SKILL.md",
       "tags": ["adapter:cursor"]
     },
     {

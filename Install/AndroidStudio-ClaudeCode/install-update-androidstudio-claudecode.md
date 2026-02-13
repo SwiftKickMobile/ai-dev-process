@@ -61,7 +61,7 @@ Present the plan and wait for human approval before writing.
 
 If updating the submodule, include an “update review” section:
 - Summarize changes between the old SHA and new SHA for relevant paths:
-  - `Core/`, `Policies/`, `Spec/`, `Test/`, `Templates/`, `Install/`, `assets.manifest.json`, `README.md`
+  - `Guides/`, `Policies/`, `Templates/`, `Install/`, `assets.manifest.json`, `README.md`
 - If you cannot compute the diff yourself, STOP and ask the human to provide the diff output.
 
 ### 5) Execute (safe order)
@@ -92,14 +92,14 @@ Observed defaults from real Android projects:
 ## Installing guide copies for prompting
 
 Symlink these repo-owned files into `.claude/agent/ai-dev-process/` (updates come from submodule updates):
-- `Core/debugging-guide.md`
-- `Spec/work-spec.md`
-- `Spec/work-spec-implementation.md`
-- `Spec/retro-prd.md`
-- `Test/unit-testing-guide.md`
-- `Test/unit-test-planning-guide.md`
-- `Test/unit-test-infrastructure-guide.md`
-- `Test/unit-test-writing-guide.md`
+- `Guides/Core/debugging-guide.md`
+- `Guides/Spec/work-spec.md`
+- `Guides/Spec/work-spec-implementation.md`
+- `Guides/dev-retro.md`
+- `Guides/Test/unit-testing-guide.md`
+- `Guides/Test/unit-test-planning-guide.md`
+- `Guides/Test/unit-test-infrastructure-guide.md`
+- `Guides/Test/unit-test-writing-guide.md`
 - `Policies/coding-patterns.md`
 - `Policies/error-handling.md`
 - `Policies/unauthorized-changes.md`

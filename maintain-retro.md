@@ -6,8 +6,10 @@ Use this after making changes to `ai-dev-process` to ensure nothing was forgotte
 
 This retro is a **backstop for completeness**, not a git/diff report.
 
+- Scope: the retro covers **everything that changed since the previous retro** (if any). If no prior retro was performed, cover everything changed in the current session.
 - Do **not** do a detailed “what changed” writeup unless explicitly asked.
 - Prefer scanning docs/templates/runbooks for **consistency and missing updates**.
+- If you find a straightforward miss **inside this repo** (e.g., a stale path in `README.md`, a missing `CHANGELOG.md` bullet, a missing manifest entry), **fix it immediately** and continue scanning.
 - The expected output is either:
   - a short list of **misses / follow-ups**, or
   - **“Retro complete; no misses found.”**
@@ -52,6 +54,9 @@ This retro is a **backstop for completeness**, not a git/diff report.
 
 ## 6) Retro output (keep it short)
 
-- If you found misses: list them as **actionable follow-ups** (1–6 bullets).
-- If you found none: say **“Retro complete; no misses found.”**
+- Always start your message with a one-line declaration that the retro was performed:
+  - `Maintenance retro: DONE`
+- If you fixed misses during the retro: list what you fixed (1–6 bullets), then list any remaining follow-ups.
+- If you found misses you did not fix (because they require human decision): list them as **actionable follow-ups** (1–6 bullets).
+- If you found none: say **“Maintenance retro complete; no misses found.”**
 

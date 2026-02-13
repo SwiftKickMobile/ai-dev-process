@@ -124,31 +124,31 @@ The authoritative list of assets and their intended usage is in `assets.manifest
 
 ### Human-facing guides (file-level)
 
-- `Core/debugging-guide.md`
+- `Guides/Core/debugging-guide.md`
   - Debugging / problem-resolution tactics, evidence-first loop, and stop conditions (human-in-the-loop).
 
-- `Spec/work-spec.md`
+- `Guides/Spec/work-spec.md`
   - Work-spec workflow in three phases:
     - Planning (clarify scope, assumptions, inputs, open questions, and **API Sketches**)
     - PRD creation/update (normalize externally observable behavior into `/requirements/**`)
     - Work spec creation (two-pass: high-level tasks for review, then detailed subtasks)
 
-- `Spec/work-spec-implementation.md`
+- `Guides/Spec/work-spec-implementation.md`
   - How an agent executes a work spec using 🟡 markers and `begin/next/continue` checkpoints.
 
-- `Spec/retro-prd.md`
-  - How to incrementally build and refine `/requirements/**` from an existing codebase during work sessions (infer contracts, add missing requirements, correct outdated ones).
+- `Guides/dev-retro.md`
+  - End-of-session dev retro checklist: self-review, gaps, plan drift reconciliation, doc updates, and retro requirements backfill into `/requirements/**`.
 
-- `Test/unit-testing-guide.md`
+- `Guides/Test/unit-testing-guide.md`
   - Orchestrator for the unit testing workflow; delegates to the three sub-guides.
 
-- `Test/unit-test-planning-guide.md`
+- `Guides/Test/unit-test-planning-guide.md`
   - Plan-first process: create complete test stubs + doc comments across all sections before implementation.
 
-- `Test/unit-test-infrastructure-guide.md`
+- `Guides/Test/unit-test-infrastructure-guide.md`
   - Identify/propose required test infrastructure (stubs/fixtures/utilities), then implement with human approval.
 
-- `Test/unit-test-writing-guide.md`
+- `Guides/Test/unit-test-writing-guide.md`
   - Write, run, and iterate on tests; capture evidence; debug failures using the core debugging guide.
 
 ### Human-facing templates (copied into host repos)

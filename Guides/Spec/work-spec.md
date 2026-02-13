@@ -1,6 +1,6 @@
 Managed-By: ai-dev-process
 Managed-Id: guide.work-spec
-Managed-Source: Spec/work-spec.md
+Managed-Source: Guides/Spec/work-spec.md
 Managed-Adapter: repo-source
 Managed-Updated-At: 2026-02-08
 

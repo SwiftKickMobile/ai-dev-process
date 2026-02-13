@@ -6,7 +6,7 @@ Goal: prevent “guessing fixes” loops by enforcing the **Debugging / Problem-
 
 When you are diagnosing or fixing a bug, flaky behavior, failing test, or unexpected runtime outcome:
 
-- **You must follow** `Core/debugging-guide.md`.
+- **You must follow** `Guides/Core/debugging-guide.md`.
 - **Do not** propose a fix unless you can cite evidence for why it addresses the current best hypothesis.
 - **Do not** ship “shotgun” changes (multiple speculative changes bundled together).
 

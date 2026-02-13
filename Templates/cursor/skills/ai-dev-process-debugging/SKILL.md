@@ -11,7 +11,7 @@ description: Enforces evidence-first debugging using ai-dev-process (facts-first
 
 - Read:
   - `Submodules/ai-dev-process/Policies/debugging-process-rule.md`
-  - `Submodules/ai-dev-process/Core/debugging-guide.md`
+  - `Submodules/ai-dev-process/Guides/Core/debugging-guide.md`
 - Follow the rule’s minimal loop and use the guide’s tactics.
 - If required evidence is unavailable, STOP and ask the human for the minimum output/artifacts needed.
 

@@ -52,7 +52,7 @@ Present the plan and wait for human approval before writing.
 
 If updating the submodule, include an “update review” section:
 - Summarize changes between the old SHA and new SHA for relevant paths:
-  - `Core/`, `Policies/`, `Spec/`, `Test/`, `Templates/`, `Install/`, `assets.manifest.json`, `README.md`
+  - `Guides/`, `Policies/`, `Templates/`, `Install/`, `assets.manifest.json`, `README.md`
 - If you cannot compute the diff yourself, STOP and ask the human to provide the diff output.
 
 ### 5) Execute (safe order)

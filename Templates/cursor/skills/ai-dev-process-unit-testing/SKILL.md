@@ -10,12 +10,12 @@ description: Plans and writes unit tests using ai-dev-process (planning, infrast
 ## Instructions
 
 - Read:
-  - `Submodules/ai-dev-process/Test/unit-testing-guide.md`
-  - `Submodules/ai-dev-process/Test/unit-test-planning-guide.md`
-  - `Submodules/ai-dev-process/Test/unit-test-infrastructure-guide.md`
-  - `Submodules/ai-dev-process/Test/unit-test-writing-guide.md`
+  - `Submodules/ai-dev-process/Guides/Test/unit-testing-guide.md`
+  - `Submodules/ai-dev-process/Guides/Test/unit-test-planning-guide.md`
+  - `Submodules/ai-dev-process/Guides/Test/unit-test-infrastructure-guide.md`
+  - `Submodules/ai-dev-process/Guides/Test/unit-test-writing-guide.md`
 - When tests fail, follow the debugging process:
   - `Submodules/ai-dev-process/Policies/debugging-process-rule.md`
-  - `Submodules/ai-dev-process/Core/debugging-guide.md`
+  - `Submodules/ai-dev-process/Guides/Core/debugging-guide.md`
 - Store test work docs/artifacts under `work/<branch>/testing/<suite>/...` per the guides.
 
