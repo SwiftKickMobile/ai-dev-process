@@ -15,7 +15,7 @@ When you are diagnosing or fixing a bug, flaky behavior, failing test, or unexpe
 For each iteration:
 
 1. **State facts** (what is observed in code/output). Label unknowns explicitly.
-2. **State the possibility space** (2–4 plausible root-cause partitions).
+2. **State the possibility space** (2–4 *logically valid* root-cause partitions that cover the space without “holes”).
 3. **Pick a tactic** from the guide and justify why it’s the best next step.
 4. **Design the smallest discriminating experiment** (what it will prove/disprove).
 5. **Stop conditions**:

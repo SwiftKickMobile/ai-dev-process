@@ -51,6 +51,15 @@ For each iteration:
 - **Partition the possibility space**
   - Example structure: A/B/C → B1/B2/B3.
   - Prefer partitions with a clear discriminating observation.
+  - Use *logically valid* partitions:
+    - cover the space well enough that the true cause must be in one bucket (no “holes”)
+    - allow some overlap in practice (both can be true), but still be useful for elimination
+    - if overlap is likely, add an explicit “both / interaction” or “other / unknown” bucket
+  - Examples:
+    - **Location**: server-side vs client-side vs integration/contract mismatch
+    - **Call boundary**: bug is in this function vs in a function it calls (or in the contract between them)
+    - **Timing**: ordering/race vs stale state/caching vs deterministic logic bug
+    - **Data**: bad input vs transformation bug vs persistence/serialization bug
 
 - **Minimal working implementation → move toward real until it breaks**
   - Start with a small implementation that works.

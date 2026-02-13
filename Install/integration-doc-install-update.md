@@ -49,6 +49,10 @@ When creating/updating the Integration doc:
    - restore/leave 🟡 markers + instruction lines in the `required-values` block
    - STOP and ask the human the minimum questions needed
 
+Discovery guidance (avoid brittle filename checklists):
+- When migrating “legacy integration glue” into the Integration doc, **search broadly** (README, `docs/`, CI config/scripts, prior agent/rule docs) for build/test commands, destinations, and artifact path conventions.
+- Do not assume specific legacy filenames exist. If you use examples (like `xcode-commands.md`), treat them as examples only and report **what you found**, not a list of “not found” files.
+
 ## Legacy cleanup (recommended, permission-gated)
 
 If the Integration doc contains legacy installer-oriented sections (e.g., “Installer setup tasks”), propose removing them (with explicit approval).

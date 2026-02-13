@@ -12,7 +12,7 @@ This document is the canonical Cursor install/update runbook.
 
 Key responsibilities:
 - Detect existing installs (including legacy copies of guides/rules) and plan a safe migration.
-- Create/update `docs/ai-dev-process/integration.md` (and migrate legacy `xcode-commands.md` content into it).
+- Create/update `docs/ai-dev-process/integration.md` (and migrate any legacy integration command notes into it).
 - Generate managed Cursor `.mdc` rule files into `.cursor/rules/ai-dev-process/`.
 - Place convenient guide symlinks into `.cursor/agent/ai-dev-process/`.
 - Update `.cursorignore` (and, if present, `.claudeignore`) via managed blocks so Cursor and Claude installs can coexist without clutter.
@@ -29,8 +29,8 @@ Follow the discover → classify → plan → confirm → execute workflow.
 - Inventory existing install artifacts:
   - `.cursor/rules/**`, `.cursor/**`
   - `docs/**`
-  - legacy docs like `xcode-commands.md`
-- Inventory any existing Integration doc candidates and existing rule/policy docs.
+  - any “integration glue” docs/notes (build/test commands, destinations, artifact paths), wherever they live (README, docs, CI scripts, etc.)
+- Inventory any existing Integration doc candidates and existing rule/policy docs (do not assume specific filenames).
 
 ### 2) Classify
 
@@ -46,15 +46,17 @@ Prepare a concrete plan:
 - Files to create
 - Files to update (managed only, including managed symlinks)
 - Legacy candidates to supersede (create new managed files in canonical locations)
-- Integration doc migration items (move legacy `xcode-commands.md` content into `docs/ai-dev-process/integration.md`)
+- Integration doc migration items (move legacy integration glue into `docs/ai-dev-process/integration.md`)
 - Legacy cleanup proposals (explicitly permission-gated):
   - delete legacy candidates
   - or replace legacy candidates with symlinks to the new canonical locations
 
 Required gray-area checks (ask the human, then reflect the decision in the plan):
-- If a legacy Cursor rule exists at `.cursor/rules/debugging.mdc`, propose:
-  1) migrating any project-specific logging/API conventions it contains into `docs/ai-dev-process/integration.md`, then
-  2) deleting the legacy debugging rule (only with explicit approval).
+- Search for legacy debugging rule candidates (common examples: `.cursor/rules/debugging*.mdc`, `.cursor/rules/*debug*.mdc`, or other Cursor rules that encode project-specific logging/API conventions).
+  - If found, propose:
+    1) migrating any project-specific logging/API conventions they contain into `docs/ai-dev-process/integration.md`, then
+    2) deleting those legacy debugging rule files (only with explicit approval).
+  - When reporting discovery, list the candidates you found; do not emit “not found” lines for example filenames you didn’t find.
 
 ### 4) Confirm (human gate)
 
