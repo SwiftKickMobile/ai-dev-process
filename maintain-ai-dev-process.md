@@ -51,11 +51,26 @@ To preserve that:
 - **Managed overwrites only**:
   - Generated host files are overwriteable only if they contain the managed header (`Install/managed-header.md`).
   - **Symlinks** are overwriteable only if they point at the expected `Submodules/ai-dev-process/...` targets (symlinks cannot contain headers).
+  - **Managed blocks**: some project-owned files (e.g., ignore files, Integration doc) are updated only inside delimited managed blocks.
 - **Legacy candidates are permission-gated**:
   - Identify legacy candidates.
   - Propose delete/replace (often replace-with-symlink), but do not execute without explicit approval.
 - **Gray areas must be surfaced**:
   - Example: legacy `.cursor/rules/debugging.mdc` should be flagged and deletion should be proposed only after migrating any project-specific logging conventions into the Integration doc and getting approval.
+
+## Integration doc architecture (do not regress)
+
+The Integration doc is project-owned at `docs/ai-dev-process/integration.md`, but is structured to support safe automation:
+
+- Humans edit only the **Special instructions / overrides** section.
+- The installer owns stack-specific sections inside `BEGIN/END Managed-By: ai-dev-process` blocks.
+- Stack-specific templates live under:
+  - `Templates/docs/ai-dev-process/integration-sections/`
+
+When changing Integration templates/sections:
+- Keep 🟡 markers only for true project-specific missing constants/mappings (not for variables or standard procedures).
+- Ensure section templates treat placeholders like `<Scheme>`, `<TestPlan>`, `<TestTarget>` as **variables** (agent-filled per task).
+- Ensure runbooks describe how to merge/update/remove managed blocks based on detected stacks and human overrides.
 
 ## If you change install/runbooks
 
@@ -63,6 +78,11 @@ After editing anything under `Install/`:
 - Ensure `Install/conflict-precedence-policy.md` still matches the runbooks (managed header vs managed symlink behavior).
 - Ensure `assets.manifest.json` includes any new policy/guide/runbook IDs referenced by the installer.
 - Ensure `README.md` Quick start prompts still point at the correct submodule path (`Submodules/ai-dev-process/...`).
+- Ensure ignore-file behavior remains safe: update `.cursorignore` / `.claudeignore` via managed blocks and do not hide the submodule via agent ignore (use editor UI excludes instead).
+
+## After changes (retro)
+
+After making changes, run the post-change checklist in `maintain-retro.md`.
 
 ## How to guide an LLM (prompt template)
 

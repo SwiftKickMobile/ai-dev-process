@@ -75,6 +75,11 @@ If updating the submodule, include an “update review” section:
      - STOP and ask the human for the missing items before proceeding.
    - Prefer non-interactive command-line commands (e.g., `xcodebuild ...`) over GUI instructions (“open Xcode…”). If you can’t produce command-line commands with high confidence, leave 🟡 placeholders and ask.
    - Never invent a simulator/device model. If a canonical `xcodebuild -destination` string is not already established in-repo, propose one and ask the human to confirm before writing it.
+   - Update the Integration doc by managing its LLM-owned blocks:
+     - Read the “Special instructions / overrides” section first and obey it.
+     - Insert/update the Xcode section inside the `BEGIN/END Managed-By: ai-dev-process` block from:
+       - `Templates/docs/ai-dev-process/integration-sections/xcode.md`
+     - Remove irrelevant managed blocks if the corresponding stack is not present (or the human says to omit).
 3. Create/update the Claude instruction file (`claude.md` vs `CLAUDE.md`) using managed headers.
 4. Symlink repo-owned guides into `.claude/agent/ai-dev-process/` for convenient prompting.
 5. Create/update ignore files (permission-gated if they already exist and are project-owned):

@@ -20,5 +20,7 @@
   - place test work docs and artifacts under `work/<branch>/testing/<suite>/...`
   - reference `docs/ai-dev-process/integration.md` instead of `xcode-commands.md` / `.cursor/*`
 - Improved the Integration template for Xcode: clarified agent-filled command variables and multi-scheme/test-plan conventions; standardized `xcodebuild`/`.xcresult`/`xcresulttool` patterns.
+- Refactored the Integration template to support LLM-managed blocks and human-owned overrides; stack-specific integration sections now live in `Templates/docs/ai-dev-process/integration-sections/` and are merged into the Integration doc by installers.
+- Added `maintain-retro.md` as a post-change checklist for maintainers/LLMs.
 - Added `assets.manifest.json` to enumerate assets and adapter applicability.
 

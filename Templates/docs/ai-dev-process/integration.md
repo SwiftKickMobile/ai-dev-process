@@ -10,6 +10,18 @@ Conventions:
   - agents can run them autonomously when they have terminal access
   - if a human must run them, output/artifacts can be captured and pasted back reliably
 
+## Human-owned section (safe to edit)
+
+### Special instructions / overrides (human-maintained)
+
+Use this section to override or influence how the installer manages the sections below (examples):
+- preferred default destinations / devices
+- scheme/test plan mapping rules
+- required flags (e.g., extra `xcodebuild` options, Gradle flags)
+- evidence capture expectations/limitations
+
+🟡 Add any project-specific rules here.
+
 ## Installer setup tasks (do these first)
 
 1. 🟡 **Confirm the default build/test destination** (if applicable)
@@ -85,90 +97,17 @@ Purpose: if the default destination isn’t available on the machine (or you nee
   - `xcodebuild -showdestinations -scheme <Scheme> -project <ProjectDir>/<Project>.xcodeproj`
   - or `xcodebuild -showdestinations -scheme <Scheme> -workspace <Workspace>.xcworkspace`
 
-## Xcode/Swift (if applicable)
+## LLM-managed sections (do not edit)
 
-If this is an Xcode project, provide `xcodebuild`-based commands (not “open Xcode” steps).
+The installer maintains the sections below. Humans should not edit inside these blocks.
 
-- **List schemes**:
-  - `xcodebuild -list -project <path/to/App.xcodeproj>`
-  - or `xcodebuild -list -workspace <path/to/App.xcworkspace>`
+<!-- BEGIN Managed-By: ai-dev-process | Section: xcode -->
+<!-- Filled from `Submodules/ai-dev-process/Templates/docs/ai-dev-process/integration-sections/xcode.md` -->
+<!-- END Managed-By: ai-dev-process | Section: xcode -->
 
-- **Build (CLI, non-interactive)**:
-  - Pattern:
-
-    ```bash
-    xcodebuild build \
-      -scheme <Scheme> \
-      -project <ProjectDir>/<Project>.xcodeproj \
-      -destination '<DefaultDestination>' \
-      2>&1 | tee <output-path>.txt
-    ```
-
-- **Run unit tests (all)** (always capture full output + `.xcresult`) :
-  - Pattern:
-
-    ```bash
-    rm -rf <result-bundle>.xcresult && \
-    xcodebuild test \
-      -scheme <Scheme> \
-      -project <ProjectDir>/<Project>.xcodeproj \
-      # If you use test plans, add: -testPlan <TestPlan> \
-      -destination '<DefaultDestination>' \
-      -resultBundlePath <result-bundle>.xcresult \
-      2>&1 | tee <output-path>.txt
-    ```
-
-- **Run unit tests (subset)** (`-only-testing:`; always capture output + `.xcresult`) :
-  - Entire class:
-
-    ```bash
-    rm -rf <result-bundle>.xcresult && \
-    xcodebuild test \
-      -scheme <Scheme> \
-      -project <ProjectDir>/<Project>.xcodeproj \
-      -destination '<DefaultDestination>' \
-      -resultBundlePath <result-bundle>.xcresult \
-      -only-testing:<TestTarget>/<TestClass> \
-      2>&1 | tee <output-path>.txt
-    ```
-
-  - Single test method (quote + include `()` when required by the test framework):
-
-    ```bash
-    rm -rf <result-bundle>.xcresult && \
-    xcodebuild test \
-      -scheme <Scheme> \
-      -project <ProjectDir>/<Project>.xcodeproj \
-      -destination '<DefaultDestination>' \
-      -resultBundlePath <result-bundle>.xcresult \
-      -only-testing:'<TestTarget>/<TestClass>/<testMethod>()' \
-      2>&1 | tee <output-path>.txt
-    ```
-
-**Mandatory: filtered console output (while still saving full output)**
-
-- Rule: always keep the full output file via `tee`. Filtering is only for terminal display.
-- Pattern:
-
-    ```bash
-    ... 2>&1 | tee <output-path>.txt | grep -E "^(✔|✘|•)|Assertion|failed|error:|threw"
-    ```
-
-**Mandatory when tests fail: extract assertion failures from `.xcresult`**
-
-- Action: after any failing test run that produced `<result-bundle>.xcresult`, run this command to extract the detailed failure messages (expected vs actual, line numbers, thrown errors) into a JSON file.
-- Pattern:
-
-    ```bash
-    xcrun xcresulttool get test-results tests \
-      --path <result-bundle>.xcresult \
-      --format json > <results-json-path>.json
-    ```
-
-  - Evidence contract: when tests fail, provide:
-    - `<output-path>.txt` (full output)
-    - `<result-bundle>.xcresult` path
-    - `<results-json-path>.json` (required)
+<!-- BEGIN Managed-By: ai-dev-process | Section: android-gradle -->
+<!-- Filled from `Submodules/ai-dev-process/Templates/docs/ai-dev-process/integration-sections/android-gradle.md` -->
+<!-- END Managed-By: ai-dev-process | Section: android-gradle -->
 
 ## Output and evidence collection (human-in-the-loop)
 

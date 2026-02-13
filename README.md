@@ -152,6 +152,7 @@ The authoritative list of assets and their intended usage is in `assets.manifest
 This repo is typically maintained with an LLM. When you ask an LLM to make changes, point it at:
 - `README.md` (this file)
 - `maintain-ai-dev-process.md` (LLM maintainer runbook)
+- `maintain-retro.md` (post-change checklist to ensure nothing was forgotten)
 
 ### LLM-assisted change workflow (recommended)
 
