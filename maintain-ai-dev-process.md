@@ -28,7 +28,7 @@ When you change assets, keep these in sync:
 - `README.md`
   - update the file-level Asset inventory for developer-facing guides
 - `CHANGELOG.md`
-  - add an entry under “Unreleased” for user-visible changes
+  - add an entry under “Unreleased” for user-visible changes (prefix each line item with the date, `YYYY-MM-DD`)
  - Cursor skills (if you add/change them):
    - templates live at `Templates/cursor/skills/**/SKILL.md`
    - Cursor installer installs them into host repos at `.cursor/skills/`
