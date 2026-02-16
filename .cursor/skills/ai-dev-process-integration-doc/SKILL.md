@@ -11,6 +11,7 @@ description: Defines how installers create/update the host Integration doc (mana
 - When editing templates, also read:
   - `Templates/docs/ai-dev-process/integration.md`
   - `Templates/docs/ai-dev-process/integration-sections/xcode.md`
+  - `Templates/docs/ai-dev-process/integration-sections/swift-package.md`
   - `Templates/docs/ai-dev-process/integration-sections/android-gradle.md`
 - Keep 🟡 only for missing constants/mappings; treat `<...>` placeholders as agent-filled variables.
 

@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- 2026-02-14 Split `ai-dev-process-work-spec` Cursor skill into two separate skills: `ai-dev-process-work-spec-creation` (planning/PRD/spec authoring) and `ai-dev-process-work-spec-implementation` (begin/next/continue task execution). Each skill now loads only the guide relevant to its phase, improving focus and reducing context dilution. Renamed `Guides/Spec/work-spec.md` to `work-spec-creation.md` for consistency.
+- 2026-02-13 Added Swift Package Manager integration section template (`swift-package.md`) for projects that use `Package.swift` alongside or instead of Xcode projects; updated installer guidance and manifest.
 - 2026-02-13 Restructured repository toward IDE-neutral `.md` sources (`Guides/`, `Policies/`, `Templates/`, `Install/`).
 - 2026-02-13 Removed legacy Cursor `.mdc` sources from this repo (Cursor `.mdc` is generated into host projects during install/update).
 - 2026-02-13 Added migration-capable install/update discussion record (temporary; later removed).

@@ -93,7 +93,7 @@ Observed defaults from real Android projects:
 
 Symlink these repo-owned files into `.claude/agent/ai-dev-process/` (updates come from submodule updates):
 - `Guides/Core/debugging-guide.md`
-- `Guides/Spec/work-spec.md`
+- `Guides/Spec/work-spec-creation.md`
 - `Guides/Spec/work-spec-implementation.md`
 - `Guides/dev-retro.md`
 - `Guides/Test/unit-testing-guide.md`

@@ -100,6 +100,9 @@ Purpose: define the project-specific “evidence contract” so agents can debug
 <!-- BEGIN Managed-By: ai-dev-process | Section: xcode -->
 <!-- END Managed-By: ai-dev-process | Section: xcode -->
 
+<!-- BEGIN Managed-By: ai-dev-process | Section: swift-package -->
+<!-- END Managed-By: ai-dev-process | Section: swift-package -->
+
 <!-- BEGIN Managed-By: ai-dev-process | Section: android-gradle -->
 <!-- END Managed-By: ai-dev-process | Section: android-gradle -->
 

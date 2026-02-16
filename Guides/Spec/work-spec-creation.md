@@ -1,6 +1,6 @@
 Managed-By: ai-dev-process
 Managed-Id: guide.work-spec
-Managed-Source: Guides/Spec/work-spec.md
+Managed-Source: Guides/Spec/work-spec-creation.md
 Managed-Adapter: repo-source
 Managed-Updated-At: 2026-02-08
 
@@ -130,9 +130,10 @@ When promoting requirements from planning:
 
 **First Step:**
 - Creates work specification document
-- Includes: Title, Motivation, Functional Requirements, Relevant Files, Task List
+- Includes: Title, Motivation, Functional Requirements, Requirements Inventory, Non-goals / Deferred, Relevant Files, Task List
 - Task list contains only main tasks (numbered 1, 2, 3, etc.)
 - No subtasks included
+- No Traceability section (deferred to second step because the human may restructure the task list)
 - Stops when high-level structure is complete
 - Allows human to review overall sequence before details
 
@@ -140,6 +141,7 @@ When promoting requirements from planning:
 - Adds detailed subtasks to each main task
 - Subtasks numbered (1.1, 1.2, 2.1, 2.2, etc.)
 - All tasks marked with 🟡 indicator (TODO)
+- Adds the Traceability section (requirement ↔ task mapping) now that the task list is finalized
 - Provides implementation-ready detail
 - Completes the work specification
 

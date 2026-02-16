@@ -138,8 +138,10 @@ Rules:
 Install these skill wrappers:
 - `.cursor/skills/ai-dev-process-debugging/SKILL.md`
   - source: `Submodules/ai-dev-process/Templates/cursor/skills/ai-dev-process-debugging/SKILL.md`
-- `.cursor/skills/ai-dev-process-work-spec/SKILL.md`
-  - source: `Submodules/ai-dev-process/Templates/cursor/skills/ai-dev-process-work-spec/SKILL.md`
+- `.cursor/skills/ai-dev-process-work-spec-creation/SKILL.md`
+  - source: `Submodules/ai-dev-process/Templates/cursor/skills/ai-dev-process-work-spec-creation/SKILL.md`
+- `.cursor/skills/ai-dev-process-work-spec-implementation/SKILL.md`
+  - source: `Submodules/ai-dev-process/Templates/cursor/skills/ai-dev-process-work-spec-implementation/SKILL.md`
 - `.cursor/skills/ai-dev-process-unit-testing/SKILL.md`
   - source: `Submodules/ai-dev-process/Templates/cursor/skills/ai-dev-process-unit-testing/SKILL.md`
 - `.cursor/skills/ai-dev-process-unit-test-planning/SKILL.md`
@@ -156,6 +158,7 @@ Install these skill wrappers:
 If the host repo already has legacy copies of these guides at older locations (common examples):
 - `.cursor/work-spec.md`
 - `.cursor/work-spec-implementation.md`
+- `.cursor/skills/ai-dev-process-work-spec/SKILL.md` (replaced by `-work-spec-creation` and `-work-spec-implementation`)
 
 Then the installer MUST propose a cleanup plan:
 - **Preferred**: delete them (only with explicit approval).

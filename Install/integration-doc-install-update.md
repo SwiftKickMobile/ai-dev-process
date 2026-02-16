@@ -40,11 +40,13 @@ When creating/updating the Integration doc:
 
 1. Seed from `Templates/docs/ai-dev-process/integration.md` if missing.
 2. Read and obey “Special instructions / overrides”.
-3. Detect which stacks apply (Xcode/Swift, Android/Gradle, etc.) and then:
+3. Detect which stacks apply (Xcode/Swift, Swift Package Manager, Android/Gradle, etc.) and then:
    - insert/update the corresponding managed blocks from:
      - `Templates/docs/ai-dev-process/integration-sections/xcode.md`
+     - `Templates/docs/ai-dev-process/integration-sections/swift-package.md`
      - `Templates/docs/ai-dev-process/integration-sections/android-gradle.md`
    - remove irrelevant managed blocks if the stack is not present (or the human says omit).
+   - Note: a project may use both `xcode` and `swift-package` sections (e.g., app targets built via Xcode and library submodules built as Swift packages).
 4. If required project-specific constants/mappings cannot be inferred:
    - restore/leave 🟡 markers + instruction lines in the `required-values` block
    - STOP and ask the human the minimum questions needed

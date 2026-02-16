@@ -58,15 +58,21 @@
       "tags": ["core"]
     },
     {
+      "id": "template.integration-section-swift-package",
+      "type": "template",
+      "sourcePath": "Templates/docs/ai-dev-process/integration-sections/swift-package.md",
+      "tags": ["core"]
+    },
+    {
       "id": "template.integration-section-android-gradle",
       "type": "template",
       "sourcePath": "Templates/docs/ai-dev-process/integration-sections/android-gradle.md",
       "tags": ["core"]
     },
     {
-      "id": "guide.work-spec",
+      "id": "guide.work-spec-creation",
       "type": "guide",
-      "sourcePath": "Guides/Spec/work-spec.md",
+      "sourcePath": "Guides/Spec/work-spec-creation.md",
       "tags": ["core"]
     },
     {
@@ -154,9 +160,15 @@
       "tags": ["adapter:cursor"]
     },
     {
-      "id": "cursor-skill.ai-dev-process-work-spec",
+      "id": "cursor-skill.ai-dev-process-work-spec-creation",
       "type": "cursor-skill",
-      "sourcePath": "Templates/cursor/skills/ai-dev-process-work-spec/SKILL.md",
+      "sourcePath": "Templates/cursor/skills/ai-dev-process-work-spec-creation/SKILL.md",
+      "tags": ["adapter:cursor"]
+    },
+    {
+      "id": "cursor-skill.ai-dev-process-work-spec-implementation",
+      "type": "cursor-skill",
+      "sourcePath": "Templates/cursor/skills/ai-dev-process-work-spec-implementation/SKILL.md",
       "tags": ["adapter:cursor"]
     },
     {
