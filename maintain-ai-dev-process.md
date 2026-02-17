@@ -30,9 +30,10 @@ When you change assets, keep these in sync:
   - update the file-level Asset inventory for developer-facing guides
 - `CHANGELOG.md`
   - add an entry under “Unreleased” for user-visible changes (prefix each line item with the date, `YYYY-MM-DD`)
- - Cursor skills (if you add/change them):
-   - templates live at `Templates/cursor/skills/**/SKILL.md`
+ - Skills (if you add/change them):
+   - shared templates live at `Templates/skills/ai-dev-process-*/SKILL.md`
    - Cursor installer installs them into host repos at `.cursor/skills/`
+   - Claude Code installers install them into host repos at `.claude/skills/`
 
 ## Content rules (project goals)
 

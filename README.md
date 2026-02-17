@@ -12,7 +12,7 @@ This repo is designed to be installed as a **git submodule** and activated by an
 
 Recommended host locations for agent-facing docs:
 - Cursor: `.cursor/skills/ai-dev-process-*/`
-- Claude Code: `.claude/agent/ai-dev-process/`
+- Claude Code: `.claude/skills/ai-dev-process-*/`
 
 ## Quick start (recommended)
 
@@ -115,7 +115,7 @@ Example for Cursor/VS Code workspace settings (`.vscode/settings.json`):
 
 Android Studio (JetBrains):
 - In the Project tool window, right-click `Submodules/ai-dev-process` → **Mark Directory as** → **Excluded**.
-- Optionally also exclude `.claude/agent/ai-dev-process` if you don’t want the agent-doc install artifacts in search results.
+- Optionally also exclude `.claude/skills/ai-dev-process-*` if you don’t want the skill install artifacts in search results.
 - Prefer local IDE excludes over committing `.idea` changes unless your repo explicitly versions IDE config.
 
 ## Asset inventory

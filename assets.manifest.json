@@ -154,52 +154,52 @@
       "tags": ["core"]
     },
     {
-      "id": "cursor-skill.ai-dev-process-debugging",
-      "type": "cursor-skill",
-      "sourcePath": "Templates/cursor/skills/ai-dev-process-debugging/SKILL.md",
-      "tags": ["adapter:cursor"]
+      "id": "skill.ai-dev-process-debugging",
+      "type": "skill",
+      "sourcePath": "Templates/skills/ai-dev-process-debugging/SKILL.md",
+      "tags": ["adapter:cursor", "adapter:claude-code"]
     },
     {
-      "id": "cursor-skill.ai-dev-process-work-spec-creation",
-      "type": "cursor-skill",
-      "sourcePath": "Templates/cursor/skills/ai-dev-process-work-spec-creation/SKILL.md",
-      "tags": ["adapter:cursor"]
+      "id": "skill.ai-dev-process-work-spec-creation",
+      "type": "skill",
+      "sourcePath": "Templates/skills/ai-dev-process-work-spec-creation/SKILL.md",
+      "tags": ["adapter:cursor", "adapter:claude-code"]
     },
     {
-      "id": "cursor-skill.ai-dev-process-work-spec-implementation",
-      "type": "cursor-skill",
-      "sourcePath": "Templates/cursor/skills/ai-dev-process-work-spec-implementation/SKILL.md",
-      "tags": ["adapter:cursor"]
+      "id": "skill.ai-dev-process-work-spec-implementation",
+      "type": "skill",
+      "sourcePath": "Templates/skills/ai-dev-process-work-spec-implementation/SKILL.md",
+      "tags": ["adapter:cursor", "adapter:claude-code"]
     },
     {
-      "id": "cursor-skill.ai-dev-process-unit-testing",
-      "type": "cursor-skill",
-      "sourcePath": "Templates/cursor/skills/ai-dev-process-unit-testing/SKILL.md",
-      "tags": ["adapter:cursor"]
+      "id": "skill.ai-dev-process-unit-testing",
+      "type": "skill",
+      "sourcePath": "Templates/skills/ai-dev-process-unit-testing/SKILL.md",
+      "tags": ["adapter:cursor", "adapter:claude-code"]
     },
     {
-      "id": "cursor-skill.ai-dev-process-unit-test-planning",
-      "type": "cursor-skill",
-      "sourcePath": "Templates/cursor/skills/ai-dev-process-unit-test-planning/SKILL.md",
-      "tags": ["adapter:cursor"]
+      "id": "skill.ai-dev-process-unit-test-planning",
+      "type": "skill",
+      "sourcePath": "Templates/skills/ai-dev-process-unit-test-planning/SKILL.md",
+      "tags": ["adapter:cursor", "adapter:claude-code"]
     },
     {
-      "id": "cursor-skill.ai-dev-process-unit-test-infrastructure",
-      "type": "cursor-skill",
-      "sourcePath": "Templates/cursor/skills/ai-dev-process-unit-test-infrastructure/SKILL.md",
-      "tags": ["adapter:cursor"]
+      "id": "skill.ai-dev-process-unit-test-infrastructure",
+      "type": "skill",
+      "sourcePath": "Templates/skills/ai-dev-process-unit-test-infrastructure/SKILL.md",
+      "tags": ["adapter:cursor", "adapter:claude-code"]
     },
     {
-      "id": "cursor-skill.ai-dev-process-unit-test-writing",
-      "type": "cursor-skill",
-      "sourcePath": "Templates/cursor/skills/ai-dev-process-unit-test-writing/SKILL.md",
-      "tags": ["adapter:cursor"]
+      "id": "skill.ai-dev-process-unit-test-writing",
+      "type": "skill",
+      "sourcePath": "Templates/skills/ai-dev-process-unit-test-writing/SKILL.md",
+      "tags": ["adapter:cursor", "adapter:claude-code"]
     },
     {
-      "id": "cursor-skill.ai-dev-process-dev-retro",
-      "type": "cursor-skill",
-      "sourcePath": "Templates/cursor/skills/ai-dev-process-dev-retro/SKILL.md",
-      "tags": ["adapter:cursor"]
+      "id": "skill.ai-dev-process-dev-retro",
+      "type": "skill",
+      "sourcePath": "Templates/skills/ai-dev-process-dev-retro/SKILL.md",
+      "tags": ["adapter:cursor", "adapter:claude-code"]
     },
     {
       "id": "guide.maintain-retro",

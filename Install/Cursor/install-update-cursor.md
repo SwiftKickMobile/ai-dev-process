@@ -129,29 +129,31 @@ Recommended generated rules (filenames are stable):
 
 ## Installing Cursor skills (recommended; no symlinks)
 
-Create these skills in the host repo under `.cursor/skills/` by copying the templates from the submodule.
+Create these skills in the host repo under `.cursor/skills/` by copying the shared templates from the submodule and inserting the managed marker comment immediately after the YAML frontmatter (see `Install/managed-header.md`).
+
+Use `Managed-Adapter: cursor` and `Managed-Id: skill.<skill-name>` (e.g., `skill.ai-dev-process-debugging`).
 
 Rules:
 - Each destination `SKILL.md` is considered managed only if it contains the managed marker comment described in `Install/managed-header.md`.
 - Overwrite only if destination is missing or already contains the managed marker.
 
-Install these skill wrappers:
+Install these skills:
 - `.cursor/skills/ai-dev-process-debugging/SKILL.md`
-  - source: `Submodules/ai-dev-process/Templates/cursor/skills/ai-dev-process-debugging/SKILL.md`
+  - source: `Submodules/ai-dev-process/Templates/skills/ai-dev-process-debugging/SKILL.md`
 - `.cursor/skills/ai-dev-process-work-spec-creation/SKILL.md`
-  - source: `Submodules/ai-dev-process/Templates/cursor/skills/ai-dev-process-work-spec-creation/SKILL.md`
+  - source: `Submodules/ai-dev-process/Templates/skills/ai-dev-process-work-spec-creation/SKILL.md`
 - `.cursor/skills/ai-dev-process-work-spec-implementation/SKILL.md`
-  - source: `Submodules/ai-dev-process/Templates/cursor/skills/ai-dev-process-work-spec-implementation/SKILL.md`
+  - source: `Submodules/ai-dev-process/Templates/skills/ai-dev-process-work-spec-implementation/SKILL.md`
 - `.cursor/skills/ai-dev-process-unit-testing/SKILL.md`
-  - source: `Submodules/ai-dev-process/Templates/cursor/skills/ai-dev-process-unit-testing/SKILL.md`
+  - source: `Submodules/ai-dev-process/Templates/skills/ai-dev-process-unit-testing/SKILL.md`
 - `.cursor/skills/ai-dev-process-unit-test-planning/SKILL.md`
-  - source: `Submodules/ai-dev-process/Templates/cursor/skills/ai-dev-process-unit-test-planning/SKILL.md`
+  - source: `Submodules/ai-dev-process/Templates/skills/ai-dev-process-unit-test-planning/SKILL.md`
 - `.cursor/skills/ai-dev-process-unit-test-infrastructure/SKILL.md`
-  - source: `Submodules/ai-dev-process/Templates/cursor/skills/ai-dev-process-unit-test-infrastructure/SKILL.md`
+  - source: `Submodules/ai-dev-process/Templates/skills/ai-dev-process-unit-test-infrastructure/SKILL.md`
 - `.cursor/skills/ai-dev-process-unit-test-writing/SKILL.md`
-  - source: `Submodules/ai-dev-process/Templates/cursor/skills/ai-dev-process-unit-test-writing/SKILL.md`
+  - source: `Submodules/ai-dev-process/Templates/skills/ai-dev-process-unit-test-writing/SKILL.md`
 - `.cursor/skills/ai-dev-process-dev-retro/SKILL.md`
-  - source: `Submodules/ai-dev-process/Templates/cursor/skills/ai-dev-process-dev-retro/SKILL.md`
+  - source: `Submodules/ai-dev-process/Templates/skills/ai-dev-process-dev-retro/SKILL.md`
 
 ## Legacy path adoption (required, permission-gated)
 

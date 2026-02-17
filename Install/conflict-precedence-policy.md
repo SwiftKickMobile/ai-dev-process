@@ -5,7 +5,7 @@ This policy defines how installers and update runbooks must behave in the presen
 ## File classes
 
 - **Managed file**: contains the managed header (`Managed-By: ai-dev-process`).
-- **Managed Cursor skill file**: a Cursor skill file at `.cursor/skills/**/SKILL.md` that contains the managed marker comment described in `Install/managed-header.md`.
+- **Managed skill file**: a skill file at `.cursor/skills/**/SKILL.md` or `.claude/skills/**/SKILL.md` that contains the managed marker comment described in `Install/managed-header.md`.
 - **Managed symlink**: a symlink created by the installer that points at the expected repo-owned target path.
 - **Managed block file**: a project-owned file that contains a delimited managed block (begin/end markers) that the installer may update in-place (e.g., ignore files).
 - **Legacy candidate**: appears to be an older copy of a managed asset but lacks the managed header.
@@ -15,7 +15,7 @@ This policy defines how installers and update runbooks must behave in the presen
 
 - Never overwrite project-owned files.
 - Managed files may be overwritten deterministically.
-- Managed Cursor skill files may be overwritten deterministically when the managed marker is present.
+- Managed skill files may be overwritten deterministically when the managed marker is present.
 - Managed symlinks may be overwritten deterministically if they already point to an `ai-dev-process` target.
 - Managed block files may be updated deterministically, but only within the managed block.
 - Deprecated install artifacts should be identified during discovery and proposed for cleanup (permission-gated).

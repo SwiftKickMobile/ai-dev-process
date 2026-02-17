@@ -25,8 +25,8 @@ Follow the discover → classify → plan → confirm → execute workflow.
 - Infer stack (signals: `.xcodeproj`, `.xcworkspace`, `Package.swift`, `build.gradle`, `settings.gradle`, `*.swift`, `*.kt`).
 - Inventory existing install artifacts:
   - Claude instruction files (`claude.md`, `CLAUDE.md`, `.claude/**`)
-  - `.cursor/**` (may exist in mixed-agent repos; treat as separate installation)
   - `docs/**`
+- Note whether `.cursor/` exists (for `.claudeignore` setup). Do **not** inventory or classify its contents — those belong to the Cursor adapter and are out of scope for this runbook.
 - Identify any existing docs containing integration details (to migrate into Integration doc).
 
 ### 2) Classify
@@ -50,7 +50,7 @@ Prepare a concrete plan:
 
 Present the plan and wait for human approval before writing.
 
-If updating the submodule, include an “update review” section:
+If updating the submodule, include an "update review" section:
 - Summarize changes between the old SHA and new SHA for relevant paths:
   - `Guides/`, `Policies/`, `Templates/`, `Install/`, `assets.manifest.json`, `README.md`
 - If you cannot compute the diff yourself, STOP and ask the human to provide the diff output.
@@ -64,13 +64,13 @@ If updating the submodule, include an “update review” section:
      - Fill only what you can source with high confidence.
      - Add explicit 🟡 placeholders for missing items.
      - STOP and ask the human for the missing items before proceeding.
-   - Prefer non-interactive command-line commands over GUI instructions. If you can’t produce command-line commands with high confidence, leave 🟡 placeholders and ask.
+   - Prefer non-interactive command-line commands over GUI instructions. If you can't produce command-line commands with high confidence, leave 🟡 placeholders and ask.
    - Follow `Install/integration-doc-install-update.md` for how to update the Integration doc safely (managed blocks + human overrides).
 3. Create/update the Claude instruction file (`claude.md` vs `CLAUDE.md`) using managed headers.
-4. Symlink repo-owned guides into `.claude/agent/ai-dev-process/` for convenient prompting.
+4. Install Claude Code skills into `.claude/skills/` (see "Installing Claude Code skills" below).
 5. Create/update ignore files (permission-gated if they already exist and are project-owned):
    - Update `.claudeignore` by inserting/updating a managed block:
-     - Exclude `.cursor/**` so Claude sessions don’t ingest Cursor-specific assets by default.
+     - Exclude `.cursor/**` so Claude sessions don't ingest Cursor-specific assets by default.
      - Do NOT exclude `Submodules/ai-dev-process/**` here; use editor UI excludes for autocomplete/search clutter instead.
 6. Optionally propose cleanup of legacy candidates as a separate explicit step.
 
@@ -81,3 +81,43 @@ Required Integration doc fields to request (minimum set):
 - Device/simulator/emulator conventions (if applicable)
 - Known evidence-capture limitations (if any)
 
+## Installing Claude Code skills (no symlinks)
+
+Create these skills in the host repo under `.claude/skills/` by copying the shared templates from the submodule and inserting the managed marker comment immediately after the YAML frontmatter (see `Install/managed-header.md`).
+
+Use `Managed-Adapter: claude-code` and `Managed-Id: skill.<skill-name>` (e.g., `skill.ai-dev-process-debugging`).
+
+Rules:
+- Each destination `SKILL.md` is considered managed only if it contains the managed marker comment described in `Install/managed-header.md`.
+- Overwrite only if destination is missing or already contains the managed marker.
+
+Install these skills:
+- `.claude/skills/ai-dev-process-debugging/SKILL.md`
+  - source: `Submodules/ai-dev-process/Templates/skills/ai-dev-process-debugging/SKILL.md`
+- `.claude/skills/ai-dev-process-work-spec-creation/SKILL.md`
+  - source: `Submodules/ai-dev-process/Templates/skills/ai-dev-process-work-spec-creation/SKILL.md`
+- `.claude/skills/ai-dev-process-work-spec-implementation/SKILL.md`
+  - source: `Submodules/ai-dev-process/Templates/skills/ai-dev-process-work-spec-implementation/SKILL.md`
+- `.claude/skills/ai-dev-process-dev-retro/SKILL.md`
+  - source: `Submodules/ai-dev-process/Templates/skills/ai-dev-process-dev-retro/SKILL.md`
+- `.claude/skills/ai-dev-process-unit-testing/SKILL.md`
+  - source: `Submodules/ai-dev-process/Templates/skills/ai-dev-process-unit-testing/SKILL.md`
+- `.claude/skills/ai-dev-process-unit-test-planning/SKILL.md`
+  - source: `Submodules/ai-dev-process/Templates/skills/ai-dev-process-unit-test-planning/SKILL.md`
+- `.claude/skills/ai-dev-process-unit-test-infrastructure/SKILL.md`
+  - source: `Submodules/ai-dev-process/Templates/skills/ai-dev-process-unit-test-infrastructure/SKILL.md`
+- `.claude/skills/ai-dev-process-unit-test-writing/SKILL.md`
+  - source: `Submodules/ai-dev-process/Templates/skills/ai-dev-process-unit-test-writing/SKILL.md`
+
+## Deprecated symlink install target (required)
+
+Older installs may have placed symlinked guides under:
+- `.claude/agent/ai-dev-process/` (symlinks pointing into `Submodules/ai-dev-process/...`)
+
+Current installs use managed skills under `.claude/skills/ai-dev-process-*/` instead (no symlinks).
+
+Required behavior:
+- If `.claude/agent/ai-dev-process/` exists:
+  - If it contains symlinks that point into `Submodules/ai-dev-process/...`, delete them (these are installer-created artifacts, no approval needed).
+  - If it contains non-symlink or project-authored content, treat as project-owned and STOP to ask the human what to do.
+  - Remove the directory if empty after cleanup.

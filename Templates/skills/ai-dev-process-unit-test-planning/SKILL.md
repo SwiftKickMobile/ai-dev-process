@@ -3,8 +3,6 @@ name: ai-dev-process-unit-test-planning
 description: Plans unit tests using ai-dev-process test planning rules. Use when scoping unit test coverage, identifying scenarios/fixtures/mocks, or deciding what to test and what not to test.
 ---
 
-<!-- Managed-By: ai-dev-process | Managed-Id: cursor-skill.ai-dev-process-unit-test-planning | Managed-Source: Submodules/ai-dev-process/Templates/cursor/skills/ai-dev-process-unit-test-planning/SKILL.md | Managed-Adapter: cursor | Managed-Updated-At: 2026-02-13 -->
-
 # AI Dev Process: Unit test planning
 
 ## Instructions
@@ -14,4 +12,3 @@ description: Plans unit tests using ai-dev-process test planning rules. Use when
 - If tests are failing or you need an evidence-driven investigation loop, also read:
   - `Submodules/ai-dev-process/Policies/debugging-process-rule.md`
   - `Submodules/ai-dev-process/Guides/Core/debugging-guide.md`
-

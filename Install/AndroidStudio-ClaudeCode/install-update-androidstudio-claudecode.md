@@ -35,8 +35,8 @@ Follow the discover → classify → plan → confirm → execute workflow.
 - If this is an update, record the current submodule commit SHA (pre-update) and the intended new SHA (post-update).
 - Inventory existing install artifacts:
   - Claude instruction files (`claude.md`, `CLAUDE.md`, `.claude/**`)
-  - IDE config folders (if any)
   - `docs/**`
+- Note whether `.cursor/` exists (for `.claudeignore` setup). Do **not** inventory or classify its contents — those belong to the Cursor adapter and are out of scope for this runbook.
 - Inventory existing Integration doc candidates and any legacy command docs.
 
 ### 2) Classify
@@ -69,7 +69,7 @@ If updating the submodule, include an “update review” section:
 1. Ensure submodule is present/updated.
 2. Create/update `docs/ai-dev-process/integration.md` (migrate legacy command docs into it; do not delete legacy docs by default).
 3. Create/update the Claude instruction file (`claude.md` vs `CLAUDE.md`) using managed headers.
-4. Symlink repo-owned guides into `.claude/agent/ai-dev-process/` for convenient prompting.
+4. Install Claude Code skills into `.claude/skills/` (see "Installing Claude Code skills" below).
 4.5 Create/update ignore files (permission-gated if the files already exist and are project-owned):
    - Update `.claudeignore` by inserting/updating a managed block:
      - Exclude `.cursor/**` so Claude sessions don’t ingest Cursor-specific assets by default.
@@ -81,7 +81,7 @@ If updating the submodule, include an “update review” section:
 
 In the host repo, create:
 - `docs/ai-dev-process/` (Integration doc)
-- `.claude/agent/ai-dev-process/` (symlinks to repo-owned guides/policies for prompting)
+- `.claude/skills/ai-dev-process-*/` (managed skills pointing to submodule sources)
 
 ## Testing stack defaults (initial)
 
@@ -89,21 +89,46 @@ Observed defaults from real Android projects:
 - Unit tests commonly use JUnit4, plus MockK, plus kotlinx-coroutines-test when coroutines are involved.
 - Instrumentation tests commonly use AndroidX JUnit + Espresso.
 
-## Installing guide copies for prompting
+## Installing Claude Code skills (no symlinks)
 
-Symlink these repo-owned files into `.claude/agent/ai-dev-process/` (updates come from submodule updates):
-- `Guides/Core/debugging-guide.md`
-- `Guides/Spec/work-spec-creation.md`
-- `Guides/Spec/work-spec-implementation.md`
-- `Guides/dev-retro.md`
-- `Guides/Test/unit-testing-guide.md`
-- `Guides/Test/unit-test-planning-guide.md`
-- `Guides/Test/unit-test-infrastructure-guide.md`
-- `Guides/Test/unit-test-writing-guide.md`
-- `Policies/coding-patterns.md`
-- `Policies/error-handling.md`
-- `Policies/unauthorized-changes.md`
-- `Policies/safe-operations.md`
+Create these skills in the host repo under `.claude/skills/` by copying the shared templates from the submodule and inserting the managed marker comment immediately after the YAML frontmatter (see `Install/managed-header.md`).
+
+Use `Managed-Adapter: claude-code` and `Managed-Id: skill.<skill-name>` (e.g., `skill.ai-dev-process-debugging`).
+
+Rules:
+- Each destination `SKILL.md` is considered managed only if it contains the managed marker comment described in `Install/managed-header.md`.
+- Overwrite only if destination is missing or already contains the managed marker.
+
+Install these skills:
+- `.claude/skills/ai-dev-process-debugging/SKILL.md`
+  - source: `Submodules/ai-dev-process/Templates/skills/ai-dev-process-debugging/SKILL.md`
+- `.claude/skills/ai-dev-process-work-spec-creation/SKILL.md`
+  - source: `Submodules/ai-dev-process/Templates/skills/ai-dev-process-work-spec-creation/SKILL.md`
+- `.claude/skills/ai-dev-process-work-spec-implementation/SKILL.md`
+  - source: `Submodules/ai-dev-process/Templates/skills/ai-dev-process-work-spec-implementation/SKILL.md`
+- `.claude/skills/ai-dev-process-dev-retro/SKILL.md`
+  - source: `Submodules/ai-dev-process/Templates/skills/ai-dev-process-dev-retro/SKILL.md`
+- `.claude/skills/ai-dev-process-unit-testing/SKILL.md`
+  - source: `Submodules/ai-dev-process/Templates/skills/ai-dev-process-unit-testing/SKILL.md`
+- `.claude/skills/ai-dev-process-unit-test-planning/SKILL.md`
+  - source: `Submodules/ai-dev-process/Templates/skills/ai-dev-process-unit-test-planning/SKILL.md`
+- `.claude/skills/ai-dev-process-unit-test-infrastructure/SKILL.md`
+  - source: `Submodules/ai-dev-process/Templates/skills/ai-dev-process-unit-test-infrastructure/SKILL.md`
+- `.claude/skills/ai-dev-process-unit-test-writing/SKILL.md`
+  - source: `Submodules/ai-dev-process/Templates/skills/ai-dev-process-unit-test-writing/SKILL.md`
+
+## Deprecated symlink install target (required)
+
+Older installs may have placed symlinked guides under:
+- `.claude/agent/ai-dev-process/` (symlinks pointing into `Submodules/ai-dev-process/...`)
+
+Current installs use managed skills under `.claude/skills/ai-dev-process-*/` instead (no symlinks).
+
+Required behavior:
+- If `.claude/agent/ai-dev-process/` exists:
+  - If it contains symlinks that point into `Submodules/ai-dev-process/...`, delete them (these are installer-created artifacts, no approval needed).
+  - If it contains non-symlink or project-authored content, treat as project-owned and STOP to ask the human what to do.
+  - Remove the directory if empty after cleanup.
 
 ### Step 0 — Inspect current state
 

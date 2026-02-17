@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- 2026-02-17 Unified skill templates: Cursor and Claude Code adapters now share a single set of skill templates at `Templates/skills/ai-dev-process-*/SKILL.md` (YAML frontmatter + instructions, no baked-in managed marker). Each installer stamps the adapter-specific managed marker at copy time. Eliminates the previous duplication of adapter-specific template sets. Claude Code skills install to `.claude/skills/ai-dev-process-*/SKILL.md` (Claude Code's native skills system), replacing the old `.claude/agent/` symlink approach. Manifest entries unified from `cursor-skill.*` / `claude-code-skill.*` to `skill.*`.
+- 2026-02-17 Fixed all Claude Code adapter runbooks (JetBrains, Xcode, Android Studio) so their Discover step notes `.cursor/` presence without inventorying or classifying its contents; `.cursor/**` belongs to the Cursor adapter and was causing installers to waste time analysing and misclassifying Cursor-owned rules.
 - 2026-02-14 Split `ai-dev-process-work-spec` Cursor skill into two separate skills: `ai-dev-process-work-spec-creation` (planning/PRD/spec authoring) and `ai-dev-process-work-spec-implementation` (begin/next/continue task execution). Each skill now loads only the guide relevant to its phase, improving focus and reducing context dilution. Renamed `Guides/Spec/work-spec.md` to `work-spec-creation.md` for consistency.
 - 2026-02-13 Added Swift Package Manager integration section template (`swift-package.md`) for projects that use `Package.swift` alongside or instead of Xcode projects; updated installer guidance and manifest.
 - 2026-02-13 Restructured repository toward IDE-neutral `.md` sources (`Guides/`, `Policies/`, `Templates/`, `Install/`).
