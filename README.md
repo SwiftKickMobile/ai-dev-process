@@ -128,10 +128,11 @@ The authoritative list of assets and their intended usage is in `assets.manifest
   - Debugging / problem-resolution tactics, evidence-first loop, and stop conditions (human-in-the-loop).
 
 - `Guides/Spec/work-spec-creation.md`
-  - Work-spec workflow in three phases:
-    - Planning (clarify scope, assumptions, inputs, open questions, and **API Sketches**)
-    - PRD creation/update (normalize externally observable behavior into `/requirements/**`)
-    - Work spec creation (two-pass: high-level tasks for review, then detailed subtasks)
+  - Work-spec workflow in four phases:
+    - Planning (three stages: scope discussion → ideation/questions/discussion with 🟡 marker protocol → API sketch)
+    - Requirements normalization (promote behaviors from planning into `/requirements/**`)
+    - Work spec first pass (high-level tasks for review)
+    - Work spec second pass (detailed subtasks after approval)
 
 - `Guides/Spec/work-spec-implementation.md`
   - How an agent executes a work spec using 🟡 markers and `begin/next/continue` checkpoints.
