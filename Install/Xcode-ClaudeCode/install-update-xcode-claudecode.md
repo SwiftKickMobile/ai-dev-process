@@ -35,7 +35,7 @@ Follow the discover → classify → plan → confirm → execute workflow.
 - Inventory existing install artifacts:
   - Claude instruction files (`claude.md`, `CLAUDE.md`, `.claude/**`)
   - `docs/**`
-- Note whether `.cursor/` exists (for `.claudeignore` setup). Do **not** inventory or classify its contents — those belong to the Cursor adapter and are out of scope for this runbook.
+- Note whether `.cursor/` exists (for `.claudeignore` setup). Do **not** inventory or classify its contents -- those belong to the Cursor adapter and are out of scope for this runbook.
 - Identify any existing docs containing integration details (to migrate into Integration doc).
 
 ### 2) Classify
@@ -83,6 +83,7 @@ If updating the submodule, include an "update review" section:
      - Exclude `.cursor/**` so Claude sessions don't ingest Cursor-specific assets by default.
      - Do NOT exclude `Submodules/ai-dev-process/**` here; use editor UI excludes for autocomplete/search clutter instead.
 6. Optionally propose cleanup of legacy candidates as a separate explicit step.
+7. Write/update `docs/ai-dev-process/install-state.json` (see "Install state file" below).
 
 Required Integration doc fields to request (minimum set):
 - Build/compile command(s)
@@ -118,6 +119,35 @@ Install these skills:
   - source: `Submodules/ai-dev-process/Templates/skills/ai-dev-process-unit-test-infrastructure/SKILL.md`
 - `.claude/skills/ai-dev-process-unit-test-writing/SKILL.md`
   - source: `Submodules/ai-dev-process/Templates/skills/ai-dev-process-unit-test-writing/SKILL.md`
+- `.claude/skills/ai-dev-process-update-installation/SKILL.md`
+  - source: `Submodules/ai-dev-process/Templates/skills/ai-dev-process-update-installation/SKILL.md`
+
+## Install state file
+
+After a successful install or update, write/update `docs/ai-dev-process/install-state.json` so the `update-installation` skill can detect changes and re-run the appropriate adapters.
+
+Format:
+
+```json
+{
+  "managedBy": "ai-dev-process",
+  "submodulePath": "Submodules/ai-dev-process",
+  "lastSHA": "<current submodule HEAD SHA>",
+  "lastUpdatedAt": "<yyyy-mm-dd>",
+  "installedAdapters": [
+    {
+      "adapter": "<adapter-id>",
+      "runbook": "<submodule-relative runbook path>",
+      "lastRunAt": "<yyyy-mm-dd>"
+    }
+  ]
+}
+```
+
+Rules:
+- If the file does not exist, create it with this adapter's entry.
+- If the file already exists, **merge**: update `lastSHA`, `lastUpdatedAt`, and upsert this adapter's entry in `installedAdapters` (preserve entries from other adapters).
+- The adapter ID for this runbook is `xcode-claudecode`; the runbook path is `Install/Xcode-ClaudeCode/install-update-xcode-claudecode.md`.
 
 ## Deprecated symlink install target (required)
 

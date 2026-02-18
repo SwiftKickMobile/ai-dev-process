@@ -17,12 +17,12 @@ Read the documents and artifacts that were produced or used during this session,
 - The **plan** for the session:
   - work spec doc(s) (if used)
   - planning docs / analysis docs (including unit-testing planning + infrastructure + writing work docs)
-- The project’s Integration doc:
+- The project's Integration doc:
   - `docs/ai-dev-process/integration.md`
 - Evidence artifacts produced during the session:
   - build/test outputs, logs, `.xcresult`, screenshots/screen recordings, crash reports, etc.
 - The canonical requirements library:
-  - `/requirements/**` (or your org’s equivalent)
+  - `/requirements/**` (or your org's equivalent)
 
 If any of these inputs are missing but required to perform the retro, STOP and ask the human where they are.
 
@@ -49,7 +49,7 @@ For each gap, propose the smallest next verification step (or STOP and ask the h
 
 If the session deviated from the documented plan(s):
 - Update the plan docs so they match reality (or explicitly record why the plan changed).
-- Ensure the “next steps” reflect the new reality.
+- Ensure the "next steps" reflect the new reality.
 
 ### 4) Documentation updates (only what changed)
 
@@ -71,10 +71,24 @@ Rules (migrated from the former `retro-prd` process):
 - Compare them to the existing `/requirements/**` library.
 - Add missing requirements and update incorrect/outdated ones.
 - Do NOT introduce implementation details (types, functions, files, initializers).
-- Place each requirement using the project’s scope rules (platform/domains/features/apps, etc.).
+- Place each requirement using the project's scope rules (platform/domains/features/apps, etc.).
 - Do NOT add progress markers.
 
 Only update `/requirements/**`.
+
+### 6) Process reflection
+
+Reflect on the session since the last retro (or since session start). Consider:
+
+- **Pattern violations**: Did you break an established convention or project pattern? What cue did you miss, and what check would have caught it earlier?
+- **Recurring friction**: Were there repeated failures (e.g., build issues, test flakiness, tooling problems, unclear requirements) that a process or infrastructure change could prevent?
+- **Missing knowledge**: Did you lack context that a rule, skill, or documentation improvement would provide?
+- **Documentation gaps**: Are there undocumented invariants, conventions, or patterns that you had to learn the hard way or that the human had to explain?
+- **Human corrections**: Did the human have to point out something you should have caught yourself? What was the root cause -- a missing check, a missing convention, or a gap in your understanding of the project?
+
+Output: 1-4 concrete suggestions (not vague observations). Each suggestion should name the specific file, doc, or artifact to create/update and what it should say. The human will decide which to act on.
+
+If nothing stands out, say **"No process suggestions."**
 
 ## Retro output (keep it short)
 
@@ -83,6 +97,7 @@ Always start your message with a one-line declaration that the retro was perform
 
 Then output only:
 - what you fixed immediately (if any)
-- remaining follow-ups (1–8 bullets)
-- or: “Dev retro complete; no misses found.”
+- remaining follow-ups (1-8 bullets)
+- or: "Dev retro complete; no misses found."
+- Include process suggestions from step 6 (if any) as a separate **"Process suggestions"** section at the end.
 

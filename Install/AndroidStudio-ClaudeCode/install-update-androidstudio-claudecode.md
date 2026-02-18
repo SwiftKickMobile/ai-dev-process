@@ -36,7 +36,7 @@ Follow the discover → classify → plan → confirm → execute workflow.
 - Inventory existing install artifacts:
   - Claude instruction files (`claude.md`, `CLAUDE.md`, `.claude/**`)
   - `docs/**`
-- Note whether `.cursor/` exists (for `.claudeignore` setup). Do **not** inventory or classify its contents — those belong to the Cursor adapter and are out of scope for this runbook.
+- Note whether `.cursor/` exists (for `.claudeignore` setup). Do **not** inventory or classify its contents -- those belong to the Cursor adapter and are out of scope for this runbook.
 - Inventory existing Integration doc candidates and any legacy command docs.
 
 ### 2) Classify
@@ -59,7 +59,7 @@ Prepare a concrete plan:
 
 Present the plan and wait for human approval before writing.
 
-If updating the submodule, include an “update review” section:
+If updating the submodule, include an "update review" section:
 - Summarize changes between the old SHA and new SHA for relevant paths:
   - `Guides/`, `Policies/`, `Templates/`, `Install/`, `assets.manifest.json`, `README.md`
 - If you cannot compute the diff yourself, STOP and ask the human to provide the diff output.
@@ -72,10 +72,11 @@ If updating the submodule, include an “update review” section:
 4. Install Claude Code skills into `.claude/skills/` (see "Installing Claude Code skills" below).
 4.5 Create/update ignore files (permission-gated if the files already exist and are project-owned):
    - Update `.claudeignore` by inserting/updating a managed block:
-     - Exclude `.cursor/**` so Claude sessions don’t ingest Cursor-specific assets by default.
+     - Exclude `.cursor/**` so Claude sessions don't ingest Cursor-specific assets by default.
      - Do NOT exclude `Submodules/ai-dev-process/**` here; use editor UI excludes for autocomplete/search clutter instead.
    - If `.cursorignore` exists, propose inserting/updating an equivalent managed block to exclude `.claude/**` (ask approval before changing).
 5. Optionally propose cleanup of legacy candidates as a separate explicit step.
+6. Write/update `docs/ai-dev-process/install-state.json` (see "Install state file" below).
 
 ## Android adapter install targets
 
@@ -116,6 +117,35 @@ Install these skills:
   - source: `Submodules/ai-dev-process/Templates/skills/ai-dev-process-unit-test-infrastructure/SKILL.md`
 - `.claude/skills/ai-dev-process-unit-test-writing/SKILL.md`
   - source: `Submodules/ai-dev-process/Templates/skills/ai-dev-process-unit-test-writing/SKILL.md`
+- `.claude/skills/ai-dev-process-update-installation/SKILL.md`
+  - source: `Submodules/ai-dev-process/Templates/skills/ai-dev-process-update-installation/SKILL.md`
+
+## Install state file
+
+After a successful install or update, write/update `docs/ai-dev-process/install-state.json` so the `update-installation` skill can detect changes and re-run the appropriate adapters.
+
+Format:
+
+```json
+{
+  "managedBy": "ai-dev-process",
+  "submodulePath": "Submodules/ai-dev-process",
+  "lastSHA": "<current submodule HEAD SHA>",
+  "lastUpdatedAt": "<yyyy-mm-dd>",
+  "installedAdapters": [
+    {
+      "adapter": "<adapter-id>",
+      "runbook": "<submodule-relative runbook path>",
+      "lastRunAt": "<yyyy-mm-dd>"
+    }
+  ]
+}
+```
+
+Rules:
+- If the file does not exist, create it with this adapter's entry.
+- If the file already exists, **merge**: update `lastSHA`, `lastUpdatedAt`, and upsert this adapter's entry in `installedAdapters` (preserve entries from other adapters).
+- The adapter ID for this runbook is `androidstudio-claudecode`; the runbook path is `Install/AndroidStudio-ClaudeCode/install-update-androidstudio-claudecode.md`.
 
 ## Deprecated symlink install target (required)
 
@@ -130,25 +160,25 @@ Required behavior:
   - If it contains non-symlink or project-authored content, treat as project-owned and STOP to ask the human what to do.
   - Remove the directory if empty after cleanup.
 
-### Step 0 — Inspect current state
+### Step 0 -- Inspect current state
 
 - Identify whether `ai-dev-process` is already present as a submodule (check `.gitmodules`).
 - Identify any existing Claude Code instruction files:
   - `CLAUDE.md` at repo root
   - `claude.md` at repo root
   - `.claude/` folder (if present)
-  - Any org-specific equivalents (search for “Claude” or “AI instructions” docs)
+  - Any org-specific equivalents (search for "Claude" or "AI instructions" docs)
 - Identify any existing project docs containing integration details (to migrate into Integration doc):
   - `README.md`
   - docs folder
   - build/test command notes (Gradle commands, CI notes)
 
-### Step 1 — Ensure submodule exists and is updated
+### Step 1 -- Ensure submodule exists and is updated
 
 - If missing: add submodule at project-chosen location (recommended: `Submodules/ai-dev-process`).
 - Init/update submodule recursively.
 
-### Step 2 — Ensure Integration doc exists (project-owned source of truth)
+### Step 2 -- Ensure Integration doc exists (project-owned source of truth)
 
 Create (if missing) a single Integration doc in the host project, path chosen by the project.
 
@@ -168,7 +198,7 @@ If you cannot find the required integration information in-repo:
 - Fill only what you can source with high confidence.
 - Add explicit 🟡 placeholders for missing items.
 - STOP and ask the human for the missing items before proceeding with Step 3.
- - Prefer non-interactive command-line commands (e.g., `./gradlew ...`) over GUI instructions. If you can’t produce command-line commands with high confidence, leave 🟡 placeholders and ask.
+ - Prefer non-interactive command-line commands (e.g., `./gradlew ...`) over GUI instructions. If you can't produce command-line commands with high confidence, leave 🟡 placeholders and ask.
 
 Follow `Install/integration-doc-install-update.md` for how to update the Integration doc safely (managed blocks + human overrides).
 
@@ -179,12 +209,12 @@ Required Integration doc fields to request (minimum set):
 - Emulator/device conventions (if applicable)
 - Known evidence-capture limitations (if any)
 
-### Step 3 — Create/update Claude Code instructions
+### Step 3 -- Create/update Claude Code instructions
 
 Decide instruction file location:
 - If `claude.md` exists, use it.
 - Else if `CLAUDE.md` exists, use it.
-- Else if `.claude/` exists, follow the project’s existing pattern.
+- Else if `.claude/` exists, follow the project's existing pattern.
 - Else create/manage root `CLAUDE.md`.
 
 The instruction file should:
@@ -193,7 +223,7 @@ The instruction file should:
 - Point to the `ai-dev-process` submodule guides that are relevant for Android work.
 - Include the core safety/process rules (no unauthorized changes; remove 🟡 markers; stop conditions).
 
-### Step 4 — Update flow
+### Step 4 -- Update flow
 
 On update:
 - Update the submodule reference.

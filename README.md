@@ -6,7 +6,7 @@ This repo is designed to be installed as a **git submodule** and activated by an
 - inspects the host repo (including legacy installs),
 - proposes a migration plan,
 - writes **managed files** only (safe updates),
-- installs agent-facing assets into the host repo’s expected directories (IDE/agent-specific),
+- installs agent-facing assets into the host repo's expected directories (IDE/agent-specific),
 - generates IDE-specific artifacts (e.g., Cursor `.mdc`) into the host repo.
 - updates Cursor/Claude ignore files using managed blocks so multi-agent installs can coexist cleanly (permission-gated if the ignore files already exist).
 
@@ -61,7 +61,7 @@ Paste ONE of these prompts into your agent chat (from the host repo root).
 > - Do a discovery pass first, then propose a migration plan, then WAIT for approval before writing.
 > - Use `docs/ai-dev-process/integration.md` as the project-owned Integration doc and migrate any legacy build/test command notes into it (do not delete legacy files unless I explicitly approve).
 > - Only overwrite files that contain the managed header (`Managed-By: ai-dev-process`). Treat lookalike files without the header as legacy candidates.
-> - This runbook is experimental: if any Xcode+MCP assumption doesn’t match this repo’s setup, STOP and ask me what convention to use.
+> - This runbook is experimental: if any Xcode+MCP assumption doesn't match this repo's setup, STOP and ask me what convention to use.
 
 #### Android Studio + Claude Code prompt (Android stack)
 
@@ -87,12 +87,12 @@ Why it matters:
 - It makes install/update migrations safe: the installer can preserve your filled values while updating the managed template structure around them.
 
 How humans should fill it:
-- **🟡 means “required project-specific value is missing.”**
+- **🟡 means "required project-specific value is missing."**
 - Under a 🟡 item you may see one or more `INSTRUCTION:` lines. Those are **not part of the long-term document**; they exist only to explain what to fill in.
 - When you fill a value:
   - remove the 🟡 marker
   - delete the `INSTRUCTION:` line(s) under it
-- If a future install/update can’t infer a required value with high confidence, the installer may **restore** 🟡 + `INSTRUCTION:` prompts so the doc remains a complete, reliable source of truth.
+- If a future install/update can't infer a required value with high confidence, the installer may **restore** 🟡 + `INSTRUCTION:` prompts so the doc remains a complete, reliable source of truth.
 
 ## IDE clutter / autocomplete (recommended)
 
@@ -115,7 +115,7 @@ Example for Cursor/VS Code workspace settings (`.vscode/settings.json`):
 
 Android Studio (JetBrains):
 - In the Project tool window, right-click `Submodules/ai-dev-process` → **Mark Directory as** → **Excluded**.
-- Optionally also exclude `.claude/skills/ai-dev-process-*` if you don’t want the skill install artifacts in search results.
+- Optionally also exclude `.claude/skills/ai-dev-process-*` if you don't want the skill install artifacts in search results.
 - Prefer local IDE excludes over committing `.idea` changes unless your repo explicitly versions IDE config.
 
 ## Asset inventory
@@ -138,7 +138,10 @@ The authoritative list of assets and their intended usage is in `assets.manifest
   - How an agent executes a work spec using 🟡 markers and `begin/next/continue` checkpoints.
 
 - `Guides/dev-retro.md`
-  - End-of-session dev retro checklist: self-review, gaps, plan drift reconciliation, doc updates, and retro requirements backfill into `/requirements/**`.
+  - End-of-session dev retro checklist: self-review, gaps, plan drift reconciliation, doc updates, retro requirements backfill, and process reflection.
+
+- `Guides/update-installation-guide.md`
+  - Procedure for updating the `ai-dev-process` submodule: check for upstream changes, pull, report changelog deltas to the human, and re-run installed adapter runbooks. Reads from `docs/ai-dev-process/install-state.json`.
 
 - `Guides/Test/unit-testing-guide.md`
   - Orchestrator for the unit testing workflow; delegates to the three sub-guides.

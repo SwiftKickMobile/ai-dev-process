@@ -22,7 +22,7 @@ Do not store secrets here.
 - **Primary IDE(s)**: {human response}
 - **Languages/frameworks**: {human response}
 - 🟡 **CI**: {human response}
-  - INSTRUCTION: Name the CI system if you have one (GitHub Actions, Buildkite, etc.), or write “none”.
+  - INSTRUCTION: Name the CI system if you have one (GitHub Actions, Buildkite, etc.), or write "none".
 
 ### Destinations (multi-platform supported)
 
@@ -45,28 +45,28 @@ Do not store secrets here.
 
 - 🟡 **Scheme selection rule**
   {human response}
-  - INSTRUCTION: Describe how to pick the scheme for “the module under work”. If it’s “scheme == module name”, say so.
+  - INSTRUCTION: Describe how to pick the scheme for "the module under work". If it's "scheme == module name", say so.
 
 - 🟡 **Test plan rule** (if applicable)
   {human response}
-  - INSTRUCTION: If you use test plans, state the rule (often “test plan name == scheme name”). Otherwise write “not used”.
+  - INSTRUCTION: If you use test plans, state the rule (often "test plan name == scheme name"). Otherwise write "not used".
 
-- **Mapping table** (optional; include only if rules aren’t enough)
+- **Mapping table** (optional; include only if rules aren't enough)
   - Example row: `Module: API` → `Scheme: AI` → `Test plan: AI` → `Test target: AITests`
 
 ### UI / instrumentation tests (if applicable)
 
 - 🟡 **How to run UI/instrumentation tests**
   {human response}
-  - INSTRUCTION: Provide the canonical command(s) or write “not used”.
+  - INSTRUCTION: Provide the canonical command(s) or write "not used".
 
 - 🟡 **Device/simulator requirements**
   {human response}
-  - INSTRUCTION: State required devices/OS versions or special setup, or write “none”.
+  - INSTRUCTION: State required devices/OS versions or special setup, or write "none".
 
 ### Output and evidence collection (human-in-the-loop)
 
-Purpose: define the project-specific “evidence contract” so agents can debug deterministically when they cannot directly observe runtime behavior.
+Purpose: define the project-specific "evidence contract" so agents can debug deterministically when they cannot directly observe runtime behavior.
 
 - 🟡 **Where command output is captured**
   {human response}

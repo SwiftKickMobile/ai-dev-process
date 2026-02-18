@@ -10,7 +10,7 @@ Placeholders like `<Variant>`, `<ModulePath>`, and `<TestNamePattern>` are **var
 ./gradlew <AssembleTask> --no-daemon --stacktrace 2>&1 | tee <output-path>.txt
 ```
 
-Examples for `<AssembleTask>` (pick based on the repo’s modules/variants):
+Examples for `<AssembleTask>` (pick based on the repo's modules/variants):
 - `assemble`
 - `assembleDebug`
 - `:app:assembleDebug`

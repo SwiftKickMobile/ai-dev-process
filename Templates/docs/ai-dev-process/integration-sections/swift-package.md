@@ -72,7 +72,7 @@ To extract failure details from console output:
 grep -A 5 "failed\|Expectation failed\|error:" <output-path>.txt
 ```
 
-Evidence contract when tests fail — provide all of:
+Evidence contract when tests fail -- provide all of:
 - `<output-path>.txt` (full output)
 - `<results-path>.xml` (structured results)
 

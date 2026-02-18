@@ -20,7 +20,7 @@ Defines the process for writing and executing test logic.
 
 ### Next Command
 
-**Definition:** Any of `"begin"`, `"next"`, or `"continue"` — these are synonymous.
+**Definition:** Any of `"begin"`, `"next"`, or `"continue"` -- these are synonymous.
 
 **Behavior:** Context determines the action:
 - If waiting to proceed → remove 🟡 from the current phase (where applicable), advance to next phase
@@ -375,7 +375,7 @@ struct MyComponentTests {
 **What to do:**
 
 1. **Run the tests** using standard process (see "Running Tests" section below)
-   - Use the project’s test command from `docs/ai-dev-process/integration.md`
+   - Use the project's test command from `docs/ai-dev-process/integration.md`
    - Save full output to `<branch-name>/testing/<suite-name>/<section-name>-test-output.txt`
 
 **CRITICAL VALIDATION - DO NOT SKIP:**
@@ -448,7 +448,7 @@ See `docs/ai-dev-process/integration.md` for project-specific test execution com
 2. **Run tests with full output logging**:
    - **CRITICAL: Use `-only-testing` to run ONLY the tests in the current section**
    - Do NOT run the entire test file - this creates noise from unimplemented tests
-   - Use the project’s test command from `docs/ai-dev-process/integration.md` with `-only-testing` for each test in the section
+   - Use the project's test command from `docs/ai-dev-process/integration.md` with `-only-testing` for each test in the section
    - See `docs/ai-dev-process/integration.md` for command format and examples
    - Saves two files:
      - `.xcresult` bundle: Contains assertion failures, expected vs actual values
@@ -477,10 +477,10 @@ See `docs/ai-dev-process/integration.md` for project-specific test execution com
 
 **Investigation → Fix → Verify (repeat until passing)**
 
-When resolving test failures, follow the project’s Debugging / Problem-Resolution Guide (installed with `ai-dev-process`):
-- Select a debugging tactic (e.g., partitioning, minimal working implementation, bisect) and state *why* it’s the best next step.
-- Prefer experiments that produce discriminating evidence over “guessing fixes.”
-- Use explicit stop conditions: if you need runtime output you can’t access, pause and ask the human to run tests and provide the output/logs.
+When resolving test failures, follow the project's Debugging / Problem-Resolution Guide (installed with `ai-dev-process`):
+- Select a debugging tactic (e.g., partitioning, minimal working implementation, bisect) and state *why* it's the best next step.
+- Prefer experiments that produce discriminating evidence over "guessing fixes."
+- Use explicit stop conditions: if you need runtime output you can't access, pause and ask the human to run tests and provide the output/logs.
 
 **Process:**
 1. **Extract assertion failure details from .xcresult bundle** - This is CRITICAL for understanding what failed
@@ -491,7 +491,7 @@ When resolving test failures, follow the project’s Debugging / Problem-Resolut
      - Specific line numbers where tests failed
    
 2. **Add debug logging if needed**:
-   - Use `print("AIDEV: ...")` (or the project’s chosen debug prefix) for test debug output
+   - Use `print("AIDEV: ...")` (or the project's chosen debug prefix) for test debug output
    - The `AIDEV:` prefix allows easy filtering: `grep "AIDEV" <output-file>`
    - Example:
      ```swift
@@ -762,7 +762,7 @@ This document tracks the writing and execution work for implementing unit tests.
 - Add supporting code if needed
 - Ensure test isolation
 - Document in work document
-- When approved: remove 🟡 from “Phase 1: Write Tests” in the work document
+- When approved: remove 🟡 from "Phase 1: Write Tests" in the work document
 
 **Phase 2: Execute & Fix**
 - Remove 🟡 from Phase 1 in the work document (if not already done)
@@ -775,7 +775,7 @@ This document tracks the writing and execution work for implementing unit tests.
   - Investigate and fix (see maintenance workflow)
 - Remove 🟡 from test functions as they pass
 - Re-run until all pass
-- When complete: remove 🟡 from “Phase 2: Execute & Fix” in the work document
+- When complete: remove 🟡 from "Phase 2: Execute & Fix" in the work document
 - Remove 🟡 from section when all tests pass
 - If previously passing test fails: Restore 🟡 to that test function
 

@@ -20,7 +20,7 @@ Managed-Updated-At: 2026-02-08
 
 ### Next Command
 
-**Definition:** Any of `"begin"`, `"next"`, or `"continue"` — these are synonymous.
+**Definition:** Any of `"begin"`, `"next"`, or `"continue"` -- these are synonymous.
 
 **Behavior:** Context determines the action:
 - If waiting to proceed → mark previous task complete (if applicable) and begin next task
@@ -41,7 +41,7 @@ Managed-Updated-At: 2026-02-08
 
 ### Next Command + `auto`
 
-Next Command followed by `auto` (e.g., `"next auto"`) — Auto-advances through all remaining tasks without stopping at checkpoints.
+Next Command followed by `auto` (e.g., `"next auto"`) -- Auto-advances through all remaining tasks without stopping at checkpoints.
 
 **Behavior:**
 - Automatically implements all remaining 🟡 tasks in sequence

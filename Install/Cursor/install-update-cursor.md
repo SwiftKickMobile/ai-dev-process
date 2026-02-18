@@ -32,7 +32,7 @@ Follow the discover → classify → plan → confirm → execute workflow.
     - `.cursor/skills/**`
     - `.cursor/agent/**` (deprecated install target; see cleanup guidance below)
   - `docs/**`
-  - any “integration glue” docs/notes (build/test commands, destinations, artifact paths), wherever they live (README, docs, CI scripts, etc.)
+  - any "integration glue" docs/notes (build/test commands, destinations, artifact paths), wherever they live (README, docs, CI scripts, etc.)
 - Inventory any existing Integration doc candidates and existing rule/policy docs (do not assume specific filenames).
 
 ### 2) Classify
@@ -61,13 +61,13 @@ Required gray-area checks (ask the human, then reflect the decision in the plan)
   - If found, propose:
     1) migrating any project-specific logging/API conventions they contain into `docs/ai-dev-process/integration.md`, then
     2) deleting those legacy debugging rule files (only with explicit approval).
-  - When reporting discovery, list the candidates you found; do not emit “not found” lines for example filenames you didn’t find.
+  - When reporting discovery, list the candidates you found; do not emit "not found" lines for example filenames you didn't find.
 
 ### 4) Confirm (human gate)
 
 Present the plan and wait for human approval before writing.
 
-If updating the submodule, include an “update review” section:
+If updating the submodule, include an "update review" section:
 - Summarize changes between the old SHA and new SHA for relevant paths:
   - `Guides/`, `Policies/`, `Templates/`, `Install/`, `assets.manifest.json`, `README.md`
 - If you cannot compute the diff yourself, STOP and ask the human to provide the diff output.
@@ -81,17 +81,18 @@ If updating the submodule, include an “update review” section:
      - Fill only what you can source with high confidence.
      - Add explicit 🟡 placeholders for missing items.
      - STOP and ask the human for the missing items before proceeding with the rest of the install.
-   - When filling “Build / compile” and “Unit tests”, prefer non-interactive command-line commands (e.g., `xcodebuild ...`) over GUI instructions (“open Xcode…”). If you can’t produce command-line commands with high confidence, leave 🟡 placeholders and ask.
+   - When filling "Build / compile" and "Unit tests", prefer non-interactive command-line commands (e.g., `xcodebuild ...`) over GUI instructions ("open Xcode…"). If you can't produce command-line commands with high confidence, leave 🟡 placeholders and ask.
    - For Xcode projects: never invent a simulator/device model. If a canonical `xcodebuild -destination` string is not already established in-repo, propose one and ask the human to confirm before writing it.
    - Follow `Install/integration-doc-install-update.md` for how to update the Integration doc safely (managed blocks + human overrides).
 2.5 Create/update ignore files (permission-gated if the files already exist and are project-owned):
    - Update `.cursorignore` by inserting/updating a managed block:
-     - Exclude `.claude/**` so Cursor sessions don’t ingest Claude-specific assets by default.
+     - Exclude `.claude/**` so Cursor sessions don't ingest Claude-specific assets by default.
      - Do NOT exclude `Submodules/ai-dev-process/**` here; use editor UI excludes for autocomplete/search clutter instead.
    - If `.claudeignore` exists, propose inserting/updating an equivalent managed block to exclude `.cursor/**` (ask approval before changing).
 3. Generate managed Cursor `.mdc` rule files into `.cursor/rules/ai-dev-process/`.
 4. Install `ai-dev-process` Cursor skills into `.cursor/skills/`.
 5. If approved, perform legacy cleanup (delete or replace with symlinks).
+6. Write/update `docs/ai-dev-process/install-state.json` (see "Install state file" below).
 
 Required Integration doc fields to request (minimum set):
 - Build/compile command(s)
@@ -154,6 +155,35 @@ Install these skills:
   - source: `Submodules/ai-dev-process/Templates/skills/ai-dev-process-unit-test-writing/SKILL.md`
 - `.cursor/skills/ai-dev-process-dev-retro/SKILL.md`
   - source: `Submodules/ai-dev-process/Templates/skills/ai-dev-process-dev-retro/SKILL.md`
+- `.cursor/skills/ai-dev-process-update-installation/SKILL.md`
+  - source: `Submodules/ai-dev-process/Templates/skills/ai-dev-process-update-installation/SKILL.md`
+
+## Install state file
+
+After a successful install or update, write/update `docs/ai-dev-process/install-state.json` so the `update-installation` skill can detect changes and re-run the appropriate adapters.
+
+Format:
+
+```json
+{
+  "managedBy": "ai-dev-process",
+  "submodulePath": "Submodules/ai-dev-process",
+  "lastSHA": "<current submodule HEAD SHA>",
+  "lastUpdatedAt": "<yyyy-mm-dd>",
+  "installedAdapters": [
+    {
+      "adapter": "<adapter-id>",
+      "runbook": "<submodule-relative runbook path>",
+      "lastRunAt": "<yyyy-mm-dd>"
+    }
+  ]
+}
+```
+
+Rules:
+- If the file does not exist, create it with this adapter's entry.
+- If the file already exists, **merge**: update `lastSHA`, `lastUpdatedAt`, and upsert this adapter's entry in `installedAdapters` (preserve entries from other adapters).
+- The adapter ID for this runbook is `cursor`; the runbook path is `Install/Cursor/install-update-cursor.md`.
 
 ## Legacy path adoption (required, permission-gated)
 
@@ -172,7 +202,7 @@ Rationale: leaving legacy copies in place increases the chance that humans/agent
 
 ## Deprecated Cursor agent-doc install target (required, permission-gated)
 
-Older installs of `ai-dev-process` may have placed symlinked “agent docs” under:
+Older installs of `ai-dev-process` may have placed symlinked "agent docs" under:
 - `.cursor/agent/ai-dev-process/` (deprecated)
 
 Current installs use Cursor skills under `.cursor/skills/ai-dev-process-*/` instead (no symlinks).

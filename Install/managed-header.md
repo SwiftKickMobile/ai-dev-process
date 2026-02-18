@@ -19,11 +19,15 @@ Rules:
 - Header keys and casing must match exactly.
 - `Managed-Id` must match an entry in `assets.manifest.json`.
 - Installer/update overwrites a file only when this header is present (or the destination does not exist).
-- `Managed-Updated-At` should only change when the file content actually changes. If the source template is unchanged and the destination already has the managed header, **skip the file** — do not rewrite it just to bump the date. This avoids unnecessary diffs during submodule updates.
+- `Managed-Updated-At` should only change when the file content actually changes. If the source template is unchanged and the destination already has the managed header, **skip the file** -- do not rewrite it just to bump the date. This avoids unnecessary diffs during submodule updates.
+
+## Determining today's date
+
+Whenever a date is needed (for `Managed-Updated-At`, CHANGELOG entries, `install-state.json`, or any other purpose), **always run `date +%Y-%m-%d` in the terminal** to get the current date. Do not rely on dates from the system prompt or conversation context -- they may be stale or in a different timezone than the human.
 
 ## Notes
 
-- For file formats that require comment prefixes, the header should still be present as plain text at the top of the file unless that breaks the format. If it breaks the format, adapt by prefixing each line with the file’s comment marker while preserving the same keys.
+- For file formats that require comment prefixes, the header should still be present as plain text at the top of the file unless that breaks the format. If it breaks the format, adapt by prefixing each line with the file's comment marker while preserving the same keys.
 
 ## Skill files (`.cursor/skills/**/SKILL.md`, `.claude/skills/**/SKILL.md`)
 
@@ -48,7 +52,7 @@ Rules:
 
 ## Symlinks
 
-Symlinks cannot “contain” a managed header. For symlinked installs, treat a host path as managed if it is a symlink pointing at the expected `ai-dev-process` target path.
+Symlinks cannot "contain" a managed header. For symlinked installs, treat a host path as managed if it is a symlink pointing at the expected `ai-dev-process` target path.
 
 ## Ignore files (`.cursorignore`, `.claudeignore`)
 

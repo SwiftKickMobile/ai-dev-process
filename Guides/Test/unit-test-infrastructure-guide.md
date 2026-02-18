@@ -22,7 +22,7 @@ Defines the process for identifying, implementing, and compiling test infrastruc
 
 ### Next Command
 
-**Definition:** Any of `"begin"`, `"next"`, or `"continue"` — these are synonymous.
+**Definition:** Any of `"begin"`, `"next"`, or `"continue"` -- these are synonymous.
 
 **Behavior:** Context determines the action:
 - If waiting to proceed → remove 🟡 from the current phase (where applicable), advance to next phase
@@ -125,7 +125,7 @@ Defines the process for identifying, implementing, and compiling test infrastruc
 5. **BE DEFINITIVE - NO ASSUMPTIONS**
    - Never say "new or existing" or "if available"
    - You must KNOW which it is through verified search
-   - Every “Already exists” claim must be backed by a search command that found the file
+   - Every "Already exists" claim must be backed by a search command that found the file
    - **Every "NEW" must be backed by a search command that returned no results**
 
 6. **BE SPECIFIC**
@@ -174,7 +174,7 @@ Defines the process for identifying, implementing, and compiling test infrastruc
 
 **Location and Naming:**
 
-See `docs/ai-dev-process/integration.md` for the project’s test infrastructure locations and naming conventions.
+See `docs/ai-dev-process/integration.md` for the project's test infrastructure locations and naming conventions.
 
 #### 3. Fixtures
 
@@ -187,7 +187,7 @@ See `docs/ai-dev-process/integration.md` for the project’s test infrastructure
 
 **Location and Naming:**
 
-See `docs/ai-dev-process/integration.md` for the project’s fixture locations and naming conventions.
+See `docs/ai-dev-process/integration.md` for the project's fixture locations and naming conventions.
 
 #### 4. Test Framework Utilities
 
@@ -200,7 +200,7 @@ See `docs/ai-dev-process/integration.md` for the project’s fixture locations a
 
 **Location and Examples:**
 
-See `docs/ai-dev-process/integration.md` for the project’s test utility locations and available utilities.
+See `docs/ai-dev-process/integration.md` for the project's test utility locations and available utilities.
 
 **When to propose:**
 - Pattern appears in multiple test suites
@@ -376,7 +376,7 @@ read_file path/to/Mocks/MockService.swift
 
 3. **Work through the spec with human:**
    - Human will say "Start task N" or "Proceed to next task"
-   - Implement each task following the project’s code organization policy (stack-specific)
+   - Implement each task following the project's code organization policy (stack-specific)
    - Remove 🟡 from tasks as you complete them (do not use ✅)
    - Continue until all infrastructure tasks are complete
 
@@ -642,5 +642,5 @@ See `docs/ai-dev-process/integration.md` for all infrastructure locations and na
 
 **Progress Tracking:**
 - Work document checklist: 🟡 = TODO, no marker = complete
-- Within content sections: Prefer “Already exists” vs “NEW” (avoid ✅/❌ completion markers)
+- Within content sections: Prefer "Already exists" vs "NEW" (avoid ✅/❌ completion markers)
 

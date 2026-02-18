@@ -43,7 +43,7 @@ Within each type, use `MARK` comments to organize code into sections.
 // MARK: - Variables
 ```
 
-1. API is for the type's interface members—properties, methods, initializers, nested types, etc. that callers interact with (regardless of access level, but excludes private implementation details and protocol conformances)
+1. API is for the type's interface members--properties, methods, initializers, nested types, etc. that callers interact with (regardless of access level, but excludes private implementation details and protocol conformances)
 2. Constants is for private items determined at compile time, constant properties, nested types, typealiases, etc.
 3. Variables is for properties determined at runtime, including `let` reference types, which are mutable.
 

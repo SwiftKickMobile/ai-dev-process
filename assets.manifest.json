@@ -88,6 +88,12 @@
       "tags": ["core"]
     },
     {
+      "id": "guide.update-installation",
+      "type": "guide",
+      "sourcePath": "Guides/update-installation-guide.md",
+      "tags": ["core"]
+    },
+    {
       "id": "guide.unit-testing",
       "type": "guide",
       "sourcePath": "Guides/Test/unit-testing-guide.md",
@@ -199,6 +205,12 @@
       "id": "skill.ai-dev-process-dev-retro",
       "type": "skill",
       "sourcePath": "Templates/skills/ai-dev-process-dev-retro/SKILL.md",
+      "tags": ["adapter:cursor", "adapter:claude-code"]
+    },
+    {
+      "id": "skill.ai-dev-process-update-installation",
+      "type": "skill",
+      "sourcePath": "Templates/skills/ai-dev-process-update-installation/SKILL.md",
       "tags": ["adapter:cursor", "adapter:claude-code"]
     },
     {

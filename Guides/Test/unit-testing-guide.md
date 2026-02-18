@@ -33,7 +33,7 @@ When testing multiple types in a single session:
 
 ### Next Command
 
-**Definition:** Any of `"begin"`, `"next"`, or `"continue"` — these are synonymous.
+**Definition:** Any of `"begin"`, `"next"`, or `"continue"` -- these are synonymous.
 
 **Behavior:** Context determines the action:
 - If waiting to proceed → mark current step complete (removes 🟡 where applicable), execute next step
@@ -46,7 +46,7 @@ When testing multiple types in a single session:
 
 ### Next Command + `auto`
 
-Next Command followed by `auto` (e.g., `"next auto"`) — Auto-advances through sections until infrastructure needed or non-trivial failure.
+Next Command followed by `auto` (e.g., `"next auto"`) -- Auto-advances through sections until infrastructure needed or non-trivial failure.
 
 **First step (Planning):**
 - Executes the planning process (see planning guide)

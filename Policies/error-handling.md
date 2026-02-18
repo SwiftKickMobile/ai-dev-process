@@ -30,7 +30,7 @@ Errors should be logged at the source where they originate (the boundary that wr
 
 ### 5) Notability / reporting
 
-Unexpected or undesirable errors should be marked as “notable” so they are sent to the project’s error reporting/telemetry system. Expected errors (e.g., auth timeouts) are typically not notable.
+Unexpected or undesirable errors should be marked as "notable" so they are sent to the project's error reporting/telemetry system. Expected errors (e.g., auth timeouts) are typically not notable.
 
 ### 6) Taxonomy
 
@@ -47,5 +47,5 @@ The project must define (in its own rules/policies):
 
 - The canonical project error protocol/type name
 - The UI-facing error/message representation (if used)
-- The error reporting sink and what “notable” means
+- The error reporting sink and what "notable" means
 - The taxonomy conventions (roots/casing/allowed tags)

@@ -1,6 +1,6 @@
 ## Xcode/Swift
 
-Provide `xcodebuild`-based commands (not “open Xcode” steps).
+Provide `xcodebuild`-based commands (not "open Xcode" steps).
 
 ### List schemes
 

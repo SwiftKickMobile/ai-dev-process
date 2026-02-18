@@ -9,5 +9,5 @@ Do not make code changes during discussion or troubleshooting unless explicitly 
 
 When identifying a solution, explain it and wait for authorization before implementing.
 
-Exception: when the user explicitly requests the change (e.g., “make this change”, “fix this”, “implement X”).
+Exception: when the user explicitly requests the change (e.g., "make this change", "fix this", "implement X").
 

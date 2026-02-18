@@ -16,7 +16,7 @@ Defines the process for creating complete test plans with ALL test stubs and doc
 
 ### Next Command
 
-**Definition:** Any of `"begin"`, `"next"`, or `"continue"` — these are synonymous.
+**Definition:** Any of `"begin"`, `"next"`, or `"continue"` -- these are synonymous.
 
 **Behavior:** Context determines the action:
 - If waiting to proceed → mark planning complete, return to parent process

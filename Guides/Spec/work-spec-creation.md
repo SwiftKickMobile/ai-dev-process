@@ -16,7 +16,7 @@ Orchestrates the work specification creation process. Work specifications provid
 - **No Code**: Contains no actual code - only descriptions of what needs to be implemented
 
 **Overall Process:**
-1. **Planning Phase**: Collaborative design through three stages — scope discussion, ideation/questions/discussion, API sketch. Produces a planning document with all design decisions resolved.
+1. **Planning Phase**: Collaborative design through three stages -- scope discussion, ideation/questions/discussion, API sketch. Produces a planning document with all design decisions resolved.
 2. **Requirements Normalization**: Promote product/system behaviors discovered during planning into the canonical requirements repository.
 3. **Work Spec First Pass**: Write high-level tasks only (no subtasks) for review.
 4. **Work Spec Second Pass**: Add detailed subtasks after approval.
@@ -27,17 +27,17 @@ Orchestrates the work specification creation process. Work specifications provid
 
 ### Next Command
 
-**Definition:** Any of `"begin"`, `"next"`, or `"continue"` — these are synonymous.
+**Definition:** Any of `"begin"`, `"next"`, or `"continue"` -- these are synonymous.
 
 **Behavior:** Context determines the action. The same command drives every phase of the process; the agent infers which step to execute based on the current state of the conversation and any existing documents.
 
-**Planning — Create Planning Document:**
+**Planning -- Create Planning Document:**
 - Triggered when the human says begin/next/continue in the context of a scope discussion (e.g., "begin planning", "lets start the planning doc, begin")
 - Summarizes the scope discussion into a planning document
 - Seeds the document with 🟡 open questions and discussion topics for Stage 1
 - Stops for human review
 
-**Planning — Resolve Open Questions:**
+**Planning -- Resolve Open Questions:**
 - Triggered when the human says begin/next/continue while working through a planning document with unresolved 🟡 markers
 - Continues the iterative discussion, updating the document as decisions are made
 
@@ -45,7 +45,7 @@ Orchestrates the work specification creation process. Work specifications provid
 - Triggered when the human sets the context that it is time to work on requirements and says begin/next/continue (e.g., "lets do requirements, begin")
 - Promotes product/system behaviors from the planning document into the canonical requirements repository
 
-**Work Spec — First Pass:**
+**Work Spec -- First Pass:**
 - Triggered when the human sets the context that it is time to write the work spec and says begin/next/continue (e.g., "lets write the work spec, begin")
 - Creates work specification document
 - Includes: Title, Motivation, Functional Requirements, Requirements Inventory, Non-goals / Deferred, Relevant Files, Task List
@@ -55,7 +55,7 @@ Orchestrates the work specification creation process. Work specifications provid
 - Stops when high-level structure is complete
 - Allows human to review overall sequence before details
 
-**Work Spec — Second Pass:**
+**Work Spec -- Second Pass:**
 - Adds detailed subtasks to each main task
 - Subtasks numbered (1.1, 1.2, 2.1, 2.2, etc.)
 - All tasks marked with 🟡 indicator (TODO)
@@ -69,11 +69,11 @@ Orchestrates the work specification creation process. Work specifications provid
 
 Before writing a work spec, the design must be worked through in a planning document. The planning phase is a collaborative, iterative process with two stages.
 
-**Prerequisite:** An informal scope discussion has already taken place (in chat, a meeting, a Jira ticket, etc.). The human and agent have discussed the problem space — what is being solved, motivating use cases, scope boundaries, and affected architecture. The human enters the planning phase when they are ready to formalize the discussion into a planning document (e.g., "begin planning").
+**Prerequisite:** An informal scope discussion has already taken place (in chat, a meeting, a Jira ticket, etc.). The human and agent have discussed the problem space -- what is being solved, motivating use cases, scope boundaries, and affected architecture. The human enters the planning phase when they are ready to formalize the discussion into a planning document (e.g., "begin planning").
 
 **Creating the planning document** (begin/next/continue):
 1. Summarize the scope discussion so far (Problem, Current Architecture, initial approach framing).
-2. Seed the document with 🟡-marked open questions and discussion topics derived from the conversation — these become the agenda for Stage 1.
+2. Seed the document with 🟡-marked open questions and discussion topics derived from the conversation -- these become the agenda for Stage 1.
 
 ### Stage 1: Ideation, Questions, Discussion
 
@@ -82,24 +82,24 @@ Work through the design collaboratively. The agent proposes design elements and 
 **🟡 Marker Protocol for Planning Documents:**
 - Mark open questions and undecided design points with 🟡 throughout the document.
 - As the human provides direction, replace 🟡 items with decisions (labeled **Decisions:** in the document).
-- Do NOT remove 🟡 markers preemptively — only replace them when the human has explicitly decided.
+- Do NOT remove 🟡 markers preemptively -- only replace them when the human has explicitly decided.
 - Do NOT convert open questions into decisions without explicit human approval.
 - The planning document is ready for the next stage when all 🟡 markers have been resolved.
 
 **Discussion principles:**
 - Present findings and analysis, not pre-selected options. The human is the architect.
-- When the human asks a question, answer it directly — do not reframe it as a choice between options you've invented.
+- When the human asks a question, answer it directly -- do not reframe it as a choice between options you've invented.
 - Use concrete scenarios (design-by-use-case) to drive design decisions rather than abstract analysis.
 - Capture both the decision and the reasoning in the document.
 
 ### Stage 2: API Sketch
 
-Refine the design to the level of non-private API surfaces — the interfaces through which components in the system connect and interact. This bridges the gap between high-level decisions and the work spec's implementation tasks.
+Refine the design to the level of non-private API surfaces -- the interfaces through which components in the system connect and interact. This bridges the gap between high-level decisions and the work spec's implementation tasks.
 
 **API sketch conventions:**
 - Show APIs in the context of their enclosing type. Do not write isolated function signatures; instead write the type signature with the relevant member(s) enclosed within it.
 - **New types/members**: Show the type and its new members.
-- **Unchanged APIs**: Omit entirely — do not list them, do not comment on their absence. Omission *is* the signal that the API is unchanged.
+- **Unchanged APIs**: Omit entirely -- do not list them, do not comment on their absence. Omission *is* the signal that the API is unchanged.
 - **Protocol conformances**: When a protocol gains new members, do not repeat the signatures on conforming types. List the conforming types that need updating as a comment, but do not restate the API.
 - **Removed APIs**: Show in the context of the enclosing type with ~~strikethrough~~ formatting.
 - **Modified APIs**: Show the old signature with ~~strikethrough~~ immediately followed by the new signature.
@@ -121,7 +121,7 @@ struct FileReference: Codable {                                 // new type
 }
 ```
 
-Output: the planning document's "API Sketch" or equivalent section describes the non-private surface area — types, protocols, and their relationships — with enough specificity that a work spec can reference them.
+Output: the planning document's "API Sketch" or equivalent section describes the non-private surface area -- types, protocols, and their relationships -- with enough specificity that a work spec can reference them.
 
 ### Planning Document Completeness
 
@@ -151,7 +151,7 @@ After the planning phase is complete, product/system behaviors discovered during
 - It must not contain 🟡 / TODO / pending markers.
 - Git history is the source of change/audit information.
 - Requirements must be placed into the correct scope folder as defined in
-  “Requirements Repository Organization”.
+  "Requirements Repository Organization".
 
 ### Canonical requirements writing style (anti-implementation guidance)
 
@@ -163,29 +163,29 @@ Write canonical requirements as if authored by a **product manager with no knowl
 
 **Do not include implementation/technical details such as:**
 
-- Specific data structures, algorithms, or execution strategies (e.g., “use caching”, “use a queue”, “debounce”, “run in background task”)
-- Storage mechanisms (e.g., “persist to disk as JSON”, “CoreData”, “SQLite”, “FileStorage”)
-- Concurrency / threading / actors / async design (e.g., “use async/await”, “MainActor”, “perform off the main thread”)
+- Specific data structures, algorithms, or execution strategies (e.g., "use caching", "use a queue", "debounce", "run in background task")
+- Storage mechanisms (e.g., "persist to disk as JSON", "CoreData", "SQLite", "FileStorage")
+- Concurrency / threading / actors / async design (e.g., "use async/await", "MainActor", "perform off the main thread")
 - Concrete Swift identifiers, file paths, or code formatting (backticked types, `.swift` filenames, method names, initializer signatures)
 - Tooling and patterns (dependency injection frameworks, logging frameworks, testing frameworks)
 
 **If a detail is important but inherently technical:**
 
-- Put it in the **work spec** under “Work-spec requirements (technical / transitional)” (e.g. `MIG-01`, `TEMP-02`) instead of the canonical requirements repo.
+- Put it in the **work spec** under "Work-spec requirements (technical / transitional)" (e.g. `MIG-01`, `TEMP-02`) instead of the canonical requirements repo.
 
 #### Quick self-check (before writing to `/requirements/**`)
 
 - Can this be understood by a non-engineer without loss of meaning?
 - Does it mention *any* code identifier, file, module, dependency, or framework? If yes → rewrite.
-- Is it phrased as a behavior/contract (“must/should/will”) rather than a plan (“implement/add/refactor”)?
+- Is it phrased as a behavior/contract ("must/should/will") rather than a plan ("implement/add/refactor")?
 
 #### Examples
 
-- ✅ “The system must detect and report circular references in templated documents.”
-- ❌ “The `AssetCatalog` should DFS templates and throw `CircularReferenceError`.”
+- ✅ "The system must detect and report circular references in templated documents."
+- ❌ "The `AssetCatalog` should DFS templates and throw `CircularReferenceError`."
 
-- ✅ “Users must be able to view all validation issues for an asset in a single report.”
-- ❌ “Accumulate errors during parsing and return an aggregated error array.”
+- ✅ "Users must be able to view all validation issues for an asset in a single report."
+- ❌ "Accumulate errors during parsing and return an aggregated error array."
 
 The work specification references canonical requirement IDs produced by this step.
 
@@ -301,7 +301,7 @@ This inventory is split into two scopes.
 #### Work-spec requirements (technical / transitional)
 - Each local requirement gets an ID (e.g. `DATA-01`, `MIG-02`, `TEMP-01`).
 - These may describe technical or implementation-level decisions.
-- Items start with 🟡 and the 🟡 is removed when complete (no ✅ — absence of 🟡 means done).
+- Items start with 🟡 and the 🟡 is removed when complete (no ✅ -- absence of 🟡 means done).
 
 **Rules:**
 - Inventory must be complete (capture all technical requirements + constraints + deferred / non-goal items introduced by this work).
@@ -309,7 +309,7 @@ This inventory is split into two scopes.
 - When a task is completed, remove 🟡 from any work-spec requirements it fully satisfied.
 
 ### 3.6 Non-goals / Deferred
-Explicitly list anything deferred/out-of-scope from planning (also with IDs), so it can’t disappear.
+Explicitly list anything deferred/out-of-scope from planning (also with IDs), so it can't disappear.
 
 ### 4. Relevant Files Section
 List files that will be modified, organized by importance:
@@ -323,7 +323,7 @@ The heart of the specification - actionable implementation steps.
 Include a short mapping section that ensures every requirement is implemented or explicitly deferred:
 
 - Each requirement ID maps to at least one task, or to a deferred/non-goal item
-- No “orphan” tasks (tasks should point back to at least one requirement ID)
+- No "orphan" tasks (tasks should point back to at least one requirement ID)
 
 ## Task List Guidelines
 
@@ -336,7 +336,7 @@ Include a short mapping section that ensures every requirement is implemented or
    3. Sub-task description (REQ-ID)
 ```
 
-Sub-tasks use indented numbered lists. Referencing "1.2" means task 1, sub-task 2 — the nesting is implied by indentation.
+Sub-tasks use indented numbered lists. Referencing "1.2" means task 1, sub-task 2 -- the nesting is implied by indentation.
 
 **Progress Indicators:**
 - 🟡 = TODO (task not yet complete)
@@ -389,7 +389,7 @@ Tasks are created with 🟡 and the 🟡 is removed when complete.
 
 ### Unit Testing Tasks (optional; ask first; last)
 
-Work specs may or may not require unit testing (e.g., some teams don’t unit test view/UI code).
+Work specs may or may not require unit testing (e.g., some teams don't unit test view/UI code).
 
 Rules:
 - The agent MUST ask the human what unit testing (if any) is required for this work.
@@ -445,7 +445,7 @@ Rules:
 
 ### Tracking Rules
 - Tasks are created with 🟡 indicator
-- Remove 🟡 when task is complete (no ✅ — absence of 🟡 means done)
+- Remove 🟡 when task is complete (no ✅ -- absence of 🟡 means done)
 - Only mark main tasks (not sub-tasks)
 - Mark task complete when all sub-tasks are finished
 - Update during implementation as tasks are completed

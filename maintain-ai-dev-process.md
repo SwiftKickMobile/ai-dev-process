@@ -29,17 +29,25 @@ When you change assets, keep these in sync:
 - `README.md`
   - update the file-level Asset inventory for developer-facing guides
 - `CHANGELOG.md`
-  - add an entry under “Unreleased” for user-visible changes (prefix each line item with the date, `YYYY-MM-DD`)
+  - add an entry under "Unreleased" for user-visible changes (prefix each line item with the date, `YYYY-MM-DD`)
+  - always determine the date by running `date +%Y-%m-%d` in the terminal (see `Install/managed-header.md`, "Determining today's date")
  - Skills (if you add/change them):
    - shared templates live at `Templates/skills/ai-dev-process-*/SKILL.md`
    - Cursor installer installs them into host repos at `.cursor/skills/`
    - Claude Code installers install them into host repos at `.claude/skills/`
+   - **Wrapper pattern (invariant)**: skill templates must be thin wrappers -- a few lines that point the LLM at the corresponding Guide(s) in `Guides/`. All substantive logic lives in the Guide, not in the skill template. This keeps the files copied into host projects small and ensures the Guide is the single source of truth.
+   - When adding a new skill: start by writing the Guide under `Guides/`, then create the skill wrapper that references it. This order prevents accidentally inlining logic into the skill template.
+ - Install state file:
+   - All adapter runbooks write `docs/ai-dev-process/install-state.json` on successful completion.
+   - The `update-installation` skill reads this file to determine which adapters to re-run and what SHA was last applied.
+   - If you add a new adapter runbook, ensure it writes/merges its entry into this file.
 
 ## Content rules (project goals)
 
 - Prefer IDE-neutral `.md` sources in this repo.
 - IDE-specific outputs (e.g., Cursor `.mdc`) are generated into host repos by installer runbooks under `Install/`.
-- Keep examples project-agnostic (use the shared fictional theme, currently “LumenNotes”).
+- **ASCII only for quotes and dashes.** Use straight quotes (`"`, `'`), hyphens (`-`), and double-hyphens (`--`) for em-dashes. Never use smart/curly quotes (`"` `"` `'` `'`) or Unicode dashes (`-` `--`). These break tooling (e.g., `StrReplace`) that matches on ASCII equivalents.
+- Keep examples project-agnostic (use the shared fictional theme, currently "LumenNotes").
 
 ## Installer invariants (do not regress)
 
@@ -67,14 +75,14 @@ To preserve that:
 The Integration doc is project-owned at `docs/ai-dev-process/integration.md`, but is structured to support safe automation.
 
 Format rules:
-- `Templates/docs/ai-dev-process/integration.md` must be **minimal** and must not contain “meta” guidance.
+- `Templates/docs/ai-dev-process/integration.md` must be **minimal** and must not contain "meta" guidance.
   - No instructions to the installer/LLM (those belong in `Install/integration-doc-install-update.md`).
   - No instructions to humans about how to clear 🟡 markers (those belong in `README.md`).
 
 Ownership rules:
 - Humans may edit only the **Special instructions / overrides** section (freeform).
 - The installer owns:
-  - the `required-values` “form” block (structure + restoration of missing fields)
+  - the `required-values` "form" block (structure + restoration of missing fields)
   - stack-specific sections inside `BEGIN/END Managed-By: ai-dev-process` blocks.
 - Stack-specific templates live under:
   - `Templates/docs/ai-dev-process/integration-sections/`
@@ -89,7 +97,7 @@ When changing Integration templates/sections:
 - Ensure section templates treat placeholders like `<Scheme>`, `<TestPlan>`, `<TestTarget>` as **variables** (agent-filled per task context).
 - Ensure section templates are **integration-doc-ready** content:
   - no 🟡 TODO lists
-  - no “installer/human instructions” (those belong in `README.md` and `Install/integration-doc-install-update.md`)
+  - no "installer/human instructions" (those belong in `README.md` and `Install/integration-doc-install-update.md`)
   - include copy/pasteable CLI command templates with `<...>` variables
 - Ensure `Install/integration-doc-install-update.md` remains the canonical installer guidance for:
   - managed block merge/update/remove behavior
