@@ -141,7 +141,7 @@ After installation, workflows are available as **skills** that your agent activa
 
 **Retros on demand.** At any point you can ask the agent to **"retro"** to check for gaps, update documents, backfill requirements, and reflect on process.
 
-### Work spec creation
+### Work spec creation (`ai-dev-process-work-spec-creation`)
 
 Structured planning and specification for complex features. Produces a planning document (design decisions, API sketch), normalized product requirements, and a work specification (tasks, subtasks, requirements traceability).
 
@@ -156,7 +156,7 @@ Structured planning and specification for complex features. Produces a planning 
 5. **Work spec first pass.** Agent writes top-level tasks only (no subtasks).
 6. **Work spec second pass.** Agent adds subtasks, requirement IDs, and traceability mapping.
 
-### Work spec implementation
+### Work spec implementation (`ai-dev-process-work-spec-implementation`)
 
 Execute tasks from a completed work spec, one top-level task per cycle.
 
@@ -166,7 +166,7 @@ Execute tasks from a completed work spec, one top-level task per cycle.
 
 1. **Implement next top-level task.** Agent implements all subtasks under the next top-level task.
 
-### Unit testing
+### Unit testing (`ai-dev-process-unit-testing`)
 
 Plan-first testing workflow. The agent plans all tests upfront, then implements them one logical section at a time (e.g. "Success Tests", "Error Handling Tests"). Handles new test suites, additions to existing suites, and fixing failing tests.
 
@@ -180,7 +180,7 @@ Plan-first testing workflow. The agent plans all tests upfront, then implements 
 
 Phases 2-3 repeat for each section until none remain.
 
-### Debugging
+### Debugging (`ai-dev-process-debugging`)
 
 Evidence-first problem resolution. Prevents "guessing fixes" loops by requiring observable evidence before drawing conclusions. The process defines a toolkit of effective strategies (targeted logging, possibility-space partitioning, minimal reproducers, bisection, invariant assertions) that guide the agent's debugging approach.
 
@@ -192,7 +192,7 @@ Evidence-first problem resolution. Prevents "guessing fixes" loops by requiring 
 
 Repeats until the root cause is isolated.
 
-### Dev retro
+### Dev retro (`ai-dev-process-dev-retro`)
 
 Completeness backstop that can be used at any point during any workflow. Reviews what has transpired since the last retro (or since session start), identifies gaps, reconciles plan drift, updates documentation, backfills requirements, and reflects on process.
 
@@ -202,7 +202,7 @@ Completeness backstop that can be used at any point during any workflow. Reviews
 
 1. **Retro.** Agent performs the full checklist and reports findings with concrete follow-up suggestions.
 
-### Update installation
+### Update installation (`ai-dev-process-update-installation`)
 
 Check for upstream `ai-dev-process` updates, review what changed, and re-run adapter runbooks.
 
@@ -236,7 +236,7 @@ This repo is typically maintained with an LLM. When you ask an LLM to make chang
 - Keep sources in this repo **IDE-neutral** (`.md`). IDE-specific outputs are generated into host repos by install/update runbooks.
 - If you add/move/rename an asset, update:
   - `assets.manifest.json`
-  - `README.md` Asset inventory (developer-facing guides should be documented at file level)
+  - `README.md` Usage section (developer-facing guides should be documented at file level)
 - Update `CHANGELOG.md` for user-visible changes.
 - Do not introduce scripts that mutate host repos; installers are LLM-runbook-driven and must follow the safety policies in `Policies/`.
 
