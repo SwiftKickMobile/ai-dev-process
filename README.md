@@ -118,57 +118,100 @@ Android Studio (JetBrains):
 - Optionally also exclude `.claude/skills/ai-dev-process-*` if you don't want the skill install artifacts in search results.
 - Prefer local IDE excludes over committing `.idea` changes unless your repo explicitly versions IDE config.
 
-## Asset inventory
+## Usage
 
-The authoritative list of assets and their intended usage is in `assets.manifest.json`.
+After installation, workflows are available as **skills** that your agent activates automatically based on conversational context.
 
-### Human-facing guides (file-level)
+### How all workflows work
 
-- `Guides/Core/debugging-guide.md`
-  - Debugging / problem-resolution tactics, evidence-first loop, and stop conditions (human-in-the-loop).
+**Minimal command structure.** You don't need to memorize commands or syntax:
 
-- `Guides/Core/working-doc-conventions.md`
-  - Conventions for creating working documents (planning docs, work specs, test work docs): all live under `working-docs/`, organized by git branch path. Referenced by workflow guides.
+1. Start a conversation with context that activates a skill (e.g. "Take a look at this Jira ticket", "Debug this crash", "Write unit tests for Foo").
+2. Progress through steps by saying **"begin"**, **"next"**, **"continue"**, etc. -- they all mean the same thing.
+3. At certain steps the agent will **stop and wait** for your approval before proceeding. Saying "next" (or similar) counts as approval.
+4. If the agent hits unexpected conditions, complications, or obstacles, it stops and asks for input rather than guessing.
+5. Adding **"auto"** to any command tells the agent to proceed through the process without stopping for approval, unless a problem arises (e.g. "begin auto", "start auto implementation").
+6. The syntax is flexible -- the agent can figure out what you mean. "next", "continue", "go ahead", "start auto implementation" all work.
 
-- `Guides/Spec/work-spec-creation.md`
-  - Work-spec workflow in four phases:
-    - Planning (three stages: scope discussion → ideation/questions/discussion with 🟡 marker protocol → API sketch)
-    - Requirements normalization (promote behaviors from planning into `/requirements/**`)
-    - Work spec first pass (high-level tasks for review)
-    - Work spec second pass (detailed subtasks after approval)
+**Agent note-taking and progress tracking.** The agent keeps structured notes so you can pick up where you left off:
 
-- `Guides/Spec/work-spec-implementation.md`
-  - How an agent executes a work spec using 🟡 markers and `begin/next/continue` checkpoints.
+- Working documents (plans, specs, progress logs) are created in `working-docs/<branch-path>/`.
+- The agent places **🟡** markers in code and working documents to flag todos, open questions, and items needing your input, along with explanatory commentary.
+- 🟡 markers are removed as items are resolved and you give approval.
 
-- `Guides/dev-retro.md`
-  - End-of-session dev retro checklist: self-review, gaps, plan drift reconciliation, doc updates, retro requirements backfill, and process reflection.
+**Retros on demand.** At any point you can ask the agent to **"retro"** to check for gaps, update documents, backfill requirements, and reflect on process.
 
-- `Guides/update-installation-guide.md`
-  - Procedure for updating the `ai-dev-process` submodule: check for upstream changes, pull, report changelog deltas to the human, and re-run installed adapter runbooks. Reads from `docs/ai-dev-process/install-state.json`.
+### Work spec creation
 
-- `Guides/Test/unit-testing-guide.md`
-  - Orchestrator for the unit testing workflow; delegates to the three sub-guides.
+Structured planning and specification for complex features. Produces a planning document (design decisions, API sketch), normalized product requirements, and a work specification (tasks, subtasks, requirements traceability).
 
-- `Guides/Test/unit-test-planning-guide.md`
-  - Plan-first process: create complete test stubs + doc comments across all sections before implementation.
+**Prerequisites:** Discuss the feature or problem with the agent in some detail before initiating the process -- scope, motivating use cases, architecture, solution approaches. A thorough upfront discussion produces a much higher quality first draft and minimizes iteration. A Jira ticket, feature request, or problem statement is a good starting point.
 
-- `Guides/Test/unit-test-infrastructure-guide.md`
-  - Identify/propose required test infrastructure (stubs/fixtures/utilities), then implement with human approval.
+**Phases:**
 
-- `Guides/Test/unit-test-writing-guide.md`
-  - Write, run, and iterate on tests; capture evidence; debug failures using the core debugging guide.
+1. **Planning document.** Agent summarizes the discussion into a document seeded with open questions.
+2. **Design discussion.** Agent proposes, human decides. Iterates until all open questions are resolved.
+3. **API sketch.** Agent drafts the API surfaces implied by the design.
+4. **Requirements normalization.** Agent promotes behaviors from the planning document into canonical requirements.
+5. **Work spec first pass.** Agent writes top-level tasks only (no subtasks).
+6. **Work spec second pass.** Agent adds subtasks, requirement IDs, and traceability mapping.
 
-### Human-facing templates (copied into host repos)
+### Work spec implementation
 
-- `Templates/docs/ai-dev-process/integration.md`
-  - Template for the project-owned Integration doc (`docs/ai-dev-process/integration.md`).
+Execute tasks from a completed work spec, one top-level task per cycle.
 
-### Reference (mostly for the installer/LLM, not humans day-to-day)
+**Prerequisites:** A completed work spec.
 
-- `Install/`
-  - IDE-specific install/update runbooks and policies (managed header, precedence rules).
-- `Policies/`
-  - Agent behavior and coding policies (some stack-specific, e.g. Swift code organization).
+**Phases (repeating):**
+
+1. **Implement next top-level task.** Agent implements all subtasks under the next top-level task.
+
+### Unit testing
+
+Plan-first testing workflow. The agent plans all tests upfront, then implements them one logical section at a time (e.g. "Success Tests", "Error Handling Tests"). Handles new test suites, additions to existing suites, and fixing failing tests.
+
+**Prerequisites:** Source code to test. Often triggered by a work spec task, but can be used independently.
+
+**Phases:**
+
+1. **Planning.** Agent creates test files organized into sections, with test stubs in each. Doc comments on every stub serve as the test plan.
+2. **Infrastructure** (per section). Agent identifies required test infrastructure for the current section (mocks, stubs, fixtures) and proposes additions.
+3. **Writing** (per section). Agent implements the tests, runs them, fixes identified bugs, and iterates until they pass.
+
+Phases 2-3 repeat for each section until none remain.
+
+### Debugging
+
+Evidence-first problem resolution. Prevents "guessing fixes" loops by requiring observable evidence before drawing conclusions. The process defines a toolkit of effective strategies (targeted logging, possibility-space partitioning, minimal reproducers, bisection, invariant assertions) that guide the agent's debugging approach.
+
+**Prerequisites:** A bug, crash, or unexpected behavior to investigate. Provide whatever evidence you have (error messages, logs, screenshots, steps to reproduce).
+
+**Phases (repeating):**
+
+1. **Hypothesize and experiment.** Agent states the current possibility space and designs the smallest experiment to discriminate between possibilities. The agent gathers evidence directly where it can (reading code, running tests, analyzing logs); when it needs runtime evidence it can't obtain itself (e.g. reproducing UI behavior, observing device output), it asks the human to run the experiment and report back.
+
+Repeats until the root cause is isolated.
+
+### Dev retro
+
+Completeness backstop that can be used at any point during any workflow. Reviews what has transpired since the last retro (or since session start), identifies gaps, reconciles plan drift, updates documentation, backfills requirements, and reflects on process.
+
+**Prerequisites:** Work to review. The agent reads work specs, planning docs, evidence artifacts, and requirements produced since the last retro.
+
+**Phases:**
+
+1. **Retro.** Agent performs the full checklist and reports findings with concrete follow-up suggestions.
+
+### Update installation
+
+Check for upstream `ai-dev-process` updates, review what changed, and re-run adapter runbooks.
+
+**Prerequisites:** An existing installation (`docs/ai-dev-process/install-state.json` must exist from the initial install).
+
+**Phases:**
+
+1. **Check and report.** Agent checks for upstream changes, pulls the latest, and presents the changelog delta.
+2. **Re-run adapters.** Agent re-runs each installed adapter's install/update runbook to pick up new or changed assets.
 
 ## Development guide (for contributors)
 
