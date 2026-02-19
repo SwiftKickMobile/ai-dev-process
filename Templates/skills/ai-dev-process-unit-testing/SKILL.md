@@ -15,4 +15,4 @@ description: Plans and writes unit tests using ai-dev-process (planning, infrast
 - When tests fail, follow the debugging process:
   - `Submodules/ai-dev-process/Policies/debugging-process-rule.md`
   - `Submodules/ai-dev-process/Guides/Core/debugging-guide.md`
-- Store test work docs/artifacts under `work/<branch>/testing/<suite>/...` per the guides.
+- Store test work docs/artifacts under `working-docs/<branch-path>/testing/<suite>/...` per the guides (see `Submodules/ai-dev-process/Guides/Core/working-doc-conventions.md`).

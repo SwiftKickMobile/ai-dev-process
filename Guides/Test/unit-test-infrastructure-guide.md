@@ -2,7 +2,7 @@ Managed-By: ai-dev-process
 Managed-Id: guide.unit-test-infrastructure
 Managed-Source: Guides/Test/unit-test-infrastructure-guide.md
 Managed-Adapter: repo-source
-Managed-Updated-At: 2026-02-08
+Managed-Updated-At: 2026-02-19
 
 # Unit Test Infrastructure Guide
 
@@ -214,7 +214,7 @@ See `docs/ai-dev-process/integration.md` for the project's test utility location
 
 ### Example: Good Infrastructure Analysis
 
-```markdown
+````markdown
 ## Phase 1: Identify
 
 ### Overview / Strategy
@@ -319,7 +319,7 @@ read_file path/to/Mocks/MockService.swift
 - Remove 🟡 from Phase 1 in the work document (if you created one)
 - If infrastructure needed: Proceed to Phase 2
 - If no infrastructure needed: Infrastructure process complete (no Phase 2/3 work document required)
-```
+````
 
 ---
 
@@ -333,12 +333,13 @@ read_file path/to/Mocks/MockService.swift
 
 **What to do:**
 
-**0. Create work document:**
-   - **File name**: `<branch-name>/testing/<suite-name>/<section-name>-infrastructure.md`
+**0. Create work document** (per `Guides/Core/working-doc-conventions.md`):
+   - **Subpath**: `testing/<suite-name>`
+   - **File name**: `<section-name>-infrastructure.md`
+   - **Full path**: `working-docs/<branch-path>/testing/<suite-name>/<section-name>-infrastructure.md`
    - `<suite-name>` = test file name without "Tests.swift" (e.g., `TemplateRenderer` from `TemplateRendererTests.swift`)
    - `<section-name>` = section name in kebab-case (e.g., `success-tests`, `error-handling`)
-   - **Example**: `work/feature-branch/testing/TemplateRenderer/success-tests-infrastructure.md`
-   - Note: `<branch-name>` includes the `work/` prefix (e.g., `work/feature-branch`)
+   - **Example**: `working-docs/work/feature-branch/testing/TemplateRenderer/success-tests-infrastructure.md`
    - **Structure**:
      ```markdown
      # [Suite Name] - [Section Name] Tests - Infrastructure
@@ -365,9 +366,8 @@ read_file path/to/Mocks/MockService.swift
      ```
 
 **1. Create infrastructure work spec** (if complex, otherwise implement directly):
-   - **File name**: `<branch-name>/testing/<suite-name>/<section-name>-infrastructure-spec.md`
-   - **Example**: `work/feature-branch/testing/TemplateRenderer/success-tests-infrastructure-spec.md`
-   - Note: `<branch-name>` includes the `work/` prefix (e.g., `work/feature-branch`)
+   - **Full path**: `working-docs/<branch-path>/testing/<suite-name>/<section-name>-infrastructure-spec.md`
+   - **Example**: `working-docs/work/feature-branch/testing/TemplateRenderer/success-tests-infrastructure-spec.md`
    - **Structure**: Motivation, Functional Requirements, Relevant Files, Task List
    - **Content**: Describe all stubs, mocks, fixtures, and production code changes needed
    - **No code**: Describe what to implement, not how
@@ -569,7 +569,7 @@ let result3 = try await sut.performOperation(params: params3)  // Gets third res
 
 **Work Document Structure** (created in Phase 2 only if infrastructure needed):
 
-File name: `<branch-name>/testing/<suite-name>/<section-name>-infrastructure.md`
+Full path: `working-docs/<branch-path>/testing/<suite-name>/<section-name>-infrastructure.md` (per `Guides/Core/working-doc-conventions.md`)
 
 ```markdown
 # [Suite Name] - [Section Name] Tests - Infrastructure

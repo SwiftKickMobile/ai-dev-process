@@ -2,7 +2,7 @@ Managed-By: ai-dev-process
 Managed-Id: guide.unit-testing
 Managed-Source: Guides/Test/unit-testing-guide.md
 Managed-Adapter: repo-source
-Managed-Updated-At: 2026-02-08
+Managed-Updated-At: 2026-02-19
 
 # Unit Testing Guide
 
@@ -164,13 +164,14 @@ The testing process is designed for:
 - No emoji = Completed and approved
 
 **Work documents:**
-- Created per section during implementation
-- Location: `<branch-name>/testing/<suite-name>/<section-name>-<phase>.md`
+- Created per section during implementation, following `Guides/Core/working-doc-conventions.md`
+- Subpath: `testing/<suite-name>`
+- File name: `<section-name>-<phase>.md`
+- Full path: `working-docs/<branch-path>/testing/<suite-name>/<section-name>-<phase>.md`
 - `<suite-name>` = test file name without "Tests.swift" (e.g., `TemplateRenderer` from `TemplateRendererTests.swift`)
 - `<section-name>` = section name in kebab-case (e.g., `success-tests`, `error-handling`)
-- `[phase]` = `infrastructure` or `writing`
-- Example: `work/feature-branch/testing/TemplateRenderer/success-tests-writing.md`
-- Note: `<branch-name>` includes the `work/` prefix (e.g., `work/feature-branch`)
+- `<phase>` = `infrastructure` or `writing`
+- Example: `working-docs/work/feature-branch/testing/TemplateRenderer/success-tests-writing.md`
 
 ---
 

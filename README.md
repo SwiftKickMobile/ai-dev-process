@@ -127,6 +127,9 @@ The authoritative list of assets and their intended usage is in `assets.manifest
 - `Guides/Core/debugging-guide.md`
   - Debugging / problem-resolution tactics, evidence-first loop, and stop conditions (human-in-the-loop).
 
+- `Guides/Core/working-doc-conventions.md`
+  - Conventions for creating working documents (planning docs, work specs, test work docs): all live under `working-docs/`, organized by git branch path. Referenced by workflow guides.
+
 - `Guides/Spec/work-spec-creation.md`
   - Work-spec workflow in four phases:
     - Planning (three stages: scope discussion → ideation/questions/discussion with 🟡 marker protocol → API sketch)

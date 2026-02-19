@@ -2,7 +2,7 @@ Managed-By: ai-dev-process
 Managed-Id: guide.work-spec
 Managed-Source: Guides/Spec/work-spec-creation.md
 Managed-Adapter: repo-source
-Managed-Updated-At: 2026-02-08
+Managed-Updated-At: 2026-02-19
 
 # Work Specification Guide
 
@@ -234,31 +234,23 @@ When promoting requirements from planning:
 
 ## File Naming Convention
 
-Work specification and planning files follow this naming pattern:
+Work specification and planning files are working documents. Create them following `Guides/Core/working-doc-conventions.md`.
 
-**Planning Document Format:** `<branch-name>/[spec-name]-planning.md`
+**Planning Document:**
+- Subpath: (none)
+- File name: `[spec-name]-planning.md`
+- Full path: `working-docs/<branch-path>/[spec-name]-planning.md`
 
-**Work Spec Document Format:** `<branch-name>/[spec-name]-work-spec.md`
+**Work Spec Document:**
+- Subpath: (none)
+- File name: `[spec-name]-work-spec.md`
+- Full path: `working-docs/<branch-path>/[spec-name]-work-spec.md`
 
-**Examples:**
-- Planning: `work/step-refactor/observable-wrapper-planning.md`
-- Work Spec: `work/step-refactor/observable-wrapper-work-spec.md`
+Where `[spec-name]` = the specification name (e.g., `observable-wrapper`).
 
-Where:
-- `<branch-name>` = The git branch you're working on (e.g., `work/step-refactor`)
-- `[spec-name]` = The specification name you provide when creating the document (e.g., `observable-wrapper`)
-- Suffix = `-planning` for planning documents, `-work-spec` for work specifications
-
-**Note:** `<branch-name>` includes the `work/` prefix (e.g., `work/feature-branch`).
-
-**Branch name folders:** If the branch name contains `/`, it is decomposed into folders.
- - Example branch: `work/foo`
- - Example planning doc path: `work/foo/example-planning.md`
- - Example work spec path: `work/foo/example-work-spec.md`
-
-**When creating documents:**
-- For planning: Provide the spec name, and the document will be created at `<branch-name>/[spec-name]-planning.md`
-- For work spec: Provide the spec name, and the document will be created at `<branch-name>/[spec-name]-work-spec.md`
+**Examples** (branch: `work/step-refactor`):
+- Planning: `working-docs/work/step-refactor/observable-wrapper-planning.md`
+- Work Spec: `working-docs/work/step-refactor/observable-wrapper-work-spec.md`
 
 ## Structure
 

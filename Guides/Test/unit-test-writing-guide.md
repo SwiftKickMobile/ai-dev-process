@@ -2,7 +2,7 @@ Managed-By: ai-dev-process
 Managed-Id: guide.unit-test-writing
 Managed-Source: Guides/Test/unit-test-writing-guide.md
 Managed-Adapter: repo-source
-Managed-Updated-At: 2026-02-08
+Managed-Updated-At: 2026-02-19
 
 # Unit Test Writing & Execution Guide
 
@@ -81,12 +81,13 @@ Defines the process for writing and executing test logic.
 
 **What to do:**
 
-**0. Create work document:**
-   - **File name**: `<branch-name>/testing/<suite-name>/<section-name>-writing.md`
+**0. Create work document** (per `Guides/Core/working-doc-conventions.md`):
+   - **Subpath**: `testing/<suite-name>`
+   - **File name**: `<section-name>-writing.md`
+   - **Full path**: `working-docs/<branch-path>/testing/<suite-name>/<section-name>-writing.md`
    - `<suite-name>` = test file name without "Tests.swift" (e.g., `TemplateRenderer` from `TemplateRendererTests.swift`)
    - `<section-name>` = section name in kebab-case (e.g., `success-tests`, `error-handling`)
-   - **Example**: `work/feature-branch/testing/TemplateRenderer/success-tests-writing.md`
-   - Note: `<branch-name>` includes the `work/` prefix
+   - **Example**: `working-docs/work/feature-branch/testing/TemplateRenderer/success-tests-writing.md`
    - **Structure**:
      ```markdown
      # [Suite Name] - [Section Name] Tests - Writing & Execution
@@ -376,16 +377,16 @@ struct MyComponentTests {
 
 1. **Run the tests** using standard process (see "Running Tests" section below)
    - Use the project's test command from `docs/ai-dev-process/integration.md`
-   - Save full output to `<branch-name>/testing/<suite-name>/<section-name>-test-output.txt`
+   - Save full output to `working-docs/<branch-path>/testing/<suite-name>/<section-name>-test-output.txt`
 
 **CRITICAL VALIDATION - DO NOT SKIP:**
 
 2. **Verify the test actually ran** - IMMEDIATELY after running the command:
-   - **Check output file size**: `ls -lh <branch-name>/testing/<suite-name>/<section-name>-test-output.txt`
+   - **Check output file size**: `ls -lh working-docs/<branch-path>/testing/<suite-name>/<section-name>-test-output.txt`
      - If file is 0 bytes or very small (< 1KB): **TESTS DID NOT RUN**
-   - **Check .xcresult exists**: `ls -d <branch-name>/testing/<suite-name>/<section-name>-test.xcresult`
+   - **Check .xcresult exists**: `ls -d working-docs/<branch-path>/testing/<suite-name>/<section-name>-test.xcresult`
      - If directory doesn't exist: **TESTS DID NOT RUN**
-   - **Read the output file**: `cat <branch-name>/testing/<suite-name>/<section-name>-test-output.txt`
+   - **Read the output file**: `cat working-docs/<branch-path>/testing/<suite-name>/<section-name>-test-output.txt`
      - Look for test execution indicators (✔, ✘, Test Suite, etc.)
      - If you see no test execution output: **TESTS DID NOT RUN**
    
@@ -439,11 +440,10 @@ See `docs/ai-dev-process/integration.md` for project-specific test execution com
 
 **Standard test execution process:**
 
-1. **Create branch directory** (if it doesn't exist):
+1. **Create output directory** (per `Guides/Core/working-doc-conventions.md`):
 ```bash
-   mkdir -p <branch-name>/testing/<suite-name>
+   mkdir -p working-docs/<branch-path>/testing/<suite-name>
    ```
-   Note: `<branch-name>` is the full branch name including `work/` prefix (e.g., `work/step-refactor`)
 
 2. **Run tests with full output logging**:
    - **CRITICAL: Use `-only-testing` to run ONLY the tests in the current section**
@@ -453,13 +453,13 @@ See `docs/ai-dev-process/integration.md` for project-specific test execution com
    - Saves two files:
      - `.xcresult` bundle: Contains assertion failures, expected vs actual values
      - `-test-output.txt`: Complete build and test output
-   - File naming: `<branch-name>/testing/<suite-name>/<section-name>-test.xcresult` and `<branch-name>/testing/<suite-name>/<section-name>-test-output.txt`
+   - File naming: `working-docs/<branch-path>/testing/<suite-name>/<section-name>-test.xcresult` and `working-docs/<branch-path>/testing/<suite-name>/<section-name>-test-output.txt`
 
 3. **Analyze failures**:
    - **Primary**: Extract assertion details from `.xcresult` (see `docs/ai-dev-process/integration.md`)
    - **Secondary**: Search output file for additional context:
 ```bash
-     grep -A 10 "failed\|error" <branch-name>/testing/<suite-name>/<section-name>-test-output.txt
+     grep -A 10 "failed\|error" working-docs/<branch-path>/testing/<suite-name>/<section-name>-test-output.txt
 ```
 
 4. **Next test run** overwrites both files (same paths)
@@ -501,7 +501,7 @@ When resolving test failures, follow the project's Debugging / Problem-Resolutio
    
 3. **Search test output file** for additional context:
    ```bash
-   grep -A 10 "failed\|error" <branch-name>/testing/<suite-name>/<section-name>-test-output.txt
+   grep -A 10 "failed\|error" working-docs/<branch-path>/testing/<suite-name>/<section-name>-test-output.txt
    ```
    
 4. **Document the failure** in work document:
@@ -728,7 +728,7 @@ See `docs/ai-dev-process/integration.md` for:
 
 **Work Document Structure:**
 
-File name: `<branch-name>/testing/<suite-name>/<section-name>-writing.md`
+Full path: `working-docs/<branch-path>/testing/<suite-name>/<section-name>-writing.md` (per `Guides/Core/working-doc-conventions.md`)
 
 ```markdown
 # [Suite Name] - [Section Name] Tests - Writing & Execution
@@ -793,7 +793,7 @@ This document tracks the writing and execution work for implementing unit tests.
 See `docs/ai-dev-process/integration.md` for project-specific test execution commands.
 
 **Standard process:**
-- Create suite output directory: `<branch-name>/testing/<suite-name>/` (includes `work/` prefix, e.g., `work/step-refactor/testing/TemplateRenderer/`)
+- Create suite output directory: `working-docs/<branch-path>/testing/<suite-name>/` (per `Guides/Core/working-doc-conventions.md`, e.g., `working-docs/work/step-refactor/testing/TemplateRenderer/`)
 - **Use `-only-testing` to run ONLY tests in current section** - Don't run entire test file
 - Run tests with `-resultBundlePath` (saves .xcresult bundle + output file)
 - **Extract assertion failures from .xcresult** - CRITICAL first step

@@ -46,6 +46,12 @@
       "tags": ["core"]
     },
     {
+      "id": "guide.working-doc-conventions",
+      "type": "guide",
+      "sourcePath": "Guides/Core/working-doc-conventions.md",
+      "tags": ["core"]
+    },
+    {
       "id": "template.integration-doc",
       "type": "template",
       "sourcePath": "Templates/docs/ai-dev-process/integration.md",

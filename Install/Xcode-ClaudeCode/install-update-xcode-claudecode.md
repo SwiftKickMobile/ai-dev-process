@@ -79,6 +79,8 @@ If updating the submodule, include an "update review" section:
 3. Create/update the Claude instruction file (`claude.md` vs `CLAUDE.md`) using managed headers.
 4. Install Claude Code skills into `.claude/skills/` (see "Installing Claude Code skills" below).
 5. Create/update ignore files (permission-gated if they already exist and are project-owned):
+   - Update `.gitignore` by inserting/updating a managed block:
+     - Add `working-docs/` so ephemeral working documents are not committed.
    - Update `.claudeignore` by inserting/updating a managed block:
      - Exclude `.cursor/**` so Claude sessions don't ingest Cursor-specific assets by default.
      - Do NOT exclude `Submodules/ai-dev-process/**` here; use editor UI excludes for autocomplete/search clutter instead.

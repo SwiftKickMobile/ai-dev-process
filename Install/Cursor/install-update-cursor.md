@@ -85,6 +85,8 @@ If updating the submodule, include an "update review" section:
    - For Xcode projects: never invent a simulator/device model. If a canonical `xcodebuild -destination` string is not already established in-repo, propose one and ask the human to confirm before writing it.
    - Follow `Install/integration-doc-install-update.md` for how to update the Integration doc safely (managed blocks + human overrides).
 2.5 Create/update ignore files (permission-gated if the files already exist and are project-owned):
+   - Update `.gitignore` by inserting/updating a managed block:
+     - Add `working-docs/` so ephemeral working documents are not committed.
    - Update `.cursorignore` by inserting/updating a managed block:
      - Exclude `.claude/**` so Cursor sessions don't ingest Claude-specific assets by default.
      - Do NOT exclude `Submodules/ai-dev-process/**` here; use editor UI excludes for autocomplete/search clutter instead.
