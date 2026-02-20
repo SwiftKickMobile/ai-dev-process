@@ -1,8 +1,8 @@
 Managed-By: ai-dev-process
 Managed-Id: guide.dev-retro
-Managed-Source: Guides/dev-retro.md
+Managed-Source: Guides/Process/dev-retro.md
 Managed-Adapter: repo-source
-Managed-Updated-At: 2026-02-13
+Managed-Updated-At: 2026-02-20
 
 # Dev-session retro (LLM + human)
 
@@ -88,6 +88,23 @@ Reflect on the session since the last retro (or since session start). Consider:
 
 Output: 1-4 concrete suggestions (not vague observations). Each suggestion should name the specific file, doc, or artifact to create/update and what it should say. The human will decide which to act on.
 
+If there are suggestions, write them to a working file following `Guides/Core/working-doc-conventions.md` (subpath: none, filename: `process-tickets.md`). Use this format for each suggestion:
+
+```
+## Suggestion: <concise summary>
+
+**Friction**
+<What was painful or suboptimal>
+
+**Suggestion**
+<What to change in ai-dev-process>
+
+**Affected files**
+<Paths within the ai-dev-process repo, if known. "Unknown" is acceptable.>
+```
+
+This file will be used for iteration and, if the human chooses to file tickets, as the basis for issue drafts (see `Guides/Process/process-improvement-tickets.md`).
+
 If nothing stands out, say **"No process suggestions."**
 
 ## Retro output (keep it short)
@@ -100,4 +117,4 @@ Then output only:
 - remaining follow-ups (1-8 bullets)
 - or: "Dev retro complete; no misses found."
 - Include process suggestions from step 6 (if any) as a separate **"Process suggestions"** section at the end.
-
+- If there are process suggestions, tell the human: these can be filed as GitHub issues on `ai-dev-process`; we can discuss and revise them first, and when you're happy with them, say the word and I'll draft the tickets.

@@ -8,5 +8,5 @@ description: Runs the ai-dev-process dev-session retro checklist (self-review, g
 ## Instructions
 
 - Read:
-  - `Submodules/ai-dev-process/Guides/dev-retro.md`
+  - `Submodules/ai-dev-process/Guides/Process/dev-retro.md`
 - Follow the checklist and keep the retro output short. Always include the retro declaration line required by the guide.

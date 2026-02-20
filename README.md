@@ -201,6 +201,26 @@ Completeness backstop that can be used at any point during any workflow. Reviews
 **Phases:**
 
 1. **Retro.** Agent performs the full checklist and reports findings with concrete follow-up suggestions.
+2. **Process suggestions.** If the retro identifies process improvements, agent writes them to the `process-tickets.md` working file. Human and agent discuss and refine.
+3. **Ticket filing (optional).** When the human is ready, agent files suggestions as GitHub issues on `ai-dev-process`:
+   1. Agent checks GitHub MCP access, converts suggestions to issue drafts (applying confidentiality rules to strip project-specific details), and assigns labels from the repo's existing label set.
+   2. Human reviews drafts in the working file. Can edit, remove, or add drafts. Iterates until satisfied.
+   3. Agent creates approved issues via MCP and records issue numbers in the working file.
+
+### Report process problem (`ai-dev-process-report-process-problem`)
+
+Ad-hoc intake for process friction or improvement ideas outside of a retro. The agent helps the developer articulate the problem and captures it in the `process-tickets.md` working file for later review or ticket filing.
+
+**Prerequisites:** None -- can be triggered at any point during a session.
+
+**Phases:**
+
+1. **Intake.** Agent asks clarifying questions to understand the friction.
+2. **Capture.** When the developer is ready, agent writes a structured suggestion to the working file for review and iteration.
+3. **Ticket filing (optional).** When the developer is ready, agent files suggestions as GitHub issues on `ai-dev-process`:
+   1. Agent checks GitHub MCP access, converts suggestions to issue drafts (applying confidentiality rules to strip project-specific details), and assigns labels from the repo's existing label set.
+   2. Developer reviews drafts in the working file. Can edit, remove, or add drafts. Iterates until satisfied.
+   3. Agent creates approved issues via MCP and records issue numbers in the working file.
 
 ### Update installation (`ai-dev-process-update-installation`)
 
@@ -219,6 +239,7 @@ This repo is typically maintained with an LLM. When you ask an LLM to make chang
 - `README.md` (this file)
 - `maintain-ai-dev-process.md` (LLM maintainer runbook)
 - `maintain-retro.md` (post-change checklist to ensure nothing was forgotten)
+- `maintain-tickets.md` (work through process improvement tickets labeled `agent ready`)
 
 ### LLM-assisted change workflow (recommended)
 

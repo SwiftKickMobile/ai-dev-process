@@ -90,13 +90,37 @@
     {
       "id": "guide.dev-retro",
       "type": "guide",
-      "sourcePath": "Guides/dev-retro.md",
+      "sourcePath": "Guides/Process/dev-retro.md",
       "tags": ["core"]
     },
     {
       "id": "guide.update-installation",
       "type": "guide",
-      "sourcePath": "Guides/update-installation-guide.md",
+      "sourcePath": "Guides/Core/update-installation-guide.md",
+      "tags": ["core"]
+    },
+    {
+      "id": "guide.process-improvement-tickets",
+      "type": "guide",
+      "sourcePath": "Guides/Process/process-improvement-tickets.md",
+      "tags": ["core"]
+    },
+    {
+      "id": "guide.report-process-problem",
+      "type": "guide",
+      "sourcePath": "Guides/Process/report-process-problem.md",
+      "tags": ["core"]
+    },
+    {
+      "id": "skill.ai-dev-process-report-process-problem",
+      "type": "skill",
+      "sourcePath": "Templates/skills/ai-dev-process-report-process-problem/SKILL.md",
+      "tags": ["adapter:cursor", "adapter:claude-code"]
+    },
+    {
+      "id": "guide.ticket-implementation",
+      "type": "guide",
+      "sourcePath": "maintain-tickets.md",
       "tags": ["core"]
     },
     {

@@ -27,7 +27,7 @@ When you change assets, keep these in sync:
   - add/move/rename assets here
   - keep `id` stable when possible
 - `README.md`
-  - update the file-level Asset inventory for developer-facing guides
+  - update the Usage section for developer-facing skills (see "README Usage section conventions" below)
 - `CHANGELOG.md`
   - add an entry under "Unreleased" for user-visible changes (prefix each line item with the date, `YYYY-MM-DD`)
   - always determine the date by running `date +%Y-%m-%d` in the terminal (see `Install/managed-header.md`, "Determining today's date")
@@ -41,6 +41,34 @@ When you change assets, keep these in sync:
    - All adapter runbooks write `docs/ai-dev-process/install-state.json` on successful completion.
    - The `update-installation` skill reads this file to determine which adapters to re-run and what SHA was last applied.
    - If you add a new adapter runbook, ensure it writes/merges its entry into this file.
+
+## Guides/ subdirectory convention
+
+All guides live under a topical subdirectory within `Guides/`. Do not place guides at the `Guides/` top level.
+
+| Subdirectory | Purpose |
+|---|---|
+| `Core/` | Cross-cutting foundations: debugging, working-doc conventions, update installation |
+| `Spec/` | Work spec creation and implementation |
+| `Test/` | Unit testing (planning, infrastructure, writing) |
+| `Process/` | Retro, process problem reporting, ticket creation |
+
+When adding a new guide, place it in the most appropriate existing subdirectory. If none fits, propose a new subdirectory and document it here.
+
+## README Usage section conventions
+
+The Usage section documents each **skill** (not sub-processes or internal maintenance workflows). Each entry follows this format:
+
+1. Heading: `### <Human-readable name> (<skill-name>)`
+2. One-paragraph description of what the workflow does.
+3. **Prerequisites:** what's needed before starting.
+4. **Phases:** numbered list of the workflow's phases. Each phase is one line: `<number>. **<Phase name>.** <What happens>.`
+   - If a phase has sub-steps, use a numbered sub-list under the phase.
+   - If an entire phase is optional, mark it `(optional)` in the phase name.
+
+Do not add entries for:
+- Sub-processes that are invoked by other skills (e.g., the ticket filing guide is a sub-process of the retro and report-process-problem skills -- it appears as phases within those entries, not as its own heading).
+- Internal maintenance workflows (e.g., `maintain-tickets.md` -- these belong in the Development guide section).
 
 ## Content rules (project goals)
 

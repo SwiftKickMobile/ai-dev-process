@@ -7,5 +7,5 @@ description: Updates the ai-dev-process submodule and re-runs installed adapter 
 
 ## Instructions
 
-- Read `Submodules/ai-dev-process/Guides/update-installation-guide.md` and follow its procedure.
+- Read `Submodules/ai-dev-process/Guides/Core/update-installation-guide.md` and follow its procedure.
 - If the install state file is missing, STOP and tell the human to run the initial install first.
