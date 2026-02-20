@@ -59,6 +59,14 @@ Next Command followed by `auto` (e.g., `"next auto"`) -- Auto-advances through a
 - Simple compilation errors
 - Minor API mismatches between spec and implementation
 
+**Never auto-fix (always stop and ask):**
+- Removing, weakening, or changing any requirement in the work spec
+- Changing the architectural approach (e.g., predicate-based filtering → in-memory filtering)
+- Dropping indexes, constraints, or schema elements the spec called for
+- Any change where the spec said X and you are implementing not-X
+
+**Bright-line test:** If your fix requires editing the work spec to remove or weaken a requirement or design decision, STOP. That is a spec deviation, not a fix -- it requires human input regardless of how obvious the alternative seems.
+
 **Final report includes:**
 - Tasks completed (🟡 removed)
 - Tasks remaining (with 🟡) and reasons why they were skipped
