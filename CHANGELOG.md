@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- 2026-02-20 **README Quick start: GitHub MCP server setup (step 3, optional).** Added setup instructions for a GitHub MCP server to enable process improvement ticket workflows. Includes the shared JSON config format and file locations for Cursor and Claude Code.
 - 2026-02-20 **Maintainer runbook: Guides/ subdirectory convention and README Usage section conventions.** Added two new sections to `maintain-ai-dev-process.md`: (1) documents the `Guides/` subdirectory structure (`Core/`, `Spec/`, `Test/`, `Process/`) so future LLMs know where to place new guides; (2) documents the README Usage section format (skill-per-heading, phases with sub-steps, what belongs vs. what doesn't) to prevent deviation from established conventions.
 - 2026-02-20 **Reorganized Guides/ into consistent subdirectories.** All guides now live under a topical subdirectory: `Spec/` (work specs), `Test/` (unit testing), `Process/` (retro, process problem reporting, ticket creation), `Core/` (debugging, working-doc conventions, update installation). No top-level orphans remain.
 - 2026-02-20 **Report process problem guide and skill (`Guides/report-process-problem.md`, `ai-dev-process-report-process-problem`).** Ad-hoc intake for process friction or improvement ideas outside of a retro. Agent helps the developer articulate the problem, captures it in the `process-tickets.md` working file, and hands off to the ticket creation flow when ready.

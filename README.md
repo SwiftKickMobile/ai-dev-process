@@ -72,6 +72,30 @@ Paste ONE of these prompts into your agent chat (from the host repo root).
 > - Use `docs/ai-dev-process/integration.md` as the project-owned Integration doc and migrate any legacy build/test command notes into it (do not delete legacy files unless I explicitly approve).
 > - Only overwrite files that contain the managed header (`Managed-By: ai-dev-process`). Treat lookalike files without the header as legacy candidates.
 
+### 3) Set up a GitHub MCP server (optional)
+
+Some workflows (process improvement ticket filing, ticket implementation) require a GitHub MCP server to create and manage GitHub issues. If you don't need these workflows, skip this step.
+
+Add a GitHub MCP server to your IDE's MCP configuration with a personal access token that has repo issue permissions. The JSON format is the same across IDEs:
+
+```json
+{
+  "mcpServers": {
+    "github": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-github"],
+      "env": {
+        "GITHUB_PERSONAL_ACCESS_TOKEN": "<your-token>"
+      }
+    }
+  }
+}
+```
+
+**Config file locations:**
+- Cursor: `.cursor/mcp.json` (project-level) or `~/.cursor/mcp.json` (global)
+- Claude Code: `~/.claude.json`
+
 ## How installs stay safe
 
 - **Integration doc (project-owned)**: `docs/ai-dev-process/integration.md` is the single source of truth for project-specific commands/paths (build/test/lint/etc). Templates live in `Templates/`.
