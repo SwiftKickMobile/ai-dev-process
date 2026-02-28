@@ -13,9 +13,11 @@ Goal: prevent "guessing fixes" loops by using evidence, clear tactics, and expli
 This guide follows the shared process-flow mechanics in `Guides/Core/process-flow.md` (checkpoints, advance intent, `auto`, and the standard gate line).
 
 Workflow-specific gate points (this guide must STOP and wait at these checkpoints):
-- Before running an experiment: present facts + possibility-space partition + chosen tactic + proposed discriminating experiment for approval.
-- After an experiment: present conclusions and updated possibility space for approval before proceeding.
-- Before declaring a root cause and before applying a fix: present the root cause and proposed fix and get explicit approval.
+- Before running an experiment (pre-experiment): present facts + possibility-space partition (2-4) + chosen tactic + proposed discriminating experiment for approval.
+- After an experiment (post-experiment): present results + conclusions + updated possibility space + recommended next experiment for approval.
+- Before declaring a root cause (root cause): present the root cause statement and why it cannot be further partitioned for approval.
+- Before applying a fix (fix): present the proposed fix (or fix options) and the expected evidence of success for approval.
+- Before concluding (verify/close): present verification results plus any log cleanup/undo of experiment scaffolding for approval to conclude.
 
 ## Required mindset
 
@@ -82,12 +84,21 @@ Partition quality bar:
   - Identify the first change that introduces the issue.
 
 - **Bisection**
-  - Runtime bisection using feature flags/config toggles.
-  - `git bisect` when the bug is a regression with a known commit range.
+  - Use when you can define an approximate notion of "distance" and systematically move in ~half-steps rather than making tiny one-at-a-time changes.
+  - Preferred: a deterministic reproducer (unit test / small harness) so each iteration is cheap.
+  - When using a git-based bisection workflow (temporary branch), read `Guides/Core/debugging-tactic-code-bisection.md` before starting.
 
 - **Minimal harness**
-  - Create a deterministic reproducer (unit test, small harness, or minimal sample).
-  - Goal: "repro on demand" so experiments are cheap.
+  - Create a deterministic reproducer (unit test, small harness, or minimal sample) so experiments are cheap.
+  - Recipe (high-level):
+    1. Pick the smallest surface area that still exhibits the symptom.
+    2. Freeze inputs and eliminate external dependencies.
+    3. Make the run fast and deterministic.
+    4. Use it as the experiment runner for subsequent tactics (logging, bisection, invariants).
+
+- **Prior-art research**
+  - Use only after the possibility space is narrowed to a specific library/framework/component or a clear error signature.
+  - Output contract: summarize 2-3 candidate explanations and map each to a discriminating experiment in this codebase (do not jump to fixes).
 
 - **Invariants & assertions**
   - Define what must be true; add temporary asserts/guards to fail at the first invalid state.
@@ -124,8 +135,8 @@ Checkpoint: STOP and get explicit approval before declaring a root cause or appl
 
 ## Log hygiene
 
-- Remove or disable temporary logs once the investigation is complete.
-- Keep logs focused on the current hypothesis.
+- Remove or disable temporary logs once an experiment is complete and the hypothesis is eliminated.
+- If a temporary log remains useful for the next iteration, keep it, but keep the set small and hypothesis-focused.
 - Avoid log spam: prefer logging state changes, not every read.
 
 ## Stop conditions (consult human)

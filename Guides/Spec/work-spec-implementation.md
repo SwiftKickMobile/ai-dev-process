@@ -2,7 +2,7 @@ Managed-By: ai-dev-process
 Managed-Id: guide.work-spec-implementation
 Managed-Source: Guides/Spec/work-spec-implementation.md
 Managed-Adapter: repo-source
-Managed-Updated-At: 2026-02-27
+Managed-Updated-At: 2026-02-28
 
 
 # Work Task Development Rules
@@ -100,10 +100,19 @@ When implementing Task N:
 
 ### Step 2: Implement Current Task
 - Read the task requirements carefully
+- Treat the task's **"Done when:"** line (if present) as the stable completion criteria for the task.
 - **Refer to the Requirements Inventory**: Each subtask cites requirement IDs (e.g., `DOC-01`, `VALID-02`). Use these to find the full requirement text and ensure the implementation satisfies it.
 - Implement all code changes needed
-- Test for linter errors if applicable
-- **Update work spec if implementation differs from plan** (API names, file locations, etc.)
+- Run verification subtasks and capture evidence:
+  - Use project-specific commands/paths from `docs/ai-dev-process/integration.md` (do not invent commands).
+  - Record evidence inline on the verification subtask line using an evidence bracket.
+    - Format: `[evidence: <command variant>; exit <code>; output: <optional link(s)>]`
+    - On failure: persist full output to a file under `working-docs/<branch-path>/work-spec/<spec-name>/evidence/` (or the workflow-specific location if one exists) and link it.
+    - On success: linked output is optional; still record command variant and exit code.
+- If implementation differs from the spec (spec deviation):
+  - STOP and propose a spec amendment (exact text change) for approval.
+  - Only after approval: update the work spec, then proceed.
+  - Never silently edit the spec after the fact to justify an already-made deviation.
 
 ### Step 2.5: Stop on Ambiguity
 If you encounter ambiguity, incompleteness, or potential errors in the spec during implementation:

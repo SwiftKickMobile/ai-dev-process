@@ -10,5 +10,5 @@ description: Runs the ai-dev-process maintenance retro as a completeness backsto
 - Read `maintain-retro.md` and follow it.
 - Fix straightforward misses in-repo immediately (stale paths, missing changelog bullets, missing manifest entries), then output only:
   - what you fixed and any remaining follow-ups, or
-  - “Maintenance retro complete; no misses found.”
+  - "Maintenance retro complete; no misses found."
 

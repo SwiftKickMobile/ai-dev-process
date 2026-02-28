@@ -52,6 +52,10 @@ This retro is a **backstop for completeness**, not a git/diff report.
 
 - Search for stale paths (e.g. old install target directories) and update all occurrences.
 - Ensure new files referenced by runbooks exist at those paths.
+- If you added or substantially edited any files under `Guides/`:
+  - Verify each changed/new guide has a managed header.
+  - Verify it has a `## Checkpoints` section if it contains any STOP points/gates, and that it references `Guides/Core/process-flow.md`.
+  - Search for terminology drift (e.g., "Next Command") and fix to "advance intent".
 - If a new skill was added or changed: verify the skill template is a **thin wrapper** (just references to Guides), not a self-contained document with inline logic. All substantive instructions must live in a Guide under `Guides/`.
 - Spot-check changed files for smart/curly quotes (`"` `"` `'` `'`) and Unicode dashes (en-dash, em-dash). All repo content must use ASCII equivalents (see `maintain-ai-dev-process.md`, "Content rules"). If found, normalize them.
 

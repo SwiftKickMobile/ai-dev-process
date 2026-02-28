@@ -59,6 +59,23 @@ All guides live under a topical subdirectory within `Guides/`. Do not place guid
 
 When adding a new guide, place it in the most appropriate existing subdirectory. If none fits, propose a new subdirectory and document it here.
 
+## Guide change checklist (process-flow aligned house style)
+
+Whenever you add a new file under `Guides/` (or make a substantial edit to an existing guide):
+
+- **Managed header**: file must include the managed header (`Managed-By`, `Managed-Id`, `Managed-Source`, `Managed-Adapter`, `Managed-Updated-At`).
+- **Process-flow alignment**:
+  - If the guide has any STOP points / gates, include a `## Checkpoints` section near the top that:
+    - references `Guides/Core/process-flow.md` for shared mechanics
+    - enumerates this guide's workflow-specific gates
+    - states that checkpoint outputs must end with the standard `⏳ GATE:` line (by reference; do not restate the variants)
+- **Terminology**: use "advance intent" (never "Next Command").
+- **Lean core, deep links**: keep core guides concise; if a tactic/procedure is detailed and rarely used, place it in a dedicated guide/appendix and link to it from the core guide.
+- **Sanity scan**: after editing, search for:
+  - missing `## Checkpoints` in the changed guide (if it has gates)
+  - inconsistent terms ("Next Command")
+  - stack-mismatched references (e.g., Xcode terms in Android-only sections)
+
 ## README Usage section conventions
 
 The Usage section documents each **skill** (not sub-processes or internal maintenance workflows). Each entry follows this format:

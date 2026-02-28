@@ -2,7 +2,7 @@ Managed-By: ai-dev-process
 Managed-Id: guide.work-spec
 Managed-Source: Guides/Spec/work-spec-creation.md
 Managed-Adapter: repo-source
-Managed-Updated-At: 2026-02-27
+Managed-Updated-At: 2026-02-28
 
 # Work Specification Guide
 
@@ -376,12 +376,15 @@ Include a short mapping section that ensures every requirement is implemented or
 
 ```markdown
 1. **Task Name** 🟡
-   1. Sub-task description (REQ-ID)
-   2. Sub-task description (REQ-ID)
-   3. Sub-task description (REQ-ID)
+   - **Done when:** [Short, stable completion criteria]
+   - **Implementation**
+     1. Sub-task description (REQ-ID)
+     2. Sub-task description (REQ-ID)
+   - **Verification**
+     3. Run <command(s)> and define what "pass" means (REQ-ID) [evidence: ...]
 ```
 
-Sub-tasks use indented numbered lists. Referencing "1.2" means task 1, sub-task 2 -- the nesting is implied by indentation.
+Sub-tasks use indented numbered lists. Number subtasks sequentially across the task (including Verification). Referencing "1.2" means task 1, sub-task 2 -- the nesting is implied by indentation.
 
 **Progress Indicators:**
 - 🟡 = TODO (task not yet complete)
@@ -403,6 +406,8 @@ Tasks are created with 🟡 and the 🟡 is removed when complete.
 - Each task should be implementable in a single focused session
 - Break large tasks into smaller, manageable pieces
 - Aim for 3-6 sub-tasks per main task
+- Default expectation: each top-level task leaves the codebase in a runnable state for its verification whenever practical (build/tests).
+  - Allowed exception (explicit in the work spec): **Refactor tranche** -- a small sequence of top-level tasks that may temporarily break compilation, but must end with a **Green Gate** task/subtask that restores compilation and runs the relevant verification commands.
 
 ### Task Dependencies
 - Order tasks logically based on dependencies
@@ -429,6 +434,13 @@ Tasks are created with 🟡 and the 🟡 is removed when complete.
 - Validating data flow
 - Checking for linter errors
 - Confirming expected behavior
+  - Verification subtasks are mandatory for each top-level task (build/test/lint as applicable).
+  - Source of truth for project-specific commands/paths is `docs/ai-dev-process/integration.md` (do not invent commands).
+  - Evidence must be captured inline on the verification subtask line using an evidence bracket:
+    - Format: `[evidence: <command variant>; exit <code>; output: <optional link(s)>]`
+    - Example: `[evidence: <command>; exit 0; output: [output](working-docs/<branch-path>/work-spec/<spec-name>/evidence/<slug>.txt)]`
+    - On failure: persist full output to a file and link it.
+    - On success: a linked output file is optional; still record command variant and exit code inline.
 
 ## What to Exclude
 
@@ -547,18 +559,30 @@ Rules:
 ## Task List
 
 1. **[Task Name]** 🟡
-   1. [Specific sub-task] (CAT-A-01)
-   2. [Specific sub-task] (CAT-A-02, CAT-B-01)
-   3. [Specific sub-task] (DEFER-01 if deferring something explicitly)
+   - **Done when:** [Behavioral + verification-based completion criteria]
+   - **Implementation**
+     1. [Specific sub-task] (CAT-A-01)
+     2. [Specific sub-task] (CAT-A-02, CAT-B-01)
+     3. [Specific sub-task] (DEFER-01 if deferring something explicitly)
+   - **Verification**
+     4. [Run command(s) from integration doc; define "pass"] (CAT-A-01) [evidence: exit 0; output: [log](working-docs/<branch-path>/work-spec/<spec-name>/evidence/<slug>.txt)]
 
 2. **[Task Name]** 🟡
-   1. [Specific sub-task] (CAT-A-01)
-   2. [Specific sub-task] (CAT-B-01)
+   - **Done when:** [Behavioral + verification-based completion criteria]
+   - **Implementation**
+     1. [Specific sub-task] (CAT-A-01)
+     2. [Specific sub-task] (CAT-B-01)
+   - **Verification**
+     3. [Run command(s) from integration doc; define "pass"] (CAT-B-01) [evidence: exit 0; output: [log](working-docs/<branch-path>/work-spec/<spec-name>/evidence/<slug>.txt)]
 
 3. **[Task Name]** 🟡
-   1. [Specific sub-task] (CAT-A-02)
-   2. [Specific sub-task] (CAT-A-02)
-   3. [Specific sub-task] (CAT-B-01)
+   - **Done when:** [Behavioral + verification-based completion criteria]
+   - **Implementation**
+     1. [Specific sub-task] (CAT-A-02)
+     2. [Specific sub-task] (CAT-A-02)
+     3. [Specific sub-task] (CAT-B-01)
+   - **Verification**
+     4. [Run command(s) from integration doc; define "pass"] (CAT-A-02) [evidence: exit 0; output: [log](working-docs/<branch-path>/work-spec/<spec-name>/evidence/<slug>.txt)]
 
 ## Traceability
 - CAT-A-01 → Tasks 1, 2
