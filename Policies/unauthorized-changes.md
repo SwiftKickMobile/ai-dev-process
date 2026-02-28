@@ -1,3 +1,9 @@
+Managed-By: ai-dev-process
+Managed-Id: policy.unauthorized-changes
+Managed-Source: Policies/unauthorized-changes.md
+Managed-Adapter: repo-source
+Managed-Updated-At: 2026-02-28
+
 # Do NOT Make Unauthorized Changes
 
 Do not make code changes during discussion or troubleshooting unless explicitly authorized by the user. This rule applies especially when:
@@ -16,6 +22,8 @@ Exception: when the user explicitly requests the change (e.g., "make this change
 "Explicit authorization" means the human clearly instructs the agent to make code changes now (an imperative request to implement/modify), not merely to analyze, explain, or suggest.
 
 If the user intent could plausibly be interpreted as discussion/troubleshooting, treat it as NOT authorized and STOP to ask: "Do you want me to implement this change?"
+
+If operating inside an `ai-dev-process` workflow with checkpoints: treat authorization to proceed as valid only at a checkpoint, with the standard `⏳ GATE:` line (see `Guides/Core/process-flow.md`). Do not infer execution approval from collaborative phrasing outside a gate.
 
 ### Authorized examples (code changes allowed)
 
@@ -41,6 +49,8 @@ If the user intent could plausibly be interpreted as discussion/troubleshooting,
 - "Maybe change Y?"
 - "Should we do Z?"
 - "Let's do X next." (without a clear "implement" instruction)
+- "We should do X."
+- "We'll knock this out."
 
 ### Special case: debugging/logging and other "small" edits
 

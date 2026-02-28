@@ -43,9 +43,27 @@ The goal is to implement cohesive improvements (one phase at a time), not blindl
 Rules:
 - Create or update a working planning document at `working-docs/ticket-planning.md`.
 - Read all ready tickets, then bucket them by common theme.
+- Reconcile before proceeding: ensure every open issue labeled `agent ready` is represented in the planning document (listed under exactly one phase, with overlaps as needed). If any are missing, add them before moving on.
 - Treat the buckets as **execution phases** (Phase A, Phase B, etc.). Implement one phase fully before moving to the next.
 - Capture overlaps explicitly so changes that touch the same area are coordinated.
 - Seed each phase with proposals and 🟡 open items, and replace 🟡 inline as the human approves decisions (follow the planning protocol in `Guides/Spec/work-spec-creation.md`).
+- Bucket content requirements (each phase must include):
+  - Ticket lists include links: every ticket must be listed as a markdown link to the GitHub issue (not just `#123`).
+  - For each ticket, paraphrase:
+    - friction/problem (what is going wrong)
+    - suggestion (what it proposes changing)
+    - anything else of note (e.g., affected files, constraints, overlaps)
+  - Keep paraphrases concise (1-3 bullets per ticket). Do not paste the full ticket body.
+
+Format example:
+
+```
+Primary tickets:
+- [#20 Hard prohibition on destructive git operations without explicit human approval](https://github.com/<owner>/<repo>/issues/20)
+  - Friction: agent ran a destructive git command without permission and destroyed uncommitted work.
+  - Suggestion: hard rule requiring explicit approval for destructive git commands, with scope/warning requirements.
+  - Notes: should live in policy for universal enforcement.
+```
 
 Skip condition (optional):
 - If there are only 1-2 tickets and they are obviously independent, you may skip bucketing and implement directly.
@@ -62,6 +80,8 @@ Checkpoint: STOP after updating `working-docs/ticket-planning.md` and wait for a
 - If you are at a phase boundary (e.g., "move on to Phase D"): advance intent means "initialize the next phase's discussion content" in `working-docs/ticket-planning.md` (seed proposals/questions/🟡 under that phase) and then STOP at the phase-start checkpoint.
 - If you are ready to implement a phase (phase discussion resolved): advance intent means "propose the concrete file-change plan for the phase" and STOP for approval before making repo changes.
 - If you just finished implementing a phase: advance intent means "proceed to the next phase" (or conclude if no more phases remain).
+
+Authorization recognition: see `Guides/Core/process-flow.md` ("Authorization recognition (gate-bound)").
 
 ### Advance intent + `auto`
 

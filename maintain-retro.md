@@ -52,6 +52,7 @@ This retro is a **backstop for completeness**, not a git/diff report.
 
 - Search for stale paths (e.g. old install target directories) and update all occurrences.
 - Ensure new files referenced by runbooks exist at those paths.
+- README link check: when `README.md` references a file or directory within this repo, ensure it is a markdown link (clickable in the browser), not just a bare backticked path.
 - If you added or substantially edited any files under `Guides/`:
   - Verify each changed/new guide has a managed header.
   - Verify it has a `## Checkpoints` section if it contains any STOP points/gates, and that it references `Guides/Core/process-flow.md`.

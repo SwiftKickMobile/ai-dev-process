@@ -41,7 +41,7 @@ Paste ONE of these prompts into your agent chat (from the host repo root).
 >
 > - If the `Submodules/ai-dev-process` submodule is missing, add it there.
 > - Do a discovery pass first, then propose a migration plan, then WAIT for approval before writing.
-> - Use `docs/ai-dev-process/integration.md` as the project-owned Integration doc and migrate any legacy build/test command notes into it (do not delete legacy files unless I explicitly approve).
+> - Use `docs/ai-dev-process/integration.md` ([`docs/ai-dev-process/integration.md`](docs/ai-dev-process/integration.md)) as the project-owned Integration doc and migrate any legacy build/test command notes into it (do not delete legacy files unless I explicitly approve).
 > - Only overwrite files that contain the managed header (`Managed-By: ai-dev-process`). Treat lookalike files without the header as legacy candidates.
 
 #### JetBrains (IntelliJ IDEA) + Claude Code prompt
@@ -50,7 +50,7 @@ Paste ONE of these prompts into your agent chat (from the host repo root).
 >
 > - If the `Submodules/ai-dev-process` submodule is missing, add it there.
 > - Do a discovery pass first, then propose a migration plan, then WAIT for approval before writing.
-> - Use `docs/ai-dev-process/integration.md` as the project-owned Integration doc and migrate any legacy build/test command notes into it (do not delete legacy files unless I explicitly approve).
+> - Use `docs/ai-dev-process/integration.md` ([`docs/ai-dev-process/integration.md`](docs/ai-dev-process/integration.md)) as the project-owned Integration doc and migrate any legacy build/test command notes into it (do not delete legacy files unless I explicitly approve).
 > - Only overwrite files that contain the managed header (`Managed-By: ai-dev-process`). Treat lookalike files without the header as legacy candidates.
 
 #### Xcode (MCP-hosted) + Claude Code prompt (EXPERIMENTAL)
@@ -59,7 +59,7 @@ Paste ONE of these prompts into your agent chat (from the host repo root).
 >
 > - If the `Submodules/ai-dev-process` submodule is missing, add it there.
 > - Do a discovery pass first, then propose a migration plan, then WAIT for approval before writing.
-> - Use `docs/ai-dev-process/integration.md` as the project-owned Integration doc and migrate any legacy build/test command notes into it (do not delete legacy files unless I explicitly approve).
+> - Use `docs/ai-dev-process/integration.md` ([`docs/ai-dev-process/integration.md`](docs/ai-dev-process/integration.md)) as the project-owned Integration doc and migrate any legacy build/test command notes into it (do not delete legacy files unless I explicitly approve).
 > - Only overwrite files that contain the managed header (`Managed-By: ai-dev-process`). Treat lookalike files without the header as legacy candidates.
 > - This runbook is experimental: if any Xcode+MCP assumption doesn't match this repo's setup, STOP and ask me what convention to use.
 
@@ -69,7 +69,7 @@ Paste ONE of these prompts into your agent chat (from the host repo root).
 >
 > - If the `Submodules/ai-dev-process` submodule is missing, add it there.
 > - Do a discovery pass first, then propose a migration plan, then WAIT for approval before writing.
-> - Use `docs/ai-dev-process/integration.md` as the project-owned Integration doc and migrate any legacy build/test command notes into it (do not delete legacy files unless I explicitly approve).
+> - Use `docs/ai-dev-process/integration.md` ([`docs/ai-dev-process/integration.md`](docs/ai-dev-process/integration.md)) as the project-owned Integration doc and migrate any legacy build/test command notes into it (do not delete legacy files unless I explicitly approve).
 > - Only overwrite files that contain the managed header (`Managed-By: ai-dev-process`). Treat lookalike files without the header as legacy candidates.
 
 ### 3) Set up a GitHub MCP server (optional)
@@ -98,13 +98,13 @@ Add a GitHub MCP server to your IDE's MCP configuration with a personal access t
 
 ## How installs stay safe
 
-- **Integration doc (project-owned)**: `docs/ai-dev-process/integration.md` is the single source of truth for project-specific commands/paths (build/test/lint/etc). Templates live in `Templates/`.
-- **Managed files**: host-project files written by the installer have a required header (see `Install/managed-header.md`). The installer overwrites only files that already contain this header.
-- **Legacy installs**: lookalike files without the header are treated as **legacy candidates** and are not overwritten by default (see `Install/conflict-precedence-policy.md`).
+- **Integration doc (project-owned)**: [`docs/ai-dev-process/integration.md`](docs/ai-dev-process/integration.md) is the single source of truth for project-specific commands/paths (build/test/lint/etc). Templates live in [`Templates/`](Templates/).
+- **Managed files**: host-project files written by the installer have a required header (see [`Install/managed-header.md`](Install/managed-header.md)). The installer overwrites only files that already contain this header.
+- **Legacy installs**: lookalike files without the header are treated as **legacy candidates** and are not overwritten by default (see [`Install/conflict-precedence-policy.md`](Install/conflict-precedence-policy.md)).
 
 ## Integration document (how to use it)
 
-The Integration doc (`docs/ai-dev-process/integration.md`) is the **project-owned** place where `ai-dev-process` workflows get the concrete, copy/pasteable details they need to run deterministically (build/test commands, destinations, artifact paths, evidence expectations).
+The Integration doc ([`docs/ai-dev-process/integration.md`](docs/ai-dev-process/integration.md)) is the **project-owned** place where `ai-dev-process` workflows get the concrete, copy/pasteable details they need to run deterministically (build/test commands, destinations, artifact paths, evidence expectations).
 
 Why it matters:
 - It prevents agents from guessing project-specific constants (like `xcodebuild -destination` strings, scheme/test plan conventions, or where `.xcresult` / logs are stored).
@@ -120,7 +120,7 @@ How humans should fill it:
 
 ## IDE clutter / autocomplete (recommended)
 
-To reduce duplicate autocomplete/search results (submodule sources + installed assets), hide the submodule in your editor UI while keeping the submodule `README.md` visible.
+To reduce duplicate autocomplete/search results (submodule sources + installed assets), hide the submodule in your editor UI while keeping the submodule [`README.md`](README.md) visible.
 
 Example for Cursor/VS Code workspace settings (`.vscode/settings.json`):
 
@@ -162,16 +162,17 @@ After installation, workflows are available as **skills** that your agent activa
 
 **Agent note-taking and progress tracking.** The agent keeps structured notes so you can pick up where you left off:
 
-- Working documents (plans, specs, progress logs) are created in `working-docs/<branch-path>/`.
 - The agent uses **🟡** markers in working documents to flag TODOs, open questions, and items pending your approval (including "implemented but pending approval").
 - 🟡 markers should be individually updatable (use stable identifiers like task numbers, section names, or explicit IDs on the same line).
 - 🟡 markers are removed only when items are resolved and you give approval.
 
 **Retros on demand.** At any point you can ask the agent to **"retro"** to check for gaps, update documents, backfill requirements, and reflect on process.
 
-### Work spec creation (`ai-dev-process-work-spec-creation`)
+### Work spec creation (skill `ai-dev-process-work-spec-creation`)
 
 Structured planning and specification for complex features. Produces a planning document (design decisions, API sketch), normalized product requirements, and a work specification (tasks, subtasks, requirements traceability).
+
+- Guide [`Guides/Spec/work-spec-creation.md`](Guides/Spec/work-spec-creation.md)
 
 **Prerequisites:** Discuss the feature or problem with the agent in some detail before initiating the process -- scope, motivating use cases, architecture, solution approaches. A thorough upfront discussion produces a much higher quality first draft and minimizes iteration. A Jira ticket, feature request, or problem statement is a good starting point.
 
@@ -184,9 +185,11 @@ Structured planning and specification for complex features. Produces a planning 
 5. **Work spec first pass.** Agent writes top-level tasks only (no subtasks). Checkpoint: human reviews the task list.
 6. **Work spec second pass.** Agent adds subtasks, requirement IDs, and traceability mapping. Checkpoint: human reviews the completed work spec.
 
-### Work spec implementation (`ai-dev-process-work-spec-implementation`)
+### Work spec implementation (skill `ai-dev-process-work-spec-implementation`)
 
 Execute tasks from a completed work spec, one top-level task per cycle.
+
+- Guide [`Guides/Spec/work-spec-implementation.md`](Guides/Spec/work-spec-implementation.md)
 
 **Prerequisites:** A completed work spec.
 
@@ -194,9 +197,11 @@ Execute tasks from a completed work spec, one top-level task per cycle.
 
 1. **Implement next top-level task.** Agent implements all subtasks under Task N. Checkpoint: agent stops after finishing Task N and waits before moving to Task N+1.
 
-### Unit testing (`ai-dev-process-unit-testing`)
+### Unit testing (skill `ai-dev-process-unit-testing`)
 
 Plan-first testing workflow. The agent plans all tests upfront, then implements them one logical section at a time (e.g. "Success Tests", "Error Handling Tests"). Handles new test suites, additions to existing suites, and fixing failing tests.
+
+- Guides [`Guides/Test/unit-testing-guide.md`](Guides/Test/unit-testing-guide.md), [`Guides/Test/unit-test-planning-guide.md`](Guides/Test/unit-test-planning-guide.md), [`Guides/Test/unit-test-infrastructure-guide.md`](Guides/Test/unit-test-infrastructure-guide.md), [`Guides/Test/unit-test-writing-guide.md`](Guides/Test/unit-test-writing-guide.md)
 
 **Prerequisites:** Source code to test. Often triggered by a work spec task, but can be used independently.
 
@@ -208,21 +213,25 @@ Plan-first testing workflow. The agent plans all tests upfront, then implements 
 
 Phases 2-3 repeat for each section until none remain.
 
-### Debugging (`ai-dev-process-debugging`)
+### Debugging (skill `ai-dev-process-debugging`)
 
 Evidence-first problem resolution. Prevents "guessing fixes" loops by requiring observable evidence before drawing conclusions. The process defines a toolkit of effective strategies (targeted logging, possibility-space partitioning, minimal reproducers, bisection, invariant assertions) that guide the agent's debugging approach.
+
+- Guides [`Guides/Core/debugging-guide.md`](Guides/Core/debugging-guide.md), [`Policies/debugging-process-rule.md`](Policies/debugging-process-rule.md)
 
 **Prerequisites:** A bug, crash, or unexpected behavior to investigate. Provide whatever evidence you have (error messages, logs, screenshots, steps to reproduce).
 
 **Phases (repeating):**
 
-1. **Hypothesize and experiment.** Agent states the current possibility space, chooses a tactic, and proposes the smallest discriminating experiment. Checkpoints: before an experiment (approval), after an experiment (conclusions + updated possibility space), and before declaring root cause / applying a fix.
+1. **Hypothesize and experiment.** Agent states the current possibility space, chooses a tactic, and proposes the smallest discriminating experiment. Checkpoints: pre-experiment, post-experiment, root cause, fix, and verify/close.
 
 Repeats until the root cause is isolated.
 
-### Dev retro (`ai-dev-process-dev-retro`)
+### Dev retro (skill `ai-dev-process-dev-retro`)
 
 Completeness backstop that can be used at any point during any workflow. Reviews what has transpired since the last retro (or since session start), identifies gaps, reconciles plan drift, updates documentation, backfills requirements, and reflects on process.
+
+- Guide [`Guides/Process/dev-retro.md`](Guides/Process/dev-retro.md)
 
 **Prerequisites:** Work to review. The agent reads work specs, planning docs, evidence artifacts, and requirements produced since the last retro.
 
@@ -231,13 +240,15 @@ Completeness backstop that can be used at any point during any workflow. Reviews
 1. **Retro.** Agent performs the full checklist and reports findings with concrete follow-up suggestions. Checkpoint: agent stops after the retro output.
 2. **Process suggestions.** If the retro identifies process improvements, agent writes them to the `process-tickets.md` working file. Checkpoint: human reviews and refines suggestions.
 3. **Ticket filing (optional).** When the human is ready, agent files suggestions as GitHub issues on `ai-dev-process`:
-   1. Agent checks GitHub MCP access, converts suggestions to issue drafts (applying confidentiality rules to strip project-specific details), and assigns labels from the repo's existing label set.
+   1. Agent checks GitHub MCP access, converts suggestions to issue drafts (applying confidentiality rules to strip project-specific details), and assigns labels from the explicit label list in [`Guides/Process/process-improvement-tickets.md`](Guides/Process/process-improvement-tickets.md).
    2. Human reviews drafts in the working file. Can edit, remove, or add drafts. Iterates until satisfied.
    3. Agent creates approved issues via MCP and records issue numbers in the working file.
 
-### Report process problem (`ai-dev-process-report-process-problem`)
+### Report process problem (skill `ai-dev-process-report-process-problem`)
 
 Ad-hoc intake for process friction or improvement ideas outside of a retro. The agent helps the developer articulate the problem and captures it in the `process-tickets.md` working file for later review or ticket filing.
+
+- Guide [`Guides/Process/report-process-problem.md`](Guides/Process/report-process-problem.md)
 
 **Prerequisites:** None -- can be triggered at any point during a session.
 
@@ -246,28 +257,36 @@ Ad-hoc intake for process friction or improvement ideas outside of a retro. The 
 1. **Intake.** Agent asks clarifying questions to understand the friction. Checkpoint: wait for the developer to say they are ready to capture the suggestion.
 2. **Capture.** When the developer is ready, agent writes a structured suggestion to the working file for review and iteration. Checkpoint: human reviews the entry.
 3. **Ticket filing (optional).** When the developer is ready, agent files suggestions as GitHub issues on `ai-dev-process`:
-   1. Agent checks GitHub MCP access, converts suggestions to issue drafts (applying confidentiality rules to strip project-specific details), and assigns labels from the repo's existing label set.
+   1. Agent checks GitHub MCP access, converts suggestions to issue drafts (applying confidentiality rules to strip project-specific details), and assigns labels from the explicit label list in [`Guides/Process/process-improvement-tickets.md`](Guides/Process/process-improvement-tickets.md).
    2. Developer reviews drafts in the working file. Can edit, remove, or add drafts. Iterates until satisfied.
    3. Agent creates approved issues via MCP and records issue numbers in the working file.
 
-### Update installation (`ai-dev-process-update-installation`)
+### Update installation (skill `ai-dev-process-update-installation`)
 
 Check for upstream `ai-dev-process` updates, review what changed, and re-run adapter runbooks.
 
-**Prerequisites:** An existing installation (`docs/ai-dev-process/install-state.json` must exist from the initial install).
+- Guide [`Guides/Core/update-installation-guide.md`](Guides/Core/update-installation-guide.md)
+
+**Prerequisites:** An existing installation ([`docs/ai-dev-process/install-state.json`](docs/ai-dev-process/install-state.json) must exist from the initial install).
 
 **Phases:**
 
 1. **Check and report.** Agent checks for upstream changes, pulls the latest, and presents the changelog delta. Checkpoint: human acknowledges before any runbooks are re-run.
 2. **Re-run adapters.** Agent re-runs each installed adapter's install/update runbook to pick up new or changed assets.
 
+### Working documents
+
+- Working documents (plans, specs, progress logs) live under [`working-docs/`](working-docs/) and are organized by your current git branch.
+- `<branch-path>` is the current branch name, with `/` decomposed into nested folders (so `feature/foo` becomes `feature/foo/`).
+- Working docs are ephemeral and typically git-ignored.
+
 ## Development guide (for contributors)
 
 This repo is typically maintained with an LLM. When you ask an LLM to make changes, point it at:
-- `README.md` (this file)
-- `maintain-ai-dev-process.md` (LLM maintainer runbook)
-- `maintain-retro.md` (post-change checklist to ensure nothing was forgotten)
-- `maintain-tickets.md` (work through process improvement tickets labeled `agent ready`)
+- [`README.md`](README.md) (this file)
+- [`maintain-ai-dev-process.md`](maintain-ai-dev-process.md) (LLM maintainer runbook)
+- [`maintain-retro.md`](maintain-retro.md) (post-change checklist to ensure nothing was forgotten)
+- [`maintain-tickets.md`](maintain-tickets.md) (work through process improvement tickets labeled `agent ready`)
 
 ### LLM-assisted change workflow (recommended)
 
@@ -284,8 +303,8 @@ This repo is typically maintained with an LLM. When you ask an LLM to make chang
 
 - Keep sources in this repo **IDE-neutral** (`.md`). IDE-specific outputs are generated into host repos by install/update runbooks.
 - If you add/move/rename an asset, update:
-  - `assets.manifest.json`
-  - `README.md` Usage section (developer-facing guides should be documented at file level)
-- Update `CHANGELOG.md` for user-visible changes.
-- Do not introduce scripts that mutate host repos; installers are LLM-runbook-driven and must follow the safety policies in `Policies/`.
+  - [`assets.manifest.json`](assets.manifest.json)
+  - [`README.md`](README.md) Usage section (developer-facing guides should be documented at file level)
+- Update [`CHANGELOG.md`](CHANGELOG.md) for user-visible changes.
+- Do not introduce scripts that mutate host repos; installers are LLM-runbook-driven and must follow the safety policies in [`Policies/`](Policies/).
 

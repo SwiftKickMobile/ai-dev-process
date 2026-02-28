@@ -2,7 +2,7 @@ Managed-By: ai-dev-process
 Managed-Id: guide.process-flow
 Managed-Source: Guides/Core/process-flow.md
 Managed-Adapter: repo-source
-Managed-Updated-At: 2026-02-27
+Managed-Updated-At: 2026-02-28
 
 # Process flow (core)
 
@@ -43,6 +43,15 @@ Advance intent is not a strict command. Common examples:
 
 If it is unclear whether the human is setting context or advancing an existing workflow, STOP and ask which one they intend.
 
+### Authorization recognition (gate-bound)
+
+Approval to proceed is recognized only at a checkpoint.
+
+Rules:
+- Treat phrases like "we should...", "let's...", or "we'll..." as context-setting (discussion intent), not approval to execute changes.
+- Treat "next", "do it", "go ahead", etc. as advance intent only when the agent is currently stopped at a checkpoint and the previous checkpoint output ended with the standard `⏳ GATE:` line.
+- If the agent is not currently at a checkpoint, do not infer authorization to execute work. Propose the concrete plan and STOP at a checkpoint first.
+
 ## `auto`
 
 `auto` means "advance intent, but bypass checkpoints".
@@ -78,6 +87,10 @@ This section applies only to ai-dev-process workflow documents (work specs, plan
 ### Marker update protocol (individual updates)
 
 Every 🟡 marker must be individually updatable via a stable identifier on the same line. Do not rely on line numbers.
+
+Do not propagate markers up the hierarchy:
+- Do NOT add 🟡 to a parent heading/ID line solely because it contains child bullets that have 🟡.
+- Only put 🟡 on the specific unresolved item line(s) (questions/proposals/tradeoffs) so the number of 🟡 markers reflects the true number of open items.
 
 Allowed stable identifiers (choose the best fit per artifact):
 - Work specs: task number + title line (e.g., `3. **Do thing** 🟡`)

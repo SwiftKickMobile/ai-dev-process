@@ -116,6 +116,9 @@ Work through the design collaboratively. The agent proposes design elements and 
 - Avoid over-granularity:
   - If a single proposal contains many sub-bullets, prefer one 🟡 marker on the proposal line rather than 🟡 on every sub-bullet.
   - Use per-sub-bullet 🟡 only when individual sub-items can be independently accepted/rejected or are likely to be worked in different iterations.
+- Do not propagate markers up the hierarchy:
+  - Do NOT put 🟡 on a topic heading (or parent bullet) solely because it contains child 🟡 items.
+  - Only mark the specific unresolved item line(s) with 🟡 so the marker count reflects true open items.
 - Organize the document by topic (natural structure). This is a hard requirement:
   - Do NOT create workflow-shaped sections like "Questions", "Discussion", or "Decisions".
   - Do NOT repeat the same topic across multiple sections ("Topic X" in Discussion and again in Questions).

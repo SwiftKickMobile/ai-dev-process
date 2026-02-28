@@ -2,6 +2,13 @@
 
 ## Unreleased
 
+- 2026-02-28 **README Usage: guide pointers + ticket labels.** Updated `README.md` Usage entries to point to the canonical guides/policies, clarify skill identifiers in headings, and match the explicit ticket label list behavior.
+- 2026-02-28 **Maintainer guidelines: README links and skill headings.** Updated `maintain-ai-dev-process.md` and `maintain-retro.md` to require README in-repo references to be clickable links and to match the current "(skill <name>)" heading convention.
+- 2026-02-28 **Authorization is gate-bound.** Updated `Guides/Core/process-flow.md`, `maintain-tickets.md`, and `Policies/unauthorized-changes.md` so collaborative language never implies execution approval; advance intent is only recognized at explicit `⏳ GATE:` checkpoints.
+- 2026-02-28 **Swift code organization: conflict STOP gate.** Updated `Policies/swift-code-organization.md` to require STOP + human direction when the policy conflicts with existing codebase conventions (no silent convention switching).
+- 2026-02-28 **Ticket sessions: reconcile agent-ready coverage.** Updated `maintain-tickets.md` to require a reconciliation check that all open `agent ready` issues are represented in the planning doc before proceeding.
+- 2026-02-28 **Ticket bucketing: links + paraphrases.** Updated `maintain-tickets.md` to require phase buckets to list ticket links and paraphrase friction/suggestion/notes for each ticket.
+- 2026-02-28 **🟡 marker discipline.** Updated `Guides/Core/process-flow.md` and `Guides/Spec/work-spec-creation.md` to forbid propagating 🟡 markers to parent headings just because child items are unresolved.
 - 2026-02-28 **Process tickets and retros: quality + labels.** Updated `Guides/Process/dev-retro.md` and `Guides/Process/process-improvement-tickets.md` to use a problem-first, solution-optional format (friction + evidence + failure mode; optional candidate approach/verification) and to use an explicit label list (no GitHub label discovery).
 - 2026-02-28 **Planning docs: topic-first organization.** Updated `Guides/Spec/work-spec-creation.md` to explicitly forbid workflow-shaped "Questions/Discussion/Decisions" sectioning and require topic-first inline 🟡 items that are replaced in place on approval.
 - 2026-02-28 **Ticket sessions: explicit phase checkpoints.** Updated `maintain-tickets.md` to add workflow checkpoints and define advance intent semantics at phase boundaries (phase start initializes discussion, implementation requires an approval gate).

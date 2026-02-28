@@ -1,3 +1,9 @@
+Managed-By: ai-dev-process
+Managed-Id: policy.swift-code-organization
+Managed-Source: Policies/swift-code-organization.md
+Managed-Adapter: repo-source
+Managed-Updated-At: 2026-02-28
+
 # Swift Code Organization (Swift-only)
 
 This is a stack-specific policy intended for Swift codebases.
@@ -62,4 +68,5 @@ Within each type, use `MARK` comments to organize code into sections.
 - 100% API types exempt from sections
 - `MARK` comments must have blank line after
 - Use `// MARK: - <name>` format exactly
+- If the policy conflicts with existing codebase conventions (e.g., a different section ordering or different `MARK` naming for protocol conformances), STOP and ask the human which convention to follow for this repo. Do not silently switch to “match the codebase” or “follow the policy” without an explicit decision.
 

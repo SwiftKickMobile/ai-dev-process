@@ -80,12 +80,15 @@ Whenever you add a new file under `Guides/` (or make a substantial edit to an ex
 
 The Usage section documents each **skill** (not sub-processes or internal maintenance workflows). Each entry follows this format:
 
-1. Heading: `### <Human-readable name> (<skill-name>)`
+1. Heading: `### <Human-readable name> (skill <skill-name>)` (no colon)
 2. One-paragraph description of what the workflow does.
 3. **Prerequisites:** what's needed before starting.
 4. **Phases:** numbered list of the workflow's phases. Each phase is one line: `<number>. **<Phase name>.** <What happens>.`
    - If a phase has sub-steps, use a numbered sub-list under the phase.
    - If an entire phase is optional, mark it `(optional)` in the phase name.
+
+Formatting rule:
+- When referencing a file or directory path within this repo in `README.md`, use a markdown link so humans can click it in the browser (do not leave bare backticked paths).
 
 Do not add entries for:
 - Sub-processes that are invoked by other skills (e.g., the ticket filing guide is a sub-process of the retro and report-process-problem skills -- it appears as phases within those entries, not as its own heading).
