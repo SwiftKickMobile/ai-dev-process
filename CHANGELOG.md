@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- 2026-02-28 **Process tickets and retros: quality + labels.** Updated `Guides/Process/dev-retro.md` and `Guides/Process/process-improvement-tickets.md` to use a problem-first, solution-optional format (friction + evidence + failure mode; optional candidate approach/verification) and to use an explicit label list (no GitHub label discovery).
+- 2026-02-28 **Planning docs: topic-first organization.** Updated `Guides/Spec/work-spec-creation.md` to explicitly forbid workflow-shaped "Questions/Discussion/Decisions" sectioning and require topic-first inline 🟡 items that are replaced in place on approval.
+- 2026-02-28 **Ticket sessions: explicit phase checkpoints.** Updated `maintain-tickets.md` to add workflow checkpoints and define advance intent semantics at phase boundaries (phase start initializes discussion, implementation requires an approval gate).
+- 2026-02-28 **Ticket sessions: phase completion closes tickets.** Updated `maintain-tickets.md` to treat marking a phase `Status: COMPLETE` as approval to close all tickets implemented in that phase.
 - 2026-02-28 **Hard prohibition on destructive operations.** Strengthened `Policies/safe-operations.md` with explicit approval requirements and a concrete list of destructive git operations (reset/clean/force push/history rewrite) plus non-git examples (file deletion, data resets).
 - 2026-02-28 **Ticket sessions: bucket into phases by default.** Updated `maintain-tickets.md` to require bucketing ready tickets into themed phases (implemented one phase at a time) before starting implementation (optional skip for 1-2 clearly independent tickets).
 - 2026-02-28 **Work spec phased planning.** Updated `Guides/Spec/work-spec-creation.md` to support optional phase sections where each phase has its own proposals/discussion, API sketch, requirements normalization, and work spec.

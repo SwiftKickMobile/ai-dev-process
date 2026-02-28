@@ -2,7 +2,7 @@ Managed-By: ai-dev-process
 Managed-Id: guide.dev-retro
 Managed-Source: Guides/Process/dev-retro.md
 Managed-Adapter: repo-source
-Managed-Updated-At: 2026-02-27
+Managed-Updated-At: 2026-02-28
 
 # Dev-session retro (LLM + human)
 
@@ -102,6 +102,17 @@ Reflect on the session since the last retro (or since session start). Consider:
 
 Output: 1-4 concrete suggestions (not vague observations). Each suggestion should name the specific file, doc, or artifact to create/update and what it should say. The human will decide which to act on.
 
+Suggestion quality bar (problem-first; solution optional):
+- Required for a ticket-worthy suggestion:
+  - **Friction/problem** (concrete)
+  - **Evidence/example** from the session (what happened)
+  - **Failure mode** it prevents (what goes wrong if this repeats)
+- Optional (only if confident):
+  - **Candidate approach** (direction, not a mandate)
+  - **Likely file(s)** to change (or "Unknown")
+  - **Verification plan** (how to know next time)
+- Hard rule: do not output suggestions that are purely abstract ("be more careful", "improve quality") without evidence and a verifiable check.
+
 If there are suggestions, write them to a working file following `Guides/Core/working-doc-conventions.md` (subpath: none, filename: `process-tickets.md`). Use this format for each suggestion:
 
 ```
@@ -110,11 +121,20 @@ If there are suggestions, write them to a working file following `Guides/Core/wo
 **Friction**
 <What was painful or suboptimal>
 
-**Suggestion**
-<What to change in ai-dev-process>
+**Evidence/example**
+<What happened in this session that shows the problem>
+
+**Failure mode**
+<What goes wrong if this repeats>
+
+**Candidate approach** (optional)
+<A possible fix direction, if confident>
 
 **Affected files**
 <Paths within the ai-dev-process repo, if known. "Unknown" is acceptable.>
+
+**Verification** (optional)
+<What to check next time to confirm it worked>
 ```
 
 This file will be used for iteration and, if the human chooses to file tickets, as the basis for issue drafts (see `Guides/Process/process-improvement-tickets.md`).

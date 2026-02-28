@@ -116,13 +116,27 @@ Work through the design collaboratively. The agent proposes design elements and 
 - Avoid over-granularity:
   - If a single proposal contains many sub-bullets, prefer one 🟡 marker on the proposal line rather than 🟡 on every sub-bullet.
   - Use per-sub-bullet 🟡 only when individual sub-items can be independently accepted/rejected or are likely to be worked in different iterations.
-- Organize the document by topic (natural structure).
-  - Do NOT create a global "Questions" section.
-  - Instead, place 🟡 items under the relevant topic headings where they belong.
+- Organize the document by topic (natural structure). This is a hard requirement:
+  - Do NOT create workflow-shaped sections like "Questions", "Discussion", or "Decisions".
+  - Do NOT repeat the same topic across multiple sections ("Topic X" in Discussion and again in Questions).
+  - Do NOT create "Decision" sub-sections (or "Decision:" labels). Decisions are expressed by replacing the unresolved text inline.
+  - Instead: each topic heading contains its own inline 🟡 questions/proposals/tradeoffs where they naturally belong.
 - When the human explicitly approves a resolution:
   - REPLACE the 🟡 item inline with the approved plan/requirement/decision text (no separate "Questions" section, no "approved" marker).
   - Do NOT remove 🟡 preemptively. Only replace when the human has explicitly decided.
 - The planning document is ready for the next stage when all 🟡 items have been replaced with approved content.
+
+**Anti-patterns (do not do this):**
+
+- "Questions" section + "Discussion" section + the same topic mentioned in both (duplicate content, multiple 🟡 markers for the same unresolved item).
+- "Decisions" section that mirrors earlier proposals/questions.
+- A topic described once as a proposal (🟡) and again elsewhere as a question (🟡) instead of being a single coherent entry.
+
+**Preferred pattern (topic-first, single source of truth):**
+
+- Write one section per topic.
+- Put the unresolved items (🟡) directly under that topic.
+- When approved, replace the unresolved line(s) in place with the approved requirement/decision text.
 
 **Recommended planning document shape (suggested, not required):**
 
@@ -134,6 +148,16 @@ Work through the design collaboratively. The agent proposes design elements and 
     - 🟡 items (questions/proposals/tradeoffs) inline
     - resolved items replaced inline with the approved text
     - any non-goals / deferrals (explicit)
+
+Example topic shape:
+
+- `## <Topic name>`
+  - Context: ...
+  - 🟡 Proposal: ...
+    - Option A: ...
+    - Option B: ...
+  - 🟡 Question: ...
+  - Approved: ... (after replacing 🟡 content inline)
 
 **Optional: phased planning documents (only when the plan is large):**
 

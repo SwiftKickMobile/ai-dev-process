@@ -2,7 +2,7 @@ Managed-By: ai-dev-process
 Managed-Id: guide.process-improvement-tickets
 Managed-Source: Guides/Process/process-improvement-tickets.md
 Managed-Adapter: repo-source
-Managed-Updated-At: 2026-02-27
+Managed-Updated-At: 2026-02-28
 
 # Process improvement tickets
 
@@ -70,14 +70,29 @@ For each suggestion in the working file, convert it to an issue draft by adding 
 **Friction**
 <What was painful or suboptimal, described generically -- no project references>
 
-**Suggestion**
-<What to change in ai-dev-process>
+**Evidence/example**
+<What happened that shows the problem (generic; no project references)>
+
+**Failure mode**
+<What goes wrong if this repeats>
+
+**Candidate approach** (optional)
+<A possible fix direction, if confident>
 
 **Affected files**
 <Paths within the ai-dev-process repo, if known. "Unknown" is acceptable.>
+
+**Verification** (optional)
+<How to confirm the change worked next time>
 ```
 
-For the `**Labels**` field: use the GitHub MCP server to fetch the repo's existing labels and select the most appropriate ones for each draft based on its content.
+For the `**Labels**` field: choose from this explicit list (source of truth for this workflow):
+- `enhancement`
+- `bug`
+- `documentation`
+- `help wanted`
+- `question`
+- `invalid`
 
 Update the working file and present it to the human for review. Do not create any issues yet.
 
