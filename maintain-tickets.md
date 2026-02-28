@@ -24,7 +24,23 @@ Use the GitHub MCP server to list open issues labeled `agent ready`.
 
 If no issues match, say **"No ready tickets found."** and stop.
 
-### 2. Summarize
+### 2. Bucket into phases (default)
+
+Default behavior: do not implement tickets one-by-one without first grouping them by theme.
+
+The goal is to implement cohesive improvements (one phase at a time), not blindly apply each ticket's suggested solution in isolation.
+
+Rules:
+- Create or update a working planning document at `working-docs/ticket-planning.md`.
+- Read all ready tickets, then bucket them by common theme.
+- Treat the buckets as **execution phases** (Phase A, Phase B, etc.). Implement one phase fully before moving to the next.
+- Capture overlaps explicitly so changes that touch the same area are coordinated.
+- Seed each phase with proposals and 🟡 open items, and replace 🟡 inline as the human approves decisions (follow the planning protocol in `Guides/Spec/work-spec-creation.md`).
+
+Skip condition (optional):
+- If there are only 1-2 tickets and they are obviously independent, you may skip bucketing and implement directly.
+
+### 3. Summarize
 
 Present a summary of all ready tickets, grouped if natural categories emerge. For each ticket, show:
 
@@ -32,7 +48,7 @@ Present a summary of all ready tickets, grouped if natural categories emerge. Fo
 - One-line summary of what needs to change
 - Affected files (if noted in the ticket)
 
-### 3. Discuss and prioritize
+### 4. Discuss and prioritize
 
 Ask the human which tickets to tackle in this session and in what order. The human may:
 
@@ -43,7 +59,7 @@ Ask the human which tickets to tackle in this session and in what order. The hum
 
 Do not proceed until the human confirms the selection.
 
-### 4. Implement
+### 5. Implement
 
 For each selected ticket, in the agreed order:
 
@@ -62,11 +78,11 @@ For each selected ticket, in the agreed order:
 
 After implementing a ticket, ask the human if the result looks good before moving to the next one.
 
-### 5. Close tickets
+### 6. Close tickets
 
 After the human approves the implementation for a ticket, use the GitHub MCP server to close it with a comment noting it was implemented. If the implementation will be committed and pushed in a follow-up step, note that in the close comment instead.
 
-### 6. Post-session
+### 7. Post-session
 
 After all selected tickets are implemented:
 

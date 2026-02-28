@@ -135,6 +135,37 @@ Work through the design collaboratively. The agent proposes design elements and 
     - resolved items replaced inline with the approved text
     - any non-goals / deferrals (explicit)
 
+**Optional: phased planning documents (only when the plan is large):**
+
+Sometimes the planning grows large enough that it should be executed in phases. In that case, the planning document is still a single document, but it is structured so each phase has its own planning and API sketch content for traceability.
+
+Rules:
+- Default: no phases. Use phases only when the human or agent proposes them and there is an informal agreement on the phase breakdown.
+- Phase sections MUST come last in the document (after any global planning content).
+- Global planning content MAY exist before phase sections. Later phases may augment or supersede earlier decisions, but do not rewrite earlier phase sections.
+- Each phase runs its own mini-cycle in order:
+  1. Proposals, questions, discussion (Stage 1)
+  2. API sketch (Stage 2)
+  3. Requirements normalization
+  4. Work spec writing
+- Process-flow note: when Phase N is complete, the next step is to begin Phase N+1 (or conclude if there are no more phases).
+  - Stopping condition: at the end of Phase N's cycle, STOP and wait using the standard gate line (see `Guides/Core/process-flow.md`). The "Next" step should be "Begin Phase N+1" (or "Complete" if there are no more phases).
+  - Advance intent at that point is the signal to initialize Phase N+1's Stage 1 discussion content (seed proposals/questions under that phase section).
+- Phase sections can start as lightweight placeholders (scope, rough idea). When it is time to begin a phase, the human tells the agent to initialize the phase's discussion content.
+
+Recommended phased planning shape:
+- Overview / global context (optional)
+- Global topics (optional)
+- Phase sections (last):
+  - `## Phase 1: <name>`
+    - `### Scope` (goal, in-scope, non-goals, dependencies, exit criteria)
+    - `### Stage 1: Proposals, questions, discussion` (🟡 until resolved)
+    - `### Stage 2: API sketch` (API "as of Phase 1")
+    - `### Requirements normalization` (what will be added/updated in `/requirements/**` for this phase)
+    - `### Work spec` (link to this phase's work spec)
+    - `### Supersedes / changes vs earlier phases` (optional; explicit notes when Phase N counteracts Phase < N)
+  - `## Phase 2: <name>` (repeat the same shape)
+
 **Discussion principles:**
 - Present findings and analysis, not pre-selected options. The human is the architect.
 - When the human asks a question, answer it directly -- do not reframe it as a choice between options you've invented.
@@ -179,6 +210,13 @@ The planning phase is complete when:
 - The key types and their relationships are described.
 - The design has been validated against concrete use cases.
 - The human confirms readiness to proceed to requirements normalization.
+
+If the planning document uses phases:
+- The overall planning phase may remain intentionally incomplete for later phases.
+- For the current phase to proceed to requirements normalization, that phase section must have:
+  - all 🟡 markers in the phase resolved, and
+  - an API sketch for the phase, and
+  - the human's approval to proceed with that phase.
 
 Checkpoint: STOP and wait for the human to confirm readiness to proceed (use the standard gate line; see `Guides/Core/process-flow.md`).
 

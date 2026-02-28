@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+- 2026-02-28 **Hard prohibition on destructive operations.** Strengthened `Policies/safe-operations.md` with explicit approval requirements and a concrete list of destructive git operations (reset/clean/force push/history rewrite) plus non-git examples (file deletion, data resets).
+- 2026-02-28 **Ticket sessions: bucket into phases by default.** Updated `maintain-tickets.md` to require bucketing ready tickets into themed phases (implemented one phase at a time) before starting implementation (optional skip for 1-2 clearly independent tickets).
+- 2026-02-28 **Work spec phased planning.** Updated `Guides/Spec/work-spec-creation.md` to support optional phase sections where each phase has its own proposals/discussion, API sketch, requirements normalization, and work spec.
 - 2026-02-28 **Work spec verification + evidence contract.** Updated `Guides/Spec/work-spec-creation.md` and `Guides/Spec/work-spec-implementation.md` to require per-task verification subtasks, inline evidence brackets, and explicit task completion criteria ("Done when"), plus a STOP+amendment protocol for spec deviations.
 - 2026-02-27 **Core process-flow guide.** Added `Guides/Core/process-flow.md` to define shared workflow mechanics (checkpoints, advance intent, `auto` incl. bounded auto, and 🟡 marker protocol).
 - 2026-02-27 **Policy hardening.** Strengthened `Policies/unauthorized-changes.md`, `Policies/safe-operations.md`, and `Policies/debugging-process-rule.md` for clearer authorization boundaries, destructive-operation safety gates, and stronger enforcement of evidence-first debugging.

@@ -177,7 +177,7 @@ Structured planning and specification for complex features. Produces a planning 
 
 **Phases:**
 
-1. **Planning document.** Agent summarizes the discussion into a document seeded with 🟡 open questions. Checkpoint: human reviews and resolves 🟡 items.
+1. **Planning document.** Agent summarizes the discussion into a document seeded with 🟡 open questions. Optional: for large efforts, the planning document can be organized into explicit phase sections; each phase runs its own mini-cycle (discussion, API sketch, requirements normalization, work spec) before moving to the next. Checkpoint: human reviews and resolves 🟡 items.
 2. **Design discussion.** Agent proposes, human decides. Iterates until all 🟡 items are resolved.
 3. **API sketch.** Agent drafts the API surfaces implied by the design. Checkpoint: human confirms the design is ready to proceed.
 4. **Requirements normalization.** Agent promotes behaviors from the planning document into canonical requirements. Checkpoint: human acknowledges requirements updates.
