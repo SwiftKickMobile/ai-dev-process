@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- 2026-03-02 **Streamlined suggestion-to-ticket pipeline.** Retro and report-process-problem now write ticket drafts directly (with 🟡 markers) instead of intermediate suggestions; both reference `process-improvement-tickets.md` as the single source of truth for draft format, labels, and confidentiality. The ticket guide confirms and files rather than converting. Replaced the `**Status**: draft/approved/filed` state machine with the system-wide 🟡 marker convention. Fixed the retro to use the standard `GATE:` line (next step: `file tickets`) instead of ad-hoc prose that bypassed the gate mechanic.
 - 2026-02-28 **README Usage: guide pointers + ticket labels.** Updated `README.md` Usage entries to point to the canonical guides/policies, clarify skill identifiers in headings, and match the explicit ticket label list behavior.
 - 2026-02-28 **Maintainer guidelines: README links and skill headings.** Updated `maintain-ai-dev-process.md` and `maintain-retro.md` to require README in-repo references to be clickable links and to match the current "(skill <name>)" heading convention.
 - 2026-02-28 **Authorization is gate-bound.** Updated `Guides/Core/process-flow.md`, `maintain-tickets.md`, and `Policies/unauthorized-changes.md` so collaborative language never implies execution approval; advance intent is only recognized at explicit `⏳ GATE:` checkpoints.

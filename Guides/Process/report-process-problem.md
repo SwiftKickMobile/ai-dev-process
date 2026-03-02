@@ -2,7 +2,7 @@ Managed-By: ai-dev-process
 Managed-Id: guide.report-process-problem
 Managed-Source: Guides/Process/report-process-problem.md
 Managed-Adapter: repo-source
-Managed-Updated-At: 2026-02-27
+Managed-Updated-At: 2026-03-02
 
 # Report a process problem
 
@@ -47,29 +47,16 @@ After discussing the problem, let the developer know: when you're ready, I can d
 
 ### 2. Write to the working file
 
-When the developer indicates they're ready, write a suggestion entry to the `process-tickets.md` working file (path per `Guides/Core/working-doc-conventions.md`, subpath: none, filename: `process-tickets.md`).
+When the developer indicates they're ready, write a ticket draft entry to the `process-tickets.md` working file (path per `Guides/Core/working-doc-conventions.md`, subpath: none, filename: `process-tickets.md`).
 
 If the file already exists (e.g., from a retro or a previous report), append to it. If it doesn't exist, create it.
 
-Use this format:
-
-```
-## Suggestion: <concise summary>
-
-**Friction**
-<What was painful or suboptimal>
-
-**Suggestion**
-<What to change in ai-dev-process>
-
-**Affected files**
-<Paths within the ai-dev-process repo, if known. "Unknown" is acceptable.>
-```
+Use the draft format, labels, and confidentiality rule from `Guides/Process/process-improvement-tickets.md`.
 
 Present the entry to the developer for review and iterate until they're satisfied.
 
 ### 3. Next steps
 
-Ask the developer if they'd like to file the suggestion as a GitHub issue on `ai-dev-process` now, or leave it in the working file for later.
+Ask the developer if they'd like to file the ticket as a GitHub issue on `ai-dev-process` now, or leave it in the working file for later.
 
 If they want to file now, proceed to `Guides/Process/process-improvement-tickets.md`.

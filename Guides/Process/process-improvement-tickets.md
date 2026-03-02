@@ -2,11 +2,11 @@ Managed-By: ai-dev-process
 Managed-Id: guide.process-improvement-tickets
 Managed-Source: Guides/Process/process-improvement-tickets.md
 Managed-Adapter: repo-source
-Managed-Updated-At: 2026-02-28
+Managed-Updated-At: 2026-03-02
 
 # Process improvement tickets
 
-Purpose: convert process improvement suggestions into GitHub issues on the `ai-dev-process` repo. Typically triggered after a dev retro (step 6: Process reflection), but can be used any time a process gap is identified.
+Purpose: file process improvement ticket drafts as GitHub issues on the `ai-dev-process` repo. Typically triggered after a dev retro or report-process-problem session, which produce drafts in the working file. Can also be used standalone.
 
 ## Checkpoints
 
@@ -14,9 +14,8 @@ This guide follows the shared process-flow mechanics in `Guides/Core/process-flo
 
 Workflow-specific gate points (this guide must STOP and wait at these checkpoints):
 - If GitHub MCP access is missing/broken: STOP and ask the human to set it up (or to fix permissions).
-- After converting suggestions into drafts and updating the working file: present the updated working file for human review and STOP.
-- After the human marks drafts approved: STOP before creating issues unless the human provides advance intent to proceed with filing.
-- After creating issues: report results and STOP (complete).
+- After presenting 🟡 drafts for review: STOP and wait for the human to decide each entry (file, revise, or skip).
+- After filing issues and updating the working file: report results and STOP (complete).
 
 At checkpoints, end checkpoint output with the standard gate line (see `Guides/Core/process-flow.md`).
 
@@ -35,7 +34,7 @@ The human reviews all issue content before creation (step 3). This is the final 
 
 ## Prerequisites
 
-- One or more process improvement suggestions (from a retro or ad-hoc observation).
+- A `process-tickets.md` working file with one or more 🟡 ticket drafts (typically produced by a dev retro or report-process-problem session).
 - A GitHub MCP server configured with issue creation permissions.
 - The `ai-dev-process` GitHub repo identifier (e.g., `owner/ai-dev-process`). Ask the human if you don't know it.
 
@@ -51,20 +50,17 @@ Do not proceed until GitHub MCP access is confirmed.
 
 ### 1. Locate the working file
 
-Look for the `process-tickets.md` working file (path per `Guides/Core/working-doc-conventions.md`). This file is created by the retro's process reflection step with initial suggestions.
+Look for the `process-tickets.md` working file (path per `Guides/Core/working-doc-conventions.md`). This file is typically created by the retro's process reflection step or by the report-process-problem workflow.
 
 If the file exists, read it and proceed to step 2.
 
-If it does not exist (e.g., this was triggered outside a retro), create it and ask the human what process improvements they'd like to file. Write each suggestion using the format below and proceed to step 2.
+If it does not exist (e.g., this was triggered standalone), create it and ask the human what process improvements they'd like to file. Write each entry as a 🟡 draft using the format below and proceed to step 2.
 
-### 2. Convert suggestions to issue drafts
-
-For each suggestion in the working file, convert it to an issue draft by adding a `**Status**: draft` field. Apply the confidentiality rule -- generalize any project-specific language. The result for each entry should look like:
+Draft format (for standalone use only -- producer guides write this format directly):
 
 ```
-## Ticket: <concise summary of the process improvement>
+## 🟡 Ticket: <concise summary>
 
-**Status**: draft
 **Labels**: <labels>
 
 **Friction**
@@ -86,7 +82,7 @@ For each suggestion in the working file, convert it to an issue draft by adding 
 <How to confirm the change worked next time>
 ```
 
-For the `**Labels**` field: choose from this explicit list (source of truth for this workflow):
+For `**Labels**`: choose from this explicit list (source of truth for this workflow):
 - `enhancement`
 - `bug`
 - `documentation`
@@ -94,24 +90,25 @@ For the `**Labels**` field: choose from this explicit list (source of truth for 
 - `question`
 - `invalid`
 
-Update the working file and present it to the human for review. Do not create any issues yet.
+### 2. Verify and present drafts
 
-### 3. Human review and iteration
+If all entries already use `## 🟡 Ticket:` headings (the normal case when coming from a retro or report-process-problem session), skip conversion. Otherwise, convert any remaining entries to 🟡 draft format.
 
-The human reviews the working file and may:
+Apply the confidentiality rule to all entries. Present the working file to the human for review.
 
-- Approve all drafts as-is.
-- Edit drafts directly in the working file or ask the agent to revise them.
-- Remove drafts they don't want filed.
-- Add new drafts.
+### 3. Human review
 
-Iterate on the working file until the human explicitly approves. Mark approved drafts with `**Status**: approved`.
+For each 🟡 entry, the human decides: **file**, **revise**, or **skip**.
+
+- **File**: proceed to step 4 for this entry.
+- **Revise**: update the draft per the human's feedback, then re-present.
+- **Skip**: remove the 🟡 marker and strike through the heading (e.g., `## ~~Ticket: <summary>~~`).
 
 ### 4. Create issues
 
-For each approved draft:
+For each entry the human approved for filing:
 
 1. Use the GitHub MCP server to create the issue on the `ai-dev-process` repo with the labels from the draft.
-2. Update the draft's status in the working file to `**Status**: filed (#<number>)`.
+2. Update the working file: remove the 🟡 marker from the heading and add `**Filed**: #<number>` below the heading.
 
 Report the created issue numbers and URLs back to the human.

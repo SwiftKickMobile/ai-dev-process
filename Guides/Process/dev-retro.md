@@ -2,7 +2,7 @@ Managed-By: ai-dev-process
 Managed-Id: guide.dev-retro
 Managed-Source: Guides/Process/dev-retro.md
 Managed-Adapter: repo-source
-Managed-Updated-At: 2026-02-28
+Managed-Updated-At: 2026-03-02
 
 # Dev-session retro (LLM + human)
 
@@ -16,7 +16,7 @@ This guide follows the shared process-flow mechanics in `Guides/Core/process-flo
 
 Workflow-specific gate points (this guide must STOP and wait at these checkpoints):
 - After input discovery: if required artifacts are missing or you cannot locate them, STOP and ask the human where they are.
-- After drafting the retro output: STOP and wait for advance intent before making any follow-up changes outside the retro itself.
+- After drafting the retro output (if process suggestions were generated): STOP with next step `file tickets`.
 
 At checkpoints, end checkpoint output with the standard gate line (see `Guides/Core/process-flow.md`).
 
@@ -113,31 +113,7 @@ Suggestion quality bar (problem-first; solution optional):
   - **Verification plan** (how to know next time)
 - Hard rule: do not output suggestions that are purely abstract ("be more careful", "improve quality") without evidence and a verifiable check.
 
-If there are suggestions, write them to a working file following `Guides/Core/working-doc-conventions.md` (subpath: none, filename: `process-tickets.md`). Use this format for each suggestion:
-
-```
-## Suggestion: <concise summary>
-
-**Friction**
-<What was painful or suboptimal>
-
-**Evidence/example**
-<What happened in this session that shows the problem>
-
-**Failure mode**
-<What goes wrong if this repeats>
-
-**Candidate approach** (optional)
-<A possible fix direction, if confident>
-
-**Affected files**
-<Paths within the ai-dev-process repo, if known. "Unknown" is acceptable.>
-
-**Verification** (optional)
-<What to check next time to confirm it worked>
-```
-
-This file will be used for iteration and, if the human chooses to file tickets, as the basis for issue drafts (see `Guides/Process/process-improvement-tickets.md`).
+If there are suggestions, write them as ticket drafts to a working file following `Guides/Core/working-doc-conventions.md` (subpath: none, filename: `process-tickets.md`). Use the draft format, labels, and confidentiality rule from `Guides/Process/process-improvement-tickets.md`.
 
 If nothing stands out, say **"No process suggestions."**
 
@@ -151,4 +127,4 @@ Then output only:
 - remaining follow-ups (1-8 bullets)
 - or: "Dev retro complete; no misses found."
 - Include process suggestions from step 6 (if any) as a separate **"Process suggestions"** section at the end.
-- If there are process suggestions, tell the human: these can be filed as GitHub issues on `ai-dev-process`; we can discuss and revise them first, and when you're happy with them, say the word and I'll draft the tickets.
+- If there are process suggestions: end with the standard gate line (next step: `file tickets`). On advance, follow `Guides/Process/process-improvement-tickets.md`.

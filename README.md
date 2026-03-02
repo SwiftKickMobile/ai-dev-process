@@ -237,12 +237,8 @@ Completeness backstop that can be used at any point during any workflow. Reviews
 
 **Phases:**
 
-1. **Retro.** Agent performs the full checklist and reports findings with concrete follow-up suggestions. Checkpoint: agent stops after the retro output.
-2. **Process suggestions.** If the retro identifies process improvements, agent writes them to the `process-tickets.md` working file. Checkpoint: human reviews and refines suggestions.
-3. **Ticket filing (optional).** When the human is ready, agent files suggestions as GitHub issues on `ai-dev-process`:
-   1. Agent checks GitHub MCP access, converts suggestions to issue drafts (applying confidentiality rules to strip project-specific details), and assigns labels from the explicit label list in [`Guides/Process/process-improvement-tickets.md`](Guides/Process/process-improvement-tickets.md).
-   2. Human reviews drafts in the working file. Can edit, remove, or add drafts. Iterates until satisfied.
-   3. Agent creates approved issues via MCP and records issue numbers in the working file.
+1. **Retro.** Agent performs the full checklist and reports findings. Checkpoint: agent stops after the retro output.
+2. **Ticket filing (optional).** If the retro identifies process improvements, agent writes them as 🟡 ticket drafts to the `process-tickets.md` working file (with labels and confidentiality applied). Checkpoint: human reviews drafts. When ready, agent files them as GitHub issues on `ai-dev-process` via [`Guides/Process/process-improvement-tickets.md`](Guides/Process/process-improvement-tickets.md).
 
 ### Report process problem (skill `ai-dev-process-report-process-problem`)
 
@@ -254,12 +250,9 @@ Ad-hoc intake for process friction or improvement ideas outside of a retro. The 
 
 **Phases:**
 
-1. **Intake.** Agent asks clarifying questions to understand the friction. Checkpoint: wait for the developer to say they are ready to capture the suggestion.
-2. **Capture.** When the developer is ready, agent writes a structured suggestion to the working file for review and iteration. Checkpoint: human reviews the entry.
-3. **Ticket filing (optional).** When the developer is ready, agent files suggestions as GitHub issues on `ai-dev-process`:
-   1. Agent checks GitHub MCP access, converts suggestions to issue drafts (applying confidentiality rules to strip project-specific details), and assigns labels from the explicit label list in [`Guides/Process/process-improvement-tickets.md`](Guides/Process/process-improvement-tickets.md).
-   2. Developer reviews drafts in the working file. Can edit, remove, or add drafts. Iterates until satisfied.
-   3. Agent creates approved issues via MCP and records issue numbers in the working file.
+1. **Intake.** Agent asks clarifying questions to understand the friction. Checkpoint: wait for the developer to say they are ready to capture it.
+2. **Capture.** When the developer is ready, agent writes a 🟡 ticket draft to the working file (with labels and confidentiality applied). Checkpoint: human reviews the entry.
+3. **Ticket filing (optional).** When the developer is ready, agent files drafts as GitHub issues on `ai-dev-process` via [`Guides/Process/process-improvement-tickets.md`](Guides/Process/process-improvement-tickets.md).
 
 ### Update installation (skill `ai-dev-process-update-installation`)
 
