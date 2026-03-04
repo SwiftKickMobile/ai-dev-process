@@ -2,7 +2,7 @@ Managed-By: skai
 Managed-Id: guide.update-installation
 Managed-Source: Guides/Core/update-installation-guide.md
 Managed-Adapter: repo-source
-Managed-Updated-At: 2026-02-27
+Managed-Updated-At: 2026-03-04
 
 # Update Installation Guide
 
@@ -44,9 +44,11 @@ cd <submodulePath>
 git fetch
 ```
 
-Compare the current HEAD SHA against `origin/main` (or the configured tracking branch).
+Compare the current HEAD SHA against `origin/main` (or the configured tracking branch). Also compare `lastSHA` (from step 1) to the current submodule HEAD.
 
-If the submodule HEAD already matches the remote, report "skai is up to date" and stop.
+If both conditions hold -- HEAD matches `origin/main` AND `lastSHA` matches HEAD -- report "skai is up to date" and stop.
+
+If either condition is false, continue with the remaining steps. Step 3 will either update the submodule or no-op if HEAD already matches the remote.
 
 ### 3. Update the submodule
 

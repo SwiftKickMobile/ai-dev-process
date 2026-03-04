@@ -2,7 +2,7 @@ Managed-By: skai
 Managed-Id: guide.process-flow
 Managed-Source: Guides/Core/process-flow.md
 Managed-Adapter: repo-source
-Managed-Updated-At: 2026-02-28
+Managed-Updated-At: 2026-03-04
 
 # Process flow (core)
 
@@ -22,10 +22,18 @@ End every checkpoint output with exactly one of these lines:
 
 - Continue:
   - `⏳ GATE: Next: <thing>. Say "next" or what to change.`
-- Complete:
-  - `⏳ GATE: Complete. Say "next" or what to change.`
 - Blocked:
-  - `⏳ GATE: Blocked. Say "next" or what to change.`
+  - `⏳ GATE: Blocked: <reason>. Resolve and say "next" to continue.`
+
+Gate lines are strictly for defined checkpoints. Do not add a gate line at the end of any message that is not at a workflow-specific checkpoint listed in the guide's `## Checkpoints` section.
+
+## Workflow completion
+
+When a workflow finishes (all checkpoints exhausted, no more steps), do not use a gate line. Instead, state completion with:
+
+`🏁 Complete. Let me know if anything needs adjustment.`
+
+This is not a gate -- it does not require advance intent to proceed.
 
 ## Advance intent vs context-setting
 

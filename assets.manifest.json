@@ -112,21 +112,15 @@
       "tags": ["core"]
     },
     {
-      "id": "guide.process-improvement-tickets",
+      "id": "guide.process-improvement",
       "type": "guide",
-      "sourcePath": "Guides/Process/process-improvement-tickets.md",
+      "sourcePath": "Guides/Process/process-improvement.md",
       "tags": ["core"]
     },
     {
-      "id": "guide.report-process-problem",
-      "type": "guide",
-      "sourcePath": "Guides/Process/report-process-problem.md",
-      "tags": ["core"]
-    },
-    {
-      "id": "skill.skai-report-process-problem",
+      "id": "skill.skai-suggestion",
       "type": "skill",
-      "sourcePath": "Templates/skills/skai-report-process-problem/SKILL.md",
+      "sourcePath": "Templates/skills/skai-suggestion/SKILL.md",
       "tags": ["adapter:cursor", "adapter:claude-code"]
     },
     {

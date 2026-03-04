@@ -2,7 +2,7 @@ Managed-By: skai
 Managed-Id: guide.dev-retro
 Managed-Source: Guides/Process/dev-retro.md
 Managed-Adapter: repo-source
-Managed-Updated-At: 2026-03-02
+Managed-Updated-At: 2026-03-04
 
 # Dev-session retro (LLM + human)
 
@@ -113,7 +113,7 @@ Suggestion quality bar (problem-first; solution optional):
   - **Verification plan** (how to know next time)
 - Hard rule: do not output suggestions that are purely abstract ("be more careful", "improve quality") without evidence and a verifiable check.
 
-If there are suggestions, write them as ticket drafts to a working file following `Guides/Core/working-doc-conventions.md` (subpath: none, filename: `process-tickets.md`). Use the draft format, labels, and confidentiality rule from `Guides/Process/process-improvement-tickets.md`.
+If there are suggestions, write them as ticket drafts to a working file following `Guides/Core/working-doc-conventions.md` (subpath: none, filename: `process-tickets.md`). Use the draft format, labels, and confidentiality rule from `Guides/Process/process-improvement.md`.
 
 If nothing stands out, say **"No process suggestions."**
 
@@ -127,4 +127,4 @@ Then output only:
 - remaining follow-ups (1-8 bullets)
 - or: "Dev retro complete; no misses found."
 - Include process suggestions from step 6 (if any) as a separate **"Process suggestions"** section at the end.
-- If there are process suggestions: end with the standard gate line (next step: `file tickets`). On advance, follow `Guides/Process/process-improvement-tickets.md`.
+- If there are process suggestions: end with the standard gate line (next step: `file tickets`). On advance, follow `Guides/Process/process-improvement.md` (Phase 2: File).

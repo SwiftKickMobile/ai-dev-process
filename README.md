@@ -154,8 +154,8 @@ After installation, workflows are available as **skills** that your agent activa
 2. Progress through steps using **advance intent** (e.g. "begin", "next", "continue", "go ahead").
 3. At certain steps the agent will **stop and wait** at a checkpoint (gate). At checkpoints, the agent ends its output with exactly one of these lines:
    - `⏳ GATE: Next: <thing>. Say "next" or what to change.`
-   - `⏳ GATE: Complete. Say "next" or what to change.`
-   - `⏳ GATE: Blocked. Say "next" or what to change.`
+   - `⏳ GATE: Blocked: <reason>. Resolve and say "next" to continue.`
+   - `🏁 Complete. Let me know if anything needs adjustment.` (not a gate -- workflow finished)
 4. Saying "next" (or similar) at a checkpoint counts as approval to proceed.
 5. Adding **"auto"** to advance intent tells the agent to proceed without stopping at checkpoints, unless a universal STOP condition applies (e.g. "next auto", "begin auto").
 6. You can bound auto: **"auto to <milestone>"** means "proceed until you are about to begin the milestone, then stop" (e.g. "next auto to task 7").
@@ -238,21 +238,20 @@ Completeness backstop that can be used at any point during any workflow. Reviews
 **Phases:**
 
 1. **Retro.** Agent performs the full checklist and reports findings. Checkpoint: agent stops after the retro output.
-2. **Ticket filing (optional).** If the retro identifies process improvements, agent writes them as 🟡 ticket drafts to the `process-tickets.md` working file (with labels and confidentiality applied). Checkpoint: human reviews drafts. When ready, agent files them as GitHub issues on `skai` via [`Guides/Process/process-improvement-tickets.md`](Guides/Process/process-improvement-tickets.md).
+2. **Ticket filing (optional).** If the retro identifies process improvements, agent writes them as 🟡 ticket drafts to the `process-tickets.md` working file (with labels and confidentiality applied). Checkpoint: human reviews drafts. When ready, agent files them as GitHub issues on `skai` via [`Guides/Process/process-improvement.md`](Guides/Process/process-improvement.md).
 
-### Report process problem (skill `skai-report-process-problem`)
+### Suggestion (skill `skai-suggestion`)
 
-Ad-hoc intake for process friction or improvement ideas outside of a retro. The agent helps the developer articulate the problem and captures it in the `process-tickets.md` working file for later review or ticket filing.
+Ad-hoc process improvement suggestions outside of a retro. The agent helps the developer articulate an idea, problem, or feature request, captures it as a ticket draft, and optionally files it as a GitHub issue.
 
-- Guide [`Guides/Process/report-process-problem.md`](Guides/Process/report-process-problem.md)
+- Guide [`Guides/Process/process-improvement.md`](Guides/Process/process-improvement.md)
 
 **Prerequisites:** None -- can be triggered at any point during a session.
 
 **Phases:**
 
-1. **Intake.** Agent asks clarifying questions to understand the friction. Checkpoint: wait for the developer to say they are ready to capture it.
-2. **Capture.** When the developer is ready, agent writes a 🟡 ticket draft to the working file (with labels and confidentiality applied). Checkpoint: human reviews the entry.
-3. **Ticket filing (optional).** When the developer is ready, agent files drafts as GitHub issues on `skai` via [`Guides/Process/process-improvement-tickets.md`](Guides/Process/process-improvement-tickets.md).
+1. **Draft.** Agent asks clarifying questions to understand the suggestion (skipped if the developer provides enough detail up front). Agent writes a 🟡 ticket draft to the `process-tickets.md` working file. Checkpoint: human reviews the draft.
+2. **File (optional).** When the developer is ready, agent presents drafts for review (file/revise/skip per entry) and files approved entries as GitHub issues on `skai`.
 
 ### Update installation (skill `skai-update-installation`)
 

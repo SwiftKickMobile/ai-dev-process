@@ -91,7 +91,7 @@ Formatting rule:
 - When referencing a file or directory path within this repo in `README.md`, use a markdown link so humans can click it in the browser (do not leave bare backticked paths).
 
 Do not add entries for:
-- Sub-processes that are invoked by other skills (e.g., the ticket filing guide is a sub-process of the retro and report-process-problem skills -- it appears as phases within those entries, not as its own heading).
+- Sub-processes that are invoked by other skills (e.g., the filing phase of the process-improvement guide is invoked by the retro -- it appears as a phase within that entry, not as its own heading).
 - Internal maintenance workflows (e.g., `maintain-tickets.md` -- these belong in the Development guide section).
 
 ## Content rules (project goals)

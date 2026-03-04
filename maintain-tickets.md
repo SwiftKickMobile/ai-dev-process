@@ -2,7 +2,7 @@ Managed-By: skai
 Managed-Id: guide.ticket-implementation
 Managed-Source: maintain-tickets.md
 Managed-Adapter: repo-source
-Managed-Updated-At: 2026-02-28
+Managed-Updated-At: 2026-03-04
 
 # Ticket implementation session
 
@@ -21,7 +21,7 @@ This is an internal maintenance workflow for the `skai` repo, not a guide for ho
 This guide follows the shared process-flow mechanics in `Guides/Core/process-flow.md` (checkpoints, advance intent, `auto`, and the standard gate line).
 
 Workflow-specific gate points (this guide must STOP and wait at these checkpoints):
-- After bucketing ready tickets into phases in `working-docs/ticket-planning.md` (human reviews the phase breakdown and open 🟡 items).
+- After creating/updating the planning document in `working-docs/ticket-planning.md` (human reviews tickets, proposals, phase breakdown, and open 🟡 items).
 - At the start of each phase, after initializing that phase's discussion/proposals content (human reviews/decides on any 🟡 items before implementation begins).
 - Before making repo changes for a phase (agent proposes the concrete file-change plan; human approves).
 - After implementing a phase (agent reports what changed; human marks the phase `Status: COMPLETE` or requests changes).
@@ -34,26 +34,30 @@ Use the GitHub MCP server to list open issues labeled `agent ready`.
 
 If no issues match, say **"No ready tickets found."** and stop.
 
-### 2. Bucket into phases (default)
+### 2. Create the planning document
 
-Default behavior: do not implement tickets one-by-one without first grouping them by theme.
+Create or update a working planning document at `working-docs/ticket-planning.md` (path per `Guides/Core/working-doc-conventions.md`, subpath: none, filename: `ticket-planning.md`).
+
+For each ticket, include:
+- A markdown link to the GitHub issue (not just `#123`).
+- Paraphrased summary:
+  - friction/problem (what is going wrong)
+  - suggestion (what it proposes changing)
+  - anything else of note (e.g., affected files, constraints, overlaps)
+- Keep paraphrases concise (1-3 bullets per ticket). Do not paste the full ticket body.
+
+Reconcile before proceeding: ensure every open issue labeled `agent ready` is represented in the planning document. If any are missing, add them before moving on.
+
+### 3. Bucket into phases (when applicable)
+
+Default behavior: group tickets by common theme into execution phases before implementing.
 
 The goal is to implement cohesive improvements (one phase at a time), not blindly apply each ticket's suggested solution in isolation.
 
 Rules:
-- Create or update a working planning document at `working-docs/ticket-planning.md`.
-- Read all ready tickets, then bucket them by common theme.
-- Reconcile before proceeding: ensure every open issue labeled `agent ready` is represented in the planning document (listed under exactly one phase, with overlaps as needed). If any are missing, add them before moving on.
 - Treat the buckets as **execution phases** (Phase A, Phase B, etc.). Implement one phase fully before moving to the next.
 - Capture overlaps explicitly so changes that touch the same area are coordinated.
 - Seed each phase with proposals and 🟡 open items, and replace 🟡 inline as the human approves decisions (follow the planning protocol in `Guides/Spec/work-spec-creation.md`).
-- Bucket content requirements (each phase must include):
-  - Ticket lists include links: every ticket must be listed as a markdown link to the GitHub issue (not just `#123`).
-  - For each ticket, paraphrase:
-    - friction/problem (what is going wrong)
-    - suggestion (what it proposes changing)
-    - anything else of note (e.g., affected files, constraints, overlaps)
-  - Keep paraphrases concise (1-3 bullets per ticket). Do not paste the full ticket body.
 
 Format example:
 
@@ -65,8 +69,7 @@ Primary tickets:
   - Notes: should live in policy for universal enforcement.
 ```
 
-Skip condition (optional):
-- If there are only 1-2 tickets and they are obviously independent, you may skip bucketing and implement directly.
+If there are only 1-2 tickets and they are obviously independent, you may list them individually rather than grouping into themed phases.
 
 Checkpoint: STOP after updating `working-docs/ticket-planning.md` and wait for advance intent (use the standard gate line; see `Guides/Core/process-flow.md`).
 
@@ -89,7 +92,7 @@ Advance intent followed by `auto` (e.g., "next auto"). See `Guides/Core/process-
 
 In this workflow, `auto` may be used to batch work inside an already-approved phase, but it does not bypass universal STOP conditions (e.g., destructive operations, missing required tools, spec/plan deviation).
 
-### 3. Summarize
+### 4. Summarize
 
 Present a summary of all ready tickets, grouped if natural categories emerge. For each ticket, show:
 
@@ -97,7 +100,7 @@ Present a summary of all ready tickets, grouped if natural categories emerge. Fo
 - One-line summary of what needs to change
 - Affected files (if noted in the ticket)
 
-### 4. Discuss and prioritize
+### 5. Discuss and prioritize
 
 Ask the human which tickets to tackle in this session and in what order. The human may:
 
@@ -108,7 +111,7 @@ Ask the human which tickets to tackle in this session and in what order. The hum
 
 Do not proceed until the human confirms the selection.
 
-### 5. Implement
+### 6. Implement
 
 For each selected ticket, in the agreed order:
 
@@ -127,7 +130,7 @@ For each selected ticket, in the agreed order:
 
 After implementing a ticket, ask the human if the result looks good before moving to the next one.
 
-### 6. Close tickets
+### 7. Close tickets
 
 Close is triggered by human approval.
 
@@ -142,7 +145,7 @@ Mechanics:
 - Use the GitHub MCP server to close the issue with a comment noting it was implemented.
 - If the implementation will be committed and pushed in a follow-up step, note that in the close comment instead.
 
-### 7. Post-session
+### 8. Post-session
 
 After all selected tickets are implemented:
 
