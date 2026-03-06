@@ -2,7 +2,7 @@ Managed-By: skai
 Managed-Id: guide.unit-test-planning
 Managed-Source: Guides/Test/unit-test-planning-guide.md
 Managed-Adapter: repo-source
-Managed-Updated-At: 2026-02-27
+Managed-Updated-At: 2026-03-04
 
 # Unit Test Planning Guide
 
@@ -22,11 +22,9 @@ At checkpoints, end checkpoint output with the standard gate line (see `Guides/C
 
 ---
 
-## Commands
+## Advance intent
 
-### Advance intent
-
-**Definition:** Advance intent. See `Guides/Core/process-flow.md`.
+Advance intent (and `auto`) semantics are defined in `Guides/Core/process-flow.md`.
 
 **Behavior:** Context determines the action:
 - If waiting to proceed → mark planning complete, return to parent process
@@ -138,6 +136,7 @@ When planning tests for multiple types:
 
 **All tests require:**
 - Descriptive camelCase name
+- **`@Test("...")` display name** -- concise behavior sentence for test navigator and CI output (not a duplicate of the function name)
 - **Concise, but sufficient doc comment** that explains **what** the test verifies and **how** it verifies it (enough for human review/approval).
   - Prefer 1-3 short lines; add more only when needed for clarity.
 - **Body with `Issue.record("Test not yet implemented")` to mark as failing TODO**
@@ -196,14 +195,14 @@ struct ComponentTests {
     /// Verifies that a successful operation returns the expected value.
     /// Stubs the dependency to return a success response.
     /// Ensures the component properly processes the response.
-    @Test func testOperationReturnsSuccessResponse() async throws { // 🟡
+    @Test("Returns expected value on success") func testOperationReturnsSuccessResponse() async throws { // 🟡
         Issue.record("Test not yet implemented")
     }
     
     /// Verifies that required parameters are passed correctly.
     /// Creates an operation with specific parameters and inspects the captured values.
     /// Validates that all parameters are included correctly.
-    @Test func testOperationPassesParameters() async throws { // 🟡
+    @Test("Passes required parameters to dependency") func testOperationPassesParameters() async throws { // 🟡
         Issue.record("Test not yet implemented")
     }
     
@@ -211,7 +210,7 @@ struct ComponentTests {
     
     /// Verifies that error conditions throw appropriate errors.
     /// Stubs dependency to return error condition. Ensures component throws appropriate error.
-    @Test func testOperationThrowsOnError() async throws { // 🟡
+    @Test("Throws appropriate error on failure") func testOperationThrowsOnError() async throws { // 🟡
         Issue.record("Test not yet implemented")
     }
     
@@ -458,11 +457,12 @@ Use MARK comments to organize (following code-organization pattern):
 
 ### Test Naming
 - **Function names**: camelCase (e.g., `testOperationReturnsSuccessResponse`)
+- **Display names**: `@Test("...")` with a concise behavior sentence (e.g., `@Test("Returns expected value on success")`)
 - **Documentation**: Plain English doc comment explaining the test
 - **Example**:
   ```swift
   /// Verifies that a successful operation returns the expected value
-  @Test func testOperationReturnsSuccessResponse() async throws {
+  @Test("Returns expected value on success") func testOperationReturnsSuccessResponse() async throws {
       // TODO
   }
   ```
@@ -518,12 +518,6 @@ Use MARK comments to organize (following code-organization pattern):
 - Detailed doc comments for every test
 - Organized by MARK sections
 - `Issue.record("Test not yet implemented")` in stub bodies to mark as failing TODO
-
-**Emoji System:**
-- 🟡 on section = Section contains TODO work
-- 🟡 on test = Individual test needs implementation or fixes
-- No emoji on test = Test is complete
-- No emoji on section = All tests in section are complete
 
 **Test Suite Structure (new files only):**
 - Use `@Suite(.serialized) @MainActor struct`

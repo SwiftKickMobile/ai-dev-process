@@ -2,7 +2,7 @@ Managed-By: skai
 Managed-Id: guide.process-improvement
 Managed-Source: Guides/Process/process-improvement.md
 Managed-Adapter: repo-source
-Managed-Updated-At: 2026-03-04
+Managed-Updated-At: 2026-03-06
 
 # Process improvement
 
@@ -113,15 +113,13 @@ Do not proceed until GitHub MCP access is confirmed.
 
 Locate the `process-tickets.md` working file (path per `Guides/Core/working-doc-conventions.md`). Read it and present all 🟡 entries to the human.
 
-For each 🟡 entry, the human decides: **file**, **revise**, or **skip**.
+Checkpoint: present the entries and STOP with the standard gate line. On advance intent, proceed to step 3 for all 🟡 entries. If the human requests changes (revisions, skipping specific entries), apply them and re-present.
 
-- **File**: proceed to step 3 for this entry.
-- **Revise**: update the draft per the human's feedback, then re-present.
-- **Skip**: remove the 🟡 marker and strike through the heading (e.g., `## ~~Ticket: <summary>~~`).
+To skip an entry: remove the 🟡 marker and strike through the heading (e.g., `## ~~Ticket: <summary>~~`).
 
 ### 3. Create issues
 
-For each entry the human approved for filing:
+For each 🟡 entry remaining after review:
 
 1. Use the GitHub MCP server to create the issue on the `skai` repo with the labels from the draft.
 2. Update the working file: remove the 🟡 marker from the heading and add `**Filed**: #<number>` below the heading.

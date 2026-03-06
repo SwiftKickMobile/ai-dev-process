@@ -21,6 +21,7 @@ If any assumption is false in the host repo's setup, STOP and ask the human what
 - `Install/managed-header.md`
 - `Install/conflict-precedence-policy.md`
 - `Policies/safe-operations.md`
+- `Policies/universal-stop-conditions.md`
 - `Templates/docs/skai/integration.md`
 
 ## Migration-capable algorithm (required)
@@ -111,6 +112,8 @@ Install these skills:
   - source: `Submodules/skai/Templates/skills/skai-work-spec-creation/SKILL.md`
 - `.claude/skills/skai-work-spec-implementation/SKILL.md`
   - source: `Submodules/skai/Templates/skills/skai-work-spec-implementation/SKILL.md`
+- `.claude/skills/skai-suggestion/SKILL.md`
+  - source: `Submodules/skai/Templates/skills/skai-suggestion/SKILL.md`
 - `.claude/skills/skai-dev-retro/SKILL.md`
   - source: `Submodules/skai/Templates/skills/skai-dev-retro/SKILL.md`
 - `.claude/skills/skai-unit-testing/SKILL.md`

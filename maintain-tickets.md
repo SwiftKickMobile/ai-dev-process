@@ -62,6 +62,8 @@ Rules:
 Format example:
 
 ```
+### 🟡 Phase A: <theme> (#N, #M, ...)
+
 Primary tickets:
 - [#20 Hard prohibition on destructive git operations without explicit human approval](https://github.com/<owner>/<repo>/issues/20)
   - Friction: agent ran a destructive git command without permission and destroyed uncommitted work.
@@ -69,28 +71,28 @@ Primary tickets:
   - Notes: should live in policy for universal enforcement.
 ```
 
+Mark phases with 🟡 when TODO.
+
 If there are only 1-2 tickets and they are obviously independent, you may list them individually rather than grouping into themed phases.
 
-Checkpoint: STOP after updating `working-docs/ticket-planning.md` and wait for advance intent (use the standard gate line; see `Guides/Core/process-flow.md`).
+Checkpoint: STOP after updating `working-docs/ticket-planning.md` and wait for advance intent.
 
-## Commands
+## Advance intent
 
-### Advance intent
-
-**Definition:** Advance intent. See `Guides/Core/process-flow.md`.
+Advance intent (and `auto`) semantics are defined in `Guides/Core/process-flow.md`.
 
 **Behavior in this workflow:**
-- If you are at a phase boundary (e.g., "move on to Phase D"): advance intent means "initialize the next phase's discussion content" in `working-docs/ticket-planning.md` (seed proposals/questions/🟡 under that phase) and then STOP at the phase-start checkpoint.
-- If you are ready to implement a phase (phase discussion resolved): advance intent means "propose the concrete file-change plan for the phase" and STOP for approval before making repo changes.
-- If you just finished implementing a phase: advance intent means "proceed to the next phase" (or conclude if no more phases remain).
+:
+Advance intent always starts at step 1. Do not skip steps.
 
-Authorization recognition: see `Guides/Core/process-flow.md` ("Authorization recognition (gate-bound)").
+1. **Review phase content.** Present the phase's scope and proposals from the planning document. If the phase has no discussion content yet, initialize it (seed proposals/questions/🟡). STOP at the phase-start checkpoint.
+2. **Propose file changes.** After the human approves the phase scope, propose the concrete file-change plan. STOP for approval before making repo changes.
+3. **Implement.** After the human approves the plan, make the changes. Report what changed. STOP for the human to approve.
+4. **Advance.** After the human approves the implementation, proceed to step 1 for the next phase (or conclude if none remain).
 
-### Advance intent + `auto`
+**Workflow-specific `auto` rules:** `auto` may batch work inside an already-approved phase.
 
-Advance intent followed by `auto` (e.g., "next auto"). See `Guides/Core/process-flow.md` for shared `auto` semantics and universal STOP conditions.
-
-In this workflow, `auto` may be used to batch work inside an already-approved phase, but it does not bypass universal STOP conditions (e.g., destructive operations, missing required tools, spec/plan deviation).
+## Procedure (continued)
 
 ### 4. Summarize
 
@@ -135,8 +137,7 @@ After implementing a ticket, ask the human if the result looks good before movin
 Close is triggered by human approval.
 
 Default approval signal (phase-based sessions):
-- When working from `working-docs/ticket-planning.md` phases, the human marking a phase as `Status: COMPLETE` is approval of the implementation for that phase.
-- Once a phase is marked COMPLETE, close all tickets implemented in that phase.
+- Advance intent after a phase implementation report is approval. Close all tickets implemented in that phase.
 
 Non-phase sessions:
 - After the human approves the implementation for an individual ticket, close it.

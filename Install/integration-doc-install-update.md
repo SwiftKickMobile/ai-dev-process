@@ -55,7 +55,14 @@ Discovery guidance (avoid brittle filename checklists):
 - When migrating "legacy integration glue" into the Integration doc, **search broadly** (README, `docs/`, CI config/scripts, prior agent/rule docs) for build/test commands, destinations, and artifact path conventions.
 - Do not assume specific legacy filenames exist. If you use examples (like `xcode-commands.md`), treat them as examples only and report **what you found**, not a list of "not found" files.
 
-## Legacy cleanup (recommended, permission-gated)
+## Legacy cleanup
 
-If the Integration doc contains legacy installer-oriented sections (e.g., "Installer setup tasks"), propose removing them (with explicit approval).
+On every install or update, review the existing Integration doc for content that has been superseded by canonical `skai` guides or templates. Content that was reasonable in an earlier version of skai may now duplicate or contradict a canonical source.
+
+Examples:
+- Working-doc conventions embedded inline (now owned by `Guides/Core/working-doc-conventions.md`)
+- Process-flow rules or marker semantics (now owned by `Guides/Core/process-flow.md`)
+- Legacy installer-oriented sections (e.g., "Installer setup tasks")
+
+Propose removing any such content and wait for approval before deleting.
 

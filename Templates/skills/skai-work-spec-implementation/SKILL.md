@@ -7,7 +7,5 @@ description: Executes work specs step-by-step using skai (begin/next/continue co
 
 ## Instructions
 
-- Read:
-  - `Submodules/skai/Guides/Spec/work-spec-implementation.md`
-- Use 🟡 to mark TODOs and stopping points; when the human says "begin/next/continue", remove the 🟡 you're acting on and proceed.
+- Read `Submodules/skai/Guides/Spec/work-spec-implementation.md` and follow it.
 - If the workflow needs project-specific commands/paths, read `docs/skai/integration.md` and STOP to ask for missing required values.

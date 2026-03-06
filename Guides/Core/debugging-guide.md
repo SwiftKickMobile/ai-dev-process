@@ -2,7 +2,7 @@ Managed-By: skai
 Managed-Id: guide.debugging-core
 Managed-Source: Guides/Core/debugging-guide.md
 Managed-Adapter: repo-source
-Managed-Updated-At: 2026-02-27
+Managed-Updated-At: 2026-03-04
 
 # Debugging / Problem-Resolution Guide (Core)
 
@@ -15,9 +15,13 @@ This guide follows the shared process-flow mechanics in `Guides/Core/process-flo
 Workflow-specific gate points (this guide must STOP and wait at these checkpoints):
 - Before running an experiment (pre-experiment): present facts + possibility-space partition (2-4) + chosen tactic + proposed discriminating experiment for approval.
 - After an experiment (post-experiment): present results + conclusions + updated possibility space + recommended next experiment for approval.
-- Before declaring a root cause (root cause): present the root cause statement and why it cannot be further partitioned for approval.
-- Before applying a fix (fix): present the proposed fix (or fix options) and the expected evidence of success for approval.
-- Before concluding (verify/close): present verification results plus any log cleanup/undo of experiment scaffolding for approval to conclude.
+- Before declaring a root cause (root cause, hard gate -- not bypassed by `auto`): present the root cause statement and why it cannot be further partitioned for approval.
+- Before applying a fix (fix, hard gate -- not bypassed by `auto`): present the proposed fix (or fix options) and the expected evidence of success for approval.
+- Before concluding (verify/close, hard gate -- not bypassed by `auto`): present verification results plus any log cleanup/undo of experiment scaffolding for approval to conclude.
+
+## Advance intent
+
+Advance intent (and `auto`) semantics are defined in `Guides/Core/process-flow.md`. The human may use `auto` to bypass iteration checkpoints, but `auto` does not bypass the hard gates listed above (root cause, fix, verify/close).
 
 ## Required mindset
 
@@ -41,7 +45,7 @@ For each iteration:
 4. Run (human) → report evidence → update the possibility space.
 5. If the tactic isn't producing new discriminating evidence quickly, switch tactics.
 
-Checkpoint: STOP for approval before proceeding to the next iteration (use the standard gate line; see `Guides/Core/process-flow.md`). The human may use `auto` to bypass iteration checkpoints, but `auto` does not bypass universal STOP conditions or the hard gates below.
+Checkpoint: STOP for approval before proceeding to the next iteration (use the standard gate line; see `Guides/Core/process-flow.md`).
 
 ## Debugging toolbox (core)
 
@@ -139,17 +143,12 @@ Checkpoint: STOP and get explicit approval before declaring a root cause or appl
 - If a temporary log remains useful for the next iteration, keep it, but keep the set small and hypothesis-focused.
 - Avoid log spam: prefer logging state changes, not every read.
 
-## Stop conditions (consult human)
+## Stop conditions (workflow-specific)
 
-Stop and consult the human when:
-- Expected behavior is ambiguous (product intent required).
-- Required evidence is missing (human hasn't provided output needed to proceed).
-- The next change is large/destructive/wide-reaching.
-- You've iterated without gaining discriminating evidence.
+Universal STOP conditions (ambiguity, missing evidence, destructive operations) are defined in `Guides/Core/process-flow.md` and apply here.
 
-If progress stalls:
-- STOP and ask the human for a direction change (e.g., choose a different tactic, broaden/narrow the possibility space, provide missing evidence, or accept a workaround).
-- This stop condition applies even in `auto`.
+Additional stop condition for this workflow:
+- **Stalled progress**: if you've iterated without gaining discriminating evidence, STOP and ask the human for a direction change (e.g., choose a different tactic, broaden/narrow the possibility space, provide missing evidence, or accept a workaround). This applies even in `auto`.
 
 ## Adapter notes (minimal)
 

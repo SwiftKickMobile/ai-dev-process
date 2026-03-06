@@ -208,10 +208,10 @@ Plan-first testing workflow. The agent plans all tests upfront, then implements 
 **Phases:**
 
 1. **Planning.** Agent creates test files organized into sections, with test stubs in each. Doc comments on every stub serve as the test plan. Checkpoint: human reviews the plan before implementation begins.
-2. **Infrastructure** (per section). Agent identifies required test infrastructure for the current section (mocks, stubs, fixtures) and proposes additions. Checkpoint: human approves infrastructure changes (if any).
-3. **Writing** (per section). Agent implements tests and then runs them. Checkpoints: agent stops after writing (before running tests), and stops after test results to confirm conclusions and next steps (including any proposed production-code fixes).
+2. **Infrastructure.** Agent identifies required test infrastructure for all planned tests in the suite (stubs, fixtures, production code abstractions) and proposes additions. Checkpoint: human approves infrastructure changes (if any).
+3. **Writing** (per section). Agent implements tests and then runs them. Checkpoints: agent stops after writing (before running tests), and stops after test results to confirm conclusions and next steps (including any proposed production-code fixes). If a test requires infrastructure that wasn't identified in Phase 2, it is skipped and the human can re-enter the infrastructure phase later.
 
-Phases 2-3 repeat for each section until none remain.
+Phase 3 repeats for each section until none remain.
 
 ### Debugging (skill `skai-debugging`)
 

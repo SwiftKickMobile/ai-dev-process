@@ -2,7 +2,7 @@ Managed-By: skai
 Managed-Id: guide.work-spec-implementation
 Managed-Source: Guides/Spec/work-spec-implementation.md
 Managed-Adapter: repo-source
-Managed-Updated-At: 2026-02-28
+Managed-Updated-At: 2026-03-04
 
 
 # Work Task Development Rules
@@ -25,18 +25,16 @@ Workflow-specific gate points (this guide must STOP and wait at these checkpoint
 
 ---
 
-## Commands
+## Advance intent
 
-### Advance intent
-
-**Definition:** Advance intent. See `Guides/Core/process-flow.md`.
+Advance intent (and `auto`) semantics are defined in `Guides/Core/process-flow.md`.
 
 **Behavior:** Context determines the action:
 - If waiting to proceed → mark previous task complete (if applicable) and begin next task
 - If stopped due to ambiguities or unexpected challenges → resume implementation where you left off
 
 **When executing next task:**
-1. Find the first task marked with 🟡 (TODO) in the work spec
+1. Find the first task marked with 🟡 in the work spec
 2. **If not the first task:** 
    - Remove 🟡 from the previous (just-completed) task
    - Remove 🟡 from any Requirements Inventory items in the *work spec only* that were fully satisfied by the completed task
@@ -44,25 +42,10 @@ Workflow-specific gate points (this guide must STOP and wait at these checkpoint
 3. Implement the next task in sequence (referring to requirement IDs for full context)
 4. Follow the Task N implementation rules below
 
-**Progress Indicators:**
-- 🟡 = TODO (task not yet complete)
-- No marker = Complete (task finished)
+**Workflow-specific `auto` rules:**
 
-### Advance intent + `auto`
-
-Advance intent followed by `auto` (e.g., `"next auto"`). See `Guides/Core/process-flow.md` for shared `auto` semantics and universal STOP conditions.
-
-**Behavior:**
-- Automatically implements all remaining 🟡 tasks in sequence
-- Removes 🟡 from completed tasks as it progresses
-- When encountering blockers:
-  1. **Ambiguity/unclear requirements** - Stop, leave 🟡 on problematic task and all remaining tasks, document the issue, wait for clarification
-  2. **Compilation errors** - Attempt simple fixes (typos, imports), if persists: stop, leave 🟡, document error
-  3. **Non-trivial issues** - Stop, leave 🟡, document problem, wait for human input
-- At end: Reports progress (tasks completed vs tasks remaining with 🟡)
-- Use when: Want to make maximum progress and batch human input items together
-
-At checkpoints, end checkpoint output with the standard gate line (see `Guides/Core/process-flow.md`).
+- Automatically implements all remaining 🟡 tasks in sequence, removing 🟡 from completed tasks as it progresses.
+- At end: reports progress (tasks completed vs tasks remaining with 🟡).
 
 **Auto-fixes allowed:**
 - Obvious typos (wrong variable names, enum values)
@@ -77,11 +60,6 @@ At checkpoints, end checkpoint output with the standard gate line (see `Guides/C
 - Any change where the spec said X and you are implementing not-X
 
 **Bright-line test:** If your fix requires editing the work spec to remove or weaken a requirement or design decision, STOP. That is a spec deviation, not a fix -- it requires human input regardless of how obvious the alternative seems.
-
-**Final report includes:**
-- Tasks completed (🟡 removed)
-- Tasks remaining (with 🟡) and reasons why they were skipped
-- Human can then address remaining items with advance intent or approve/modify approach
 
 ## Task N Implementation
 
@@ -122,15 +100,11 @@ If you encounter ambiguity, incompleteness, or potential errors in the spec duri
 - Explain the ambiguity clearly and propose options if applicable
 - Wait for the human to resolve the ambiguity
 
-End checkpoint output with the standard gate line (see `Guides/Core/process-flow.md`).
-
 ### Step 3: Stop and Wait
 - **DO NOT** remove 🟡 from Task N in the work spec
 - **DO NOT** proceed to the next task
 - **DO NOT** update current task status
 - Simply stop and wait for user authorization
-
-End checkpoint output with the standard gate line (see `Guides/Core/process-flow.md`).
 
 ### Step 4: During Implementation
 - When asked questions, do not make changes unless explicitly instructed

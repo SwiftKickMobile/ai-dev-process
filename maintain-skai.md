@@ -59,22 +59,86 @@ All guides live under a topical subdirectory within `Guides/`. Do not place guid
 
 When adding a new guide, place it in the most appropriate existing subdirectory. If none fits, propose a new subdirectory and document it here.
 
-## Guide change checklist (process-flow aligned house style)
+## Guide house style
 
-Whenever you add a new file under `Guides/` (or make a substantial edit to an existing guide):
+Applies to all workflow documents: files under `Guides/`, internal runbooks (`maintain-*.md`), and skill entry points (`SKILL.md` files under `Templates/skills/` and `.cursor/skills/`). Follow these rules whenever adding or substantially editing any of them.
+
+### Required elements
 
 - **Managed header**: file must include the managed header (`Managed-By`, `Managed-Id`, `Managed-Source`, `Managed-Adapter`, `Managed-Updated-At`).
-- **Process-flow alignment**:
-  - If the guide has any STOP points / gates, include a `## Checkpoints` section near the top that:
-    - references `Guides/Core/process-flow.md` for shared mechanics
-    - enumerates this guide's workflow-specific gates
-    - states that checkpoint outputs must end with the standard `⏳ GATE:` line (by reference; do not restate the variants)
 - **Terminology**: use "advance intent" (never "Next Command").
 - **Lean core, deep links**: keep core guides concise; if a tactic/procedure is detailed and rarely used, place it in a dedicated guide/appendix and link to it from the core guide.
-- **Sanity scan**: after editing, search for:
-  - missing `## Checkpoints` in the changed guide (if it has gates)
-  - inconsistent terms ("Next Command")
-  - stack-mismatched references (e.g., Xcode terms in Android-only sections)
+
+### Standard structure for guides with gates
+
+If the guide has any STOP points / gates, use this structure for the process-flow sections:
+
+```
+## Checkpoints
+<one-line reference to process-flow for shared mechanics>
+<enumerate this guide's workflow-specific gates -- one bullet per gate>
+
+## Advance intent
+<one-line reference to process-flow>
+<workflow-specific advance behavior ONLY if it differs from the default>
+```
+
+**Checkpoints section rules:**
+- Reference `Guides/Core/process-flow.md` for shared mechanics (do not restate what checkpoints are or how gate lines work).
+- List only this guide's planned gates -- one bullet per gate describing what the agent presents and why it stops.
+
+**Advance intent section rules:**
+- Start with a one-line reference to process-flow (e.g., "Advance intent (and `auto`) semantics are defined in `Guides/Core/process-flow.md`.").
+- Add workflow-specific behavior only when this guide's advance action differs from the default (e.g., "marks previous task complete and begins next task").
+- Do not restate what advance intent means, how authorization works, or general `auto` semantics.
+- Workflow-specific `auto` rules (skip conditions, auto-fix rules) belong here.
+
+### Process-flow separation (do not restate general mechanics)
+
+`Guides/Core/process-flow.md` is the single source of truth for:
+- What a checkpoint/gate is and how it works
+- The standard gate line variants (Continue, Blocked) and workflow completion line
+- Advance intent recognition and authorization
+- General `auto` semantics and universal STOP conditions
+- 🟡 marker semantics (TODO, pending approval, must not clear without approval)
+- Marker update protocol
+
+**Do not restate these in individual guides.** Restating general mechanics creates contradictions when either source is updated independently. Proven failure mode: a guide's "Flow" section said markers are removed automatically when tests pass, contradicting process-flow's rule that markers require human approval.
+
+Specifically, do not include:
+- "Flow" or "Process Overview" subsections that embed checkpoint behavior or marker removal steps alongside phase sequencing. State only which phases exist and their order.
+- Standalone "Progress Tracking" sections that restate 🟡 = TODO / no marker = complete.
+- "Quick Reference" content that restates process-flow rules (checkpoint behavior, marker semantics, authorization). Quick references should contain only workflow-specific content (e.g., test commands, file paths, task structure).
+- Inline restatements of marker removal timing (e.g., "remove 🟡 when complete") -- process-flow already defines when markers are cleared.
+
+**What guides should contain:**
+- Workflow-specific phase sequencing (which phases, their order, what each phase does)
+- Workflow-specific gate descriptions (what the agent presents at each gate)
+- Workflow-specific `auto` skip/fix rules
+- Workflow-specific procedures, examples, and reference material
+
+### Sanity scan (after every edit)
+
+Run this scan after *each* guide edit, not just at the end of a batch. Deferring the scan to the end of a batch is the proven failure mode -- violations introduced early in the batch survive unchecked.
+
+Checks:
+
+**Structure:**
+- Missing `## Checkpoints` section (if the guide has gates)
+- Missing `## Advance intent` section (if the guide has gates)
+- Inconsistent terms ("Next Command" instead of "advance intent")
+- Stack-mismatched references (e.g., Xcode terms in Android-only sections)
+
+**Process-flow separation:**
+- Restated process-flow mechanics (marker semantics, checkpoint behavior, authorization rules)
+- Standalone "Progress Tracking" or "Emoji System" sections that redefine 🟡
+
+**Flow control integrity:**
+- Any "remove 🟡" language that is not explicitly gated on advance intent or a checkpoint. Search for `remove 🟡` and `Remove 🟡` and verify each occurrence is tied to an advance intent trigger, not to an autonomous condition (e.g., "when complete", "as you complete them").
+- Flow/sequence descriptions where marker removal appears before a STOP/checkpoint (wrong order -- the checkpoint must come first, marker removal happens on the subsequent advance intent).
+- Examples or walkthroughs that show markers being removed without a preceding checkpoint + advance intent step.
+- `auto` sections that list gates bypassed by `auto` without labeling which gates are hard (not bypassed). If a guide has both soft and hard gates, the Checkpoints section should label the hard ones.
+- Inline "Checkpoint:" signposts that add mechanics not present in the `## Checkpoints` section (acceptable to say "Checkpoint: STOP"; not acceptable to add new rules about what happens at the checkpoint).
 
 ## README Usage section conventions
 

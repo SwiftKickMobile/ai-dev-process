@@ -2,7 +2,7 @@ Managed-By: skai
 Managed-Id: guide.unit-test-infrastructure
 Managed-Source: Guides/Test/unit-test-infrastructure-guide.md
 Managed-Adapter: repo-source
-Managed-Updated-At: 2026-02-27
+Managed-Updated-At: 2026-03-04
 
 # Unit Test Infrastructure Guide
 
@@ -30,11 +30,9 @@ At checkpoints, end checkpoint output with the standard gate line (see `Guides/C
 
 ---
 
-## Commands
+## Advance intent
 
-### Advance intent
-
-**Definition:** Advance intent. See `Guides/Core/process-flow.md`.
+Advance intent (and `auto`) semantics are defined in `Guides/Core/process-flow.md`.
 
 **Behavior:** Context determines the action:
 - If waiting to proceed → remove 🟡 from the current phase (where applicable), advance to next phase
@@ -44,13 +42,15 @@ At checkpoints, end checkpoint output with the standard gate line (see `Guides/C
 
 ## Process Overview
 
+**Scope:** Infrastructure covers **all planned tests** in the suite (not one section at a time). This ensures shared stubs, fixtures, and production code abstractions are identified holistically.
+
 **Three phases:**
 
-1. **Phase 1: Identify** - Research and document infrastructure needs
+1. **Phase 1: Identify** - Research and document infrastructure needs for all planned tests
 2. **Phase 2: Implement** - Create the infrastructure (if needed)
 3. **Phase 3: Compile** - Ensure everything builds (if implemented)
 
-**Progress tracking (only if infrastructure changes are required):** Infrastructure work document checklist uses 🟡 for TODO phases, and no marker for completed phases (remove 🟡 when complete).
+**Progress tracking (only if infrastructure changes are required):** Infrastructure work document checklist uses 🟡 for TODO phases (see `Guides/Core/process-flow.md` for marker semantics).
 
 **Flow:**
 1. Phase 1 (Identify) → STOP at checkpoint
@@ -58,7 +58,7 @@ At checkpoints, end checkpoint output with the standard gate line (see `Guides/C
    - If **no infrastructure changes required** → STOP at checkpoint (no document created)
    - If **infrastructure changes required** → Create work document (includes Phase 1/2/3 checklist with 🟡) → Execute Phase 2 (Implement)
 3. After Phase 2 → Execute Phase 3 (Compile)
-4. After Phase 3 → Remove 🟡 from Phase 2 & 3 (in the work document) → STOP at checkpoint
+4. After Phase 3 → STOP at checkpoint → on advance intent, infrastructure complete
 
 **Possible outcomes:**
 - No infrastructure changes required → STOP at checkpoint after Phase 1 (no document)
@@ -104,6 +104,8 @@ At checkpoints, end checkpoint output with the standard gate line (see `Guides/C
 
 **Always propose HOW to test, never whether to test.**
 
+**During this phase, never skip a test because it requires a production code change.** If testing a component requires a protocol wrapper, dependency injection, or other production code abstraction, propose the minimal change as infrastructure and ask the human for approval.
+
 ---
 
 ### Process
@@ -121,6 +123,7 @@ At checkpoints, end checkpoint output with the standard gate line (see `Guides/C
    - **Document what you searched and what you found (or did not find)**
    - If file not found: Mark as "NEW (does not exist)"
    - If file found: Mark as "Already exists at [path]" and list its current capabilities
+   - **Before proposing any new test double, fixture, or helper:** search all test modules and shared test modules for existing equivalents. List what was found (or confirm nothing exists) in the work document before proposing new infrastructure.
 
 3. **CHECK FOR EXISTING TESTS**
    - Review existing infrastructure already in use
@@ -185,6 +188,14 @@ At checkpoints, end checkpoint output with the standard gate line (see `Guides/C
 **Location and Naming:**
 
 See `docs/skai/integration.md` for the project's test infrastructure locations and naming conventions.
+
+**Naming Convention:**
+
+Name test doubles based on their actual role:
+- `*Stub` -- provides canned responses (e.g., `NetworkSessionStub` returns pre-configured results)
+- `Mock*` -- verifies interaction expectations (e.g., `MockAnalyticsTracker` asserts that specific methods were called)
+
+If existing test doubles in the module use incorrect terminology (e.g., a stub named `MockService`), propose renaming them to match the convention and get approval before proceeding.
 
 #### 3. Fixtures
 
@@ -345,20 +356,19 @@ read_file path/to/Mocks/MockService.swift
 
 **0. Create work document** (per `Guides/Core/working-doc-conventions.md`):
    - **Subpath**: `testing/<suite-name>`
-   - **File name**: `<section-name>-infrastructure.md`
-   - **Full path**: `working-docs/<branch-path>/testing/<suite-name>/<section-name>-infrastructure.md`
+   - **File name**: `infrastructure.md`
+   - **Full path**: `working-docs/<branch-path>/testing/<suite-name>/infrastructure.md`
    - `<suite-name>` = test file name without "Tests.swift" (e.g., `TemplateRenderer` from `TemplateRendererTests.swift`)
-   - `<section-name>` = section name in kebab-case (e.g., `success-tests`, `error-handling`)
-   - **Example**: `working-docs/work/feature-branch/testing/TemplateRenderer/success-tests-infrastructure.md`
+   - **Example**: `working-docs/work/feature-branch/testing/TemplateRenderer/infrastructure.md`
    - **Structure**:
      ```markdown
-     # [Suite Name] - [Section Name] Tests - Infrastructure
+     # [Suite Name] - Infrastructure
      
      ## Context
      This document tracks the infrastructure work for implementing unit tests for [description].
      
      **Source:** [path to source file]
-     **Tests:** [path to test file with line range]
+     **Tests:** [path to test file]
      
      ## Checklist
      
@@ -376,8 +386,8 @@ read_file path/to/Mocks/MockService.swift
      ```
 
 **1. Create infrastructure work spec** (if complex, otherwise implement directly):
-   - **Full path**: `working-docs/<branch-path>/testing/<suite-name>/<section-name>-infrastructure-spec.md`
-   - **Example**: `working-docs/work/feature-branch/testing/TemplateRenderer/success-tests-infrastructure-spec.md`
+   - **Full path**: `working-docs/<branch-path>/testing/<suite-name>/infrastructure-spec.md`
+   - **Example**: `working-docs/work/feature-branch/testing/TemplateRenderer/infrastructure-spec.md`
    - **Structure**: Motivation, Functional Requirements, Relevant Files, Task List
    - **Content**: Describe all stubs, mocks, fixtures, and production code changes needed
    - **No code**: Describe what to implement, not how
@@ -387,7 +397,6 @@ read_file path/to/Mocks/MockService.swift
 3. **Work through the spec with human:**
    - Human will say "Start task N" or "Proceed to next task"
    - Implement each task following the project's code organization policy (stack-specific)
-   - Remove 🟡 from tasks as you complete them (do not use ✅)
    - Continue until all infrastructure tasks are complete
 
 4. **Proceed to Phase 3** (Compile)
@@ -426,11 +435,7 @@ See `docs/skai/integration.md` for:
 
 5. **If no errors:** Document success with exit code 0
 
-6. **Complete:** Infrastructure ready for use
-
-7. **Mark phases complete:** Remove 🟡 from Phase 2 and Phase 3 in the work document
-
-8. **Done:** Infrastructure process complete
+6. **Complete:** Infrastructure ready for use. STOP at checkpoint.
 
 ---
 
@@ -579,16 +584,16 @@ let result3 = try await sut.performOperation(params: params3)  // Gets third res
 
 **Work Document Structure** (created in Phase 2 only if infrastructure needed):
 
-Full path: `working-docs/<branch-path>/testing/<suite-name>/<section-name>-infrastructure.md` (per `Guides/Core/working-doc-conventions.md`)
+Full path: `working-docs/<branch-path>/testing/<suite-name>/infrastructure.md` (per `Guides/Core/working-doc-conventions.md`)
 
 ```markdown
-# [Suite Name] - [Section Name] Tests - Infrastructure
+# [Suite Name] - Infrastructure
 
 ## Context
 This document tracks the infrastructure work for implementing unit tests for [description].
 
 **Source:** [path to source file]
-**Tests:** [path to test file with line range]
+**Tests:** [path to test file]
 
 ## Checklist
 
@@ -627,7 +632,6 @@ This document tracks the infrastructure work for implementing unit tests for [de
 - Build framework
 - Fix compilation errors
 - Verify clean build
-- Remove 🟡 from Phase 2 & 3
 
 ---
 
@@ -643,14 +647,7 @@ This document tracks the infrastructure work for implementing unit tests for [de
 
 See `docs/skai/integration.md` for all infrastructure locations and naming conventions.
 
-**Command:**
-- Advance intent - Proceed to the next phase (see `Guides/Core/process-flow.md`)
-- Phase 1 → STOP (checkpoint)
-- After approval → If a work document exists, remove 🟡 from Phase 1
-- Branch: No infrastructure → Done | Infrastructure needed → Phase 2 & 3
-- After Phase 3 → Remove 🟡 from Phase 2 & 3 → Done
+**Phase flow:** Phase 1 → checkpoint → if no infrastructure: done | if infrastructure: Phase 2 → Phase 3 → checkpoint → done
 
-**Progress Tracking:**
-- Work document checklist: 🟡 = TODO, no marker = complete
-- Within content sections: Prefer "Already exists" vs "NEW" (avoid ✅/❌ completion markers)
+**Content sections:** Prefer "Already exists" vs "NEW" (avoid ✅/❌ completion markers)
 

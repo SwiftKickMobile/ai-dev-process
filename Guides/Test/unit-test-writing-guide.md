@@ -2,7 +2,7 @@ Managed-By: skai
 Managed-Id: guide.unit-test-writing
 Managed-Source: Guides/Test/unit-test-writing-guide.md
 Managed-Adapter: repo-source
-Managed-Updated-At: 2026-02-27
+Managed-Updated-At: 2026-03-04
 
 # Unit Test Writing & Execution Guide
 
@@ -23,16 +23,15 @@ Workflow-specific gate points (this guide must STOP and wait at these checkpoint
 - During Phase 2 (Execute & Fix):
   - If tests did not run: STOP, surface the concrete error, and wait for advance intent after proposing the next attempt.
   - If you are about to change production code based on a failing test: propose the fix and STOP for approval.
+  - When all tests pass: present results and STOP. Do not remove 🟡 markers until the human gives advance intent.
 
 At checkpoints, end checkpoint output with the standard gate line (see `Guides/Core/process-flow.md`).
 
 ---
 
-## Commands
+## Advance intent
 
-### Advance intent
-
-**Definition:** Advance intent. See `Guides/Core/process-flow.md`.
+Advance intent (and `auto`) semantics are defined in `Guides/Core/process-flow.md`.
 
 **Behavior:** Context determines the action:
 - If waiting to proceed → remove 🟡 from the current phase (where applicable), advance to next phase
@@ -47,16 +46,16 @@ At checkpoints, end checkpoint output with the standard gate line (see `Guides/C
 1. **Phase 1: Write Tests** - Implement test logic
 2. **Phase 2: Execute & Fix** - Run tests and fix failures
 
-**Progress tracking:**
-- **Test file:** 🟡 on test functions = TODO, remove when pass
-- **Test file:** 🟡 on section MARK = section has TODO tests, remove when all pass
-- **Work document:** 🟡 = TODO phase, no marker = completed phase (remove 🟡 when complete)
+**Progress tracking:** 🟡 markers (see `Guides/Core/process-flow.md`) are used in two places:
+- **Test file:** 🟡 on test functions and section MARKs
+- **Work document:** 🟡 on phase checklist items
 
 **Flow:**
-1. Phase 1 (Write Tests) → STOP at checkpoint
-2. Advance intent → Remove 🟡 from Phase 1 (in the work document)
-3. Phase 2 (Execute & Fix) → Iterate until all tests pass
-4. All tests passing → Remove 🟡 from all tests → Writing complete
+1. Phase 1 (Write Tests) → checkpoint
+2. Advance intent → Phase 2 (Execute & Fix) → iterate until all tests pass → checkpoint
+3. Advance intent → remove 🟡 from passing tests → writing complete
+
+**Missing infrastructure during writing:** If you discover a test requires infrastructure that was not provided during the infrastructure phase, do not create the infrastructure inline. Skip the test (mark it as blocked on infrastructure) and continue with the rest of the section. The human can re-enter the infrastructure phase later to address skipped tests.
 
 **Two scenarios:**
 - **Writing new tests**: Start at Phase 1
@@ -70,13 +69,13 @@ At checkpoints, end checkpoint output with the standard gate line (see `Guides/C
 
 **Goal:** Implement test logic for all 🟡 tests in the section
 
-**Checkpoint:** STOP after this phase and wait for advance intent (end checkpoint output with the standard gate line; see `Guides/Core/process-flow.md`).
+**Checkpoint:** STOP after this phase and wait for advance intent.
 
 ### Phase 2: Execute & Fix
 
 **Iterative:** May require multiple investigation/fix cycles
 
-**After Phase 2:** When all tests pass (no 🟡 remain), writing process complete
+**After Phase 2:** When all tests pass, STOP and present results. Remove 🟡 markers only after advance intent.
 
 ---
 
@@ -167,6 +166,10 @@ At checkpoints, end checkpoint output with the standard gate line (see `Guides/C
 
 **Use Swift Testing framework (not XCTest) for all new tests**
 
+**Every test requires both:**
+- `///` doc comment -- explains what the test verifies and how (for code review)
+- `@Test("...")` display name -- concise behavior sentence for test navigator and CI output (not a duplicate of the function name)
+
 **🚨 CRITICAL: EVERY test MUST start with `defer { Container.shared.reset() }` 🚨**
 
 ```swift
@@ -177,8 +180,9 @@ import Factory
 @Suite(.serialized) @MainActor
 struct MyComponentTests {
 
-    /// Description of what this test verifies
-    @Test func testSomething() async throws {
+    /// Verifies that a successful operation returns the expected value.
+    /// Stubs the dependency to return a success response.
+    @Test("Returns expected value on success") func testSomething() async throws {
         // 🚨 REQUIRED: Clean up at end of test (before registering dependencies)
         defer { Container.shared.reset() }
         
@@ -326,24 +330,24 @@ struct MyComponentTests {
     
     // MARK: - Success Tests
     
-    @Test func testBasicSuccess() async throws {
+    @Test("Returns result on basic success") func testBasicSuccess() async throws {
         defer { Container.shared.reset() }
         // Test logic...
     }
     
-    @Test func testComplexSuccess() async throws {
+    @Test("Handles complex multi-step success") func testComplexSuccess() async throws {
         defer { Container.shared.reset() }
         // Test logic...
     }
     
     // MARK: - Error Tests
     
-    @Test func testNetworkError() async throws {
+    @Test("Propagates network error") func testNetworkError() async throws {
         defer { Container.shared.reset() }
         // Test logic...
     }
     
-    @Test func testValidationError() async throws {
+    @Test("Rejects invalid input") func testValidationError() async throws {
         defer { Container.shared.reset() }
         // Test logic...
     }
@@ -381,7 +385,7 @@ struct MyComponentTests {
 
 **Triggered by:** Advance intent after Phase 1
 
-**Marks Phase 1 complete (remove 🟡)** in work document before starting
+**On advance intent:** marks Phase 1 complete in work document, then begins Phase 2.
 
 ### Process
 
@@ -427,20 +431,17 @@ struct MyComponentTests {
    - Pass/fail status
 
 4. **If all tests pass:**
-   - Remove 🟡 from Phase 2 in the work document
-   - Remove 🟡 from all passing test functions in test file
-   - Remove 🟡 from section MARK comment (if all tests in section pass)
    - Document success
+   - STOP at checkpoint (present results and wait for advance intent)
+   - After advance intent: remove 🟡 from Phase 2 in the work document, from passing test functions, and from section MARK comment (if all tests in section pass)
    - Section complete!
 
 5. **If tests fail:**
-   - Keep 🟡 on failing test functions in test file
-   - Remove 🟡 from passing test functions in test file
+   - Keep all 🟡 markers in place (do not remove from passing tests mid-iteration)
    - Document failures in work document
    - Follow maintenance workflow (see below)
    - Re-run after fixes
    - Repeat until all pass
-   - Note: If a previously passing test fails later, restore 🟡 to that test function
 
 ---
 
@@ -779,10 +780,9 @@ This document tracks the writing and execution work for implementing unit tests.
   - Extract structured assertion details (CRITICAL) (see `docs/skai/integration.md`)
   - Document expected vs actual values
   - Investigate and fix (see maintenance workflow)
-- Remove 🟡 from test functions as they pass
 - Re-run until all pass
-- When complete: remove 🟡 from "Phase 2: Execute & Fix" in the work document
-- Remove 🟡 from section when all tests pass
+- When all pass: STOP at checkpoint (present results, wait for advance intent)
+- After advance intent: remove 🟡 from test functions, section MARK, and Phase 2 in work document
 - If previously passing test fails: Restore 🟡 to that test function
 
 ---
@@ -813,11 +813,6 @@ See `docs/skai/integration.md` for project-specific test execution commands.
 - Use `defer { Container.shared.reset() }` at start of each test for cleanup
 - Register stubs per-test
 - Wait for advance intent before running tests
-
-**Progress Tracking:**
-- **Test file:** 🟡 on test functions = TODO, remove when pass (restore if fails later)
-- **Test file:** 🟡 on section MARK = section has TODO tests, remove when all pass
-- **Work document:** 🟡 in checklist for phases, remove when complete
 
 **Test execution validation:**
 - After running test command, IMMEDIATELY verify test actually ran

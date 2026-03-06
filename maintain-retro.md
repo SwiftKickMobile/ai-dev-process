@@ -1,3 +1,9 @@
+Managed-By: skai
+Managed-Id: guide.maintain-retro
+Managed-Source: maintain-retro.md
+Managed-Adapter: repo-source
+Managed-Updated-At: 2026-03-04
+
 # Maintenance retro checklist (LLM + human)
 
 Use this after making changes to `skai` to ensure nothing was forgotten.

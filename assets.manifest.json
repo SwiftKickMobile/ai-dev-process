@@ -34,6 +34,12 @@
       "tags": ["core"]
     },
     {
+      "id": "policy.universal-stop-conditions",
+      "type": "policy",
+      "sourcePath": "Policies/universal-stop-conditions.md",
+      "tags": ["core"]
+    },
+    {
       "id": "policy.swift-code-organization",
       "type": "policy",
       "sourcePath": "Policies/swift-code-organization.md",

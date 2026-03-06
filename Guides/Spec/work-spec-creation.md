@@ -2,7 +2,7 @@ Managed-By: skai
 Managed-Id: guide.work-spec
 Managed-Source: Guides/Spec/work-spec-creation.md
 Managed-Adapter: repo-source
-Managed-Updated-At: 2026-02-28
+Managed-Updated-At: 2026-03-04
 
 # Work Specification Guide
 
@@ -34,57 +34,23 @@ Workflow-specific gate points (this guide must STOP and wait at these checkpoint
 
 ---
 
-## Commands
+## Advance intent
 
-### Advance intent
-
-**Definition:** Advance intent. See `Guides/Core/process-flow.md`.
+Advance intent (and `auto`) semantics are defined in `Guides/Core/process-flow.md`.
 
 **Behavior:** Context determines the action. The same command drives every phase of the process; the agent infers which step to execute based on the current state of the conversation and any existing documents.
 
-### Advance intent + `auto`
+**Workflow-specific `auto` rules:**
 
-Advance intent followed by `auto` (e.g., `"next auto"`). See `Guides/Core/process-flow.md` for shared `auto` semantics and universal STOP conditions.
+`auto` can be useful after the human has already approved the planning document and there are no remaining 🟡 items, to batch requirements normalization, work spec first pass, and work spec second pass. If the planning document still has unresolved 🟡 items, this workflow is blocked on human decisions and `auto` should STOP at that checkpoint.
 
-In this workflow, `auto` can be useful after the human has already approved the planning document and there are no remaining 🟡 items, to batch:
-- requirements normalization
-- work spec first pass
-- work spec second pass
+**Phase actions on advance intent:**
 
-If the planning document still has unresolved 🟡 items, this workflow is blocked on human decisions and `auto` should STOP at that checkpoint.
-
-**Planning -- Create Planning Document:**
-- Triggered when the human says begin/next/continue in the context of a scope discussion (e.g., "begin planning", "lets start the planning doc, begin")
-- Summarizes the scope discussion into a planning document
-- Seeds the document with 🟡 open questions and discussion topics for Stage 1
-- Checkpoint: STOP and wait for advance intent (use the standard gate line; see `Guides/Core/process-flow.md`).
-
-**Planning -- Resolve Open Questions:**
-- Triggered when the human says begin/next/continue while working through a planning document with unresolved 🟡 markers
-- Continues the iterative discussion, updating the document as decisions are made
-
-**Requirements Normalization:**
-- Triggered when the human sets the context that it is time to work on requirements and says begin/next/continue (e.g., "lets do requirements, begin")
-- Promotes product/system behaviors from the planning document into the canonical requirements repository
-
-**Work Spec -- First Pass:**
-- Triggered when the human sets the context that it is time to write the work spec and says begin/next/continue (e.g., "lets write the work spec, begin")
-- Creates work specification document
-- Includes: Title, Motivation, Functional Requirements, Requirements Inventory, Non-goals / Deferred, Relevant Files, Task List
-- Task list contains only main tasks (numbered 1, 2, 3, etc.)
-- No subtasks included
-- No Traceability section (deferred to second step because the human may restructure the task list)
-- Checkpoint: STOP and wait for advance intent (use the standard gate line; see `Guides/Core/process-flow.md`).
-- Allows human to review overall sequence before details
-
-**Work Spec -- Second Pass:**
-- Adds detailed subtasks to each main task
-- Subtasks numbered (1.1, 1.2, 2.1, 2.2, etc.)
-- All tasks marked with 🟡 indicator (TODO)
-- Adds the Traceability section (requirement ↔ task mapping) now that the task list is finalized
-- Provides implementation-ready detail
-- Completes the work specification
-- Checkpoint: STOP and wait for advance intent (use the standard gate line; see `Guides/Core/process-flow.md`).
+- **Planning -- Create Planning Document:** summarize the scope discussion into a planning document; seed with 🟡 open questions for Stage 1.
+- **Planning -- Resolve Open Questions:** continue the iterative discussion, updating the document as decisions are made.
+- **Requirements Normalization:** promote product/system behaviors from the planning document into the canonical requirements repository.
+- **Work Spec -- First Pass:** create work specification with high-level tasks only (no subtasks, no Traceability). Allows human to review overall sequence before details.
+- **Work Spec -- Second Pass:** add detailed subtasks, 🟡 indicators, and the Traceability section.
 
 ---
 
@@ -245,7 +211,7 @@ If the planning document uses phases:
   - an API sketch for the phase, and
   - the human's approval to proceed with that phase.
 
-Checkpoint: STOP and wait for the human to confirm readiness to proceed (use the standard gate line; see `Guides/Core/process-flow.md`).
+Checkpoint: STOP and wait for the human to confirm readiness to proceed.
 
 ---
 
@@ -305,7 +271,7 @@ Write canonical requirements as if authored by a **product manager with no knowl
 
 The work specification references canonical requirement IDs produced by this step.
 
-Checkpoint: STOP and wait for the human to acknowledge requirements updates before starting the work spec draft (use the standard gate line; see `Guides/Core/process-flow.md`).
+Checkpoint: STOP and wait for the human to acknowledge requirements updates before starting the work spec draft.
 
 ---
 
@@ -411,12 +377,11 @@ This inventory is split into two scopes.
 #### Work-spec requirements (technical / transitional)
 - Each local requirement gets an ID (e.g. `DATA-01`, `MIG-02`, `TEMP-01`).
 - These may describe technical or implementation-level decisions.
-- Items start with 🟡 and the 🟡 is removed when complete (no ✅ -- absence of 🟡 means done).
+- Items start with 🟡.
 
 **Rules:**
 - Inventory must be complete (capture all technical requirements + constraints + deferred / non-goal items introduced by this work).
 - Tasks and subtasks must cite requirement IDs.
-- When a task is completed, remove 🟡 from any work-spec requirements it fully satisfied.
 
 ### 3.6 Non-goals / Deferred
 Explicitly list anything deferred/out-of-scope from planning (also with IDs), so it can't disappear.
@@ -451,11 +416,7 @@ Include a short mapping section that ensures every requirement is implemented or
 
 Sub-tasks use indented numbered lists. Number subtasks sequentially across the task (including Verification). Referencing "1.2" means task 1, sub-task 2 -- the nesting is implied by indentation.
 
-**Progress Indicators:**
-- 🟡 = TODO (task not yet complete)
-- No marker = Complete (absence of 🟡 means done)
-
-Tasks are created with 🟡 and the 🟡 is removed when complete.
+Tasks are created with 🟡 (see `Guides/Core/process-flow.md` for marker semantics).
 
 ### Task Naming
 - Use descriptive action-oriented names
@@ -561,21 +522,10 @@ Rules:
 
 ## Progress Tracking
 
-### Status Indicators
-- **🟡 (TODO)**: Task not yet started or in progress
-- **No marker (Complete)**: Task finished and verified (absence of 🟡 means done)
+🟡 marker semantics are defined in `Guides/Core/process-flow.md`.
 
-### Tracking Rules
-- Tasks are created with 🟡 indicator
-- Remove 🟡 when task is complete (no ✅ -- absence of 🟡 means done)
-- Only mark main tasks (not sub-tasks)
-- Mark task complete when all sub-tasks are finished
-- Update during implementation as tasks are completed
-
-### Status Visibility
-- 🟡 tasks show what remains to be done
-- Tasks without 🟡 are complete
-- Enables easy resumption after interruptions
+Work-spec-specific rule:
+- Only mark main tasks with 🟡 (not sub-tasks)
 
 ## Example Template
 

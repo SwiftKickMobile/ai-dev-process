@@ -20,6 +20,10 @@ Workflow-specific gate points (this tactic must STOP and wait at these checkpoin
 
 At checkpoints, end checkpoint output with the standard gate line (see `Guides/Core/process-flow.md`).
 
+## Advance intent
+
+Advance intent (and `auto`) semantics are defined in `Guides/Core/process-flow.md`.
+
 ## Preconditions (must be true)
 
 - The symptom is reproducible (ideally via a deterministic reproducer such as a unit test or small harness).

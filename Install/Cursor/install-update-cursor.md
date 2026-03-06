@@ -128,6 +128,7 @@ Recommended generated rules (filenames are stable):
 - `.cursor/rules/skai/error-handling.mdc` ← `Policies/error-handling.md`
 - `.cursor/rules/skai/unauthorized-changes.mdc` ← `Policies/unauthorized-changes.md`
 - `.cursor/rules/skai/safe-operations.mdc` ← `Policies/safe-operations.md`
+- `.cursor/rules/skai/universal-stop-conditions.mdc` ← `Policies/universal-stop-conditions.md`
 - `.cursor/rules/skai/swift-code-organization.mdc` ← `Policies/swift-code-organization.md` (Swift stack only)
 
 ## Installing Cursor skills (recommended; no symlinks)
@@ -155,6 +156,8 @@ Install these skills:
   - source: `Submodules/skai/Templates/skills/skai-unit-test-infrastructure/SKILL.md`
 - `.cursor/skills/skai-unit-test-writing/SKILL.md`
   - source: `Submodules/skai/Templates/skills/skai-unit-test-writing/SKILL.md`
+- `.cursor/skills/skai-suggestion/SKILL.md`
+  - source: `Submodules/skai/Templates/skills/skai-suggestion/SKILL.md`
 - `.cursor/skills/skai-dev-retro/SKILL.md`
   - source: `Submodules/skai/Templates/skills/skai-dev-retro/SKILL.md`
 - `.cursor/skills/skai-update-installation/SKILL.md`

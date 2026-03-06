@@ -7,7 +7,5 @@ description: Creates work specs using skai (planning, PRD/requirements updates, 
 
 ## Instructions
 
-- Read:
-  - `Submodules/skai/Guides/Spec/work-spec-creation.md`
-- Use 🟡 to mark TODOs and stopping points; when the human says "begin/next/continue", remove the 🟡 you're acting on and proceed.
+- Read `Submodules/skai/Guides/Spec/work-spec-creation.md` and follow it.
 - If the workflow needs project-specific commands/paths, read `docs/skai/integration.md` and STOP to ask for missing required values.
