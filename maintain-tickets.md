@@ -2,7 +2,7 @@ Managed-By: skai
 Managed-Id: guide.ticket-implementation
 Managed-Source: maintain-tickets.md
 Managed-Adapter: repo-source
-Managed-Updated-At: 2026-03-04
+Managed-Updated-At: 2026-03-07
 
 # Ticket implementation session
 
@@ -16,15 +16,32 @@ This is an internal maintenance workflow for the `skai` repo, not a guide for ho
 - A GitHub MCP server configured with issue read/write permissions.
 - The repo has open issues labeled `agent ready` (triaged and approved for agent implementation).
 
-## Checkpoints
+## Gates
 
-This guide follows the shared process-flow mechanics in `Guides/Core/process-flow.md` (checkpoints, advance intent, `auto`, and the standard gate line).
+Core rule: every time the agent is waiting on the human, the message must end with a `⏳ GATE:` line. The only normal exception is full workflow completion, which uses `🏁 Complete. Let me know if anything needs adjustment.`
 
-Workflow-specific gate points (this guide must STOP and wait at these checkpoints):
-- After creating/updating the planning document in `working-docs/ticket-planning.md` (human reviews tickets, proposals, phase breakdown, and open 🟡 items).
-- At the start of each phase, after initializing that phase's discussion/proposals content (human reviews/decides on any 🟡 items before implementation begins).
-- Before making repo changes for a phase (agent proposes the concrete file-change plan; human approves).
-- After implementing a phase (agent reports what changed; human marks the phase `Status: COMPLETE` or requests changes).
+Use these standard gate lines:
+- Planned gate: `⏳ GATE: Next: <what happens after your response>. Say "next" or what to change.`
+- Blocked gate: `⏳ GATE: Blocked: <reason>. Resolve and say "next" to continue.`
+
+Planned gates are the expected review points of this workflow. At each planned gate:
+1. Summarize what you did and what should happen next.
+2. End with the planned gate line.
+3. STOP and wait for the human.
+
+In the planned gate line, `<what happens after your response>` should describe what the agent will do after the human gives advance intent. If the gate is non-standard, make it describe the exact human response or handoff needed to resume the workflow.
+
+If an unexpected blocker prevents continued work, use the blocked gate line and STOP until the human resolves it.
+
+Workflow-specific gate notes:
+- The phase-start gate is a non-standard planned gate. The human may review and resolve inline `🟡` proposal items there before the phase is ready for implementation planning. `Next` there means: the phase scope is settled enough to move to a concrete file-change plan.
+- The phase-completion gate is also non-standard. `Next` there means: approve the implemented phase, clear the phase marker, and close the tickets covered by that phase before moving on.
+
+Planned gates for this workflow:
+- After creating/updating `working-docs/<branch-path>/<session-name>/ticket-planning.md` with the ready-ticket inventory and proposed phases, and after confirming which phases/tickets will be tackled in this session, but before initializing the first selected phase.
+- At the start of each phase, after initializing that phase's discussion/proposals content and exposing any inline `🟡` items that still need human decisions.
+- Before making repo changes for a phase, after proposing the concrete file-change plan.
+- After implementing a phase, after reporting what changed and before approving the phase as complete.
 
 ## Procedure
 
@@ -36,7 +53,9 @@ If no issues match, say **"No ready tickets found."** and stop.
 
 ### 2. Create the planning document
 
-Create or update a working planning document at `working-docs/ticket-planning.md` (path per `Guides/Core/working-doc-conventions.md`, subpath: none, filename: `ticket-planning.md`).
+Choose a `session-name` for this ticket-maintenance session so multiple planning efforts on the same branch stay separate.
+
+Create or update a working planning document at `working-docs/<branch-path>/<session-name>/ticket-planning.md` (path per `Guides/Core/working-doc-conventions.md`, session name: `<session-name>`, subpath: none, filename: `ticket-planning.md`).
 
 For each ticket, include:
 - A markdown link to the GitHub issue (not just `#123`).
@@ -73,24 +92,37 @@ Primary tickets:
 
 Mark phases with 🟡 when TODO.
 
-If there are only 1-2 tickets and they are obviously independent, you may list them individually rather than grouping into themed phases.
-
-Checkpoint: STOP after updating `working-docs/ticket-planning.md` and wait for advance intent.
+If there are only 1-2 tickets and they are obviously independent, you may make each one its own single-ticket phase rather than grouping multiple tickets into a broader theme.
 
 ## Advance intent
 
-Advance intent (and `auto`) semantics are defined in `Guides/Core/process-flow.md`.
+Advance intent moves past the current gate. Common signals: "next", "continue", "go ahead", "do it".
 
-**Behavior in this workflow:**
-:
-Advance intent always starts at step 1. Do not skip steps.
+Rules:
+- Recognized as approval to move past a gate only after you output a `⏳ GATE:` line.
+- "we should...", "let's..." = discussion/context-setting, NOT authorization.
+- Outside a gate, interpret "begin"/"next"/"continue" using the workflow's active-phase rules below. Do not use them to skip planning, phase discussion, or implementation approval.
 
-1. **Review phase content.** Present the phase's scope and proposals from the planning document. If the phase has no discussion content yet, initialize it (seed proposals/questions/🟡). STOP at the phase-start checkpoint.
-2. **Propose file changes.** After the human approves the phase scope, propose the concrete file-change plan. STOP for approval before making repo changes.
-3. **Implement.** After the human approves the plan, make the changes. Report what changed. STOP for the human to approve.
-4. **Advance.** After the human approves the implementation, proceed to step 1 for the next phase (or conclude if none remain).
+`auto` = advance intent that bypasses planned gates only. Blocked gates always require explicit human resolution.
+`auto to <milestone>` = auto-advance but STOP before the named planned gate. Use stable, workflow-specific milestone names.
 
-**Workflow-specific `auto` rules:** `auto` may batch work inside an already-approved phase.
+Progress tracking:
+- Default rule: 🟡 = TODO or pending approval. Do not clear 🟡 without human approval.
+- The workflow-owned artifact is `working-docs/<branch-path>/<session-name>/ticket-planning.md`.
+- Use each phase heading as the durable phase marker, for example: `### 🟡 Phase A: <theme>`.
+- Use inline `🟡` items inside a phase for open planning questions, proposal choices, or unresolved scope details.
+- At the planning-document gate, STOP with the selected phase headings still marked `🟡`.
+- At the phase-start gate, local human decisions may clear inline `🟡` proposal items inside that phase. The phase heading `🟡` remains until implementation for that phase is approved.
+- At the file-change-plan gate, STOP with the phase heading `🟡` still present.
+- At the phase-completion gate, STOP with the phase heading `🟡` still present.
+- After advance intent at the phase-completion gate, clear the phase heading `🟡`, close the tickets implemented in that phase, and move to the next remaining `🟡` phase.
+
+Workflow-specific advance behavior:
+- After the planning-document gate, advance intent means: initialize the first selected `🟡` phase and stop at that phase's start gate.
+- At the phase-start gate, `next` means the phase scope is settled enough to move to a concrete file-change plan.
+- At the file-change-plan gate, `next` means implement the approved phase.
+- At the phase-completion gate, `next` means approve the implemented phase, clear the phase heading marker, close its tickets, and continue.
+- `auto` may batch work inside an already-approved phase, but it does not bypass the planning-document, phase-start, file-change-plan, or phase-completion gates.
 
 ## Procedure (continued)
 
@@ -113,6 +145,8 @@ Ask the human which tickets to tackle in this session and in what order. The hum
 
 Do not proceed until the human confirms the selection.
 
+Gate: STOP after the planning document is updated, summarized, and the session's selected phases/tickets are confirmed. End with `⏳ GATE: Next: Initialize the first selected phase for discussion. Say "next" or what to change.`
+
 ### 6. Implement
 
 For each selected ticket, in the agreed order:
@@ -130,7 +164,7 @@ For each selected ticket, in the agreed order:
    - `CHANGELOG.md` (under "Unreleased", prefixed with today's date)
 5. **Report.** Summarize what changed and list touched files.
 
-After implementing a ticket, ask the human if the result looks good before moving to the next one.
+After implementing a phase, report what changed and STOP at the phase-completion gate before moving to the next phase.
 
 ### 7. Close tickets
 
@@ -138,9 +172,6 @@ Close is triggered by human approval.
 
 Default approval signal (phase-based sessions):
 - Advance intent after a phase implementation report is approval. Close all tickets implemented in that phase.
-
-Non-phase sessions:
-- After the human approves the implementation for an individual ticket, close it.
 
 Mechanics:
 - Use the GitHub MCP server to close the issue with a comment noting it was implemented.

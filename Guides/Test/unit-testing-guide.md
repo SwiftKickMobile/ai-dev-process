@@ -2,7 +2,7 @@ Managed-By: skai
 Managed-Id: guide.unit-testing
 Managed-Source: Guides/Test/unit-testing-guide.md
 Managed-Adapter: repo-source
-Managed-Updated-At: 2026-03-04
+Managed-Updated-At: 2026-03-07
 
 # Unit Testing Guide
 
@@ -27,35 +27,82 @@ When testing multiple types in a single session:
 - **Infrastructure**: `Guides/Test/unit-test-infrastructure-guide.md`
 - **Writing & Execution**: `Guides/Test/unit-test-writing-guide.md`
 
-## Checkpoints
+## Gates
 
-This guide follows the shared process-flow mechanics in `Guides/Core/process-flow.md` (checkpoints, advance intent, `auto`, and the standard gate line).
+Core rule: every time the agent is waiting on the human, the message must end with a `⏳ GATE:` line. The only normal exception is full workflow completion, which uses `🏁 Complete. Let me know if anything needs adjustment.`
 
-Workflow-specific gate points (this guide must STOP and wait at these checkpoints):
+Use these standard gate lines:
+- Planned gate: `⏳ GATE: Next: <what happens after your response>. Say "next" or what to change.`
+- Blocked gate: `⏳ GATE: Blocked: <reason>. Resolve and say "next" to continue.`
+
+Planned gates are the expected review points of this workflow. At each planned gate:
+1. Summarize what was completed and what should happen next.
+2. End with the planned gate line.
+3. STOP and wait for the human.
+
+In the planned gate line, `<what happens after your response>` should describe what the agent will do after the human gives advance intent.
+
+If an unexpected blocker prevents continued work, use the blocked gate line and STOP until the human resolves it.
+
+Workflow-specific gate note:
+- This guide is an orchestrator. Some planned gates are emitted by the planning/infrastructure/writing sub-guides. When a sub-guide stops at a gate, control returns here and the human's response resumes the orchestrated testing flow.
+
+When the workflow finishes (all testing complete), use: `🏁 Complete. Let me know if anything needs adjustment.`
+
+Planned gates for this workflow:
 - After planning is complete (all files/sections/tests are stubbed and marked 🟡).
-- Before running tests for a section (ensure writing is complete for the section).
-- After test execution results are gathered (human can approve conclusions and next step).
-- At the end of `auto` runs (report what was completed vs what was skipped and why).
+- After the global infrastructure review is complete for all planned tests (owned by the infrastructure sub-guide).
+- Before running tests for a section (owned by the writing sub-guide).
+- After test execution results are gathered for a section (owned by the writing sub-guide).
+- At the end of `next auto`, if work remains or the run stopped early, to report what was completed vs what was skipped and why.
 
 ---
 
 ## Advance intent
 
-Advance intent (and `auto`) semantics are defined in `Guides/Core/process-flow.md`.
+Advance intent moves past the current gate. Common signals: "next", "continue", "go ahead", "do it".
 
-**Behavior:** Each sub-guide defines its own checkpoints. When a sub-process completes, control returns here and the orchestrator waits for advance intent before proceeding.
+Rules:
+- Recognized as approval to move past a gate only after you output a `⏳ GATE:` line.
+- "we should...", "let's..." = discussion/context-setting, NOT authorization.
+- Outside a gate, interpret "begin"/"next"/"continue" using the active workflow step below. Do not use them to skip phases or clear section markers early.
+
+`auto` = advance intent that bypasses planned gates only. Blocked gates always require explicit human resolution.
+`auto to <target>` = auto-advance but STOP before the named workflow target. Use stable identifiers such as `<suite-name>` or `<suite-name>/<section-name>`.
+
+Progress tracking:
+- Default rule: 🟡 = TODO or pending approval. Do not clear 🟡 without human approval.
+- This workflow owns an orchestration document at `working-docs/<branch-path>/<session-name>/testing/unit-testing.md`.
+- `session-name` is the required name for this overall testing effort on the current branch.
+- The orchestration document is the parent workflow artifact and owns these gate/phase markers:
+  - `Planning 🟡`
+  - `Infrastructure 🟡`
+  - `Writing 🟡`
+- Planning creates the test files/sections/tests with 🟡 markers and also seeds the orchestration document with the parent phase markers.
+- At the planning gate, `Planning 🟡` remains in the orchestration document until the human gives advance intent.
+- At the infrastructure gate, `Infrastructure 🟡` remains in the orchestration document until the human gives advance intent.
+- At section-level writing gates, the section's 🟡 marker remains until the relevant writing-guide gate is approved.
+- `Writing 🟡` remains in the orchestration document until all planned sections across the testing session are complete and the human gives advance intent at the final section-completion gate.
+- If writing later discovers missing infrastructure, leave `Writing 🟡` in place and re-add or keep `Infrastructure 🟡` in the orchestration document so the parent workflow clearly shows that another infrastructure pass is required.
+- If a section is skipped because infrastructure remains missing or a non-trivial failure remains unresolved, leave that section's 🟡 marker in place.
+
+**Behavior:** This guide orchestrates the sub-guides. When a sub-process stops at a gate, control returns here and the human's next response resumes the global workflow, whether that means entering infrastructure, continuing the current file's section writing, or deciding how to handle skipped work.
 
 **Workflow-specific `auto` rules:**
 
-`auto` advances through all remaining sections/tests without stopping at sub-guide checkpoints.
-
-Skip and continue behavior:
-- **Infrastructure changes needed**: skip tests in that section, leave 🟡 markers, document infrastructure requirements, continue to next section.
-- **Non-trivial test failure**: skip failing tests, leave 🟡 markers, document failure details, continue with remaining tests.
-
-Auto-fixes allowed: obvious typos, missing imports, simple compilation errors.
-
-At end: report which tests were completed and which were skipped (with reasons).
+- `auto` advances through all remaining work without stopping at planned gates.
+- Complete the global infrastructure pass before starting section-by-section writing.
+- In the orchestration document:
+  - clear `Planning 🟡` only after the planning gate is auto-approved
+  - clear `Infrastructure 🟡` only after the infrastructure gate is auto-approved
+  - keep `Writing 🟡` until all remaining sections in the testing session are actually complete
+- Skip and continue behavior:
+  - **Missing infrastructure discovered during writing**: skip the affected tests/section, leave 🟡 markers, document what infrastructure is missing, and continue to the next section. At the next planned gate, the human can decide whether to re-enter the infrastructure phase.
+  - **Non-trivial test failure**: skip failing tests, leave 🟡 markers, document failure details, continue with remaining tests or next section.
+- Auto-fixes allowed: obvious typos, missing imports, simple compilation errors.
+- `auto to <target>` should use stable identifiers such as `<suite-name>` or `<suite-name>/<section-name>`. Do not use a bare section name by itself.
+- If auto completes everything with no skipped work and no bounded target stop, finish with `🏁 Complete...`.
+- If auto stops early because work remains, report which tests were completed and which were skipped (with reasons) at the planned gate.
 
 ---
 
@@ -67,45 +114,94 @@ At end: report which tests were completed and which were skipped (with reasons).
 
 **Trigger:** Advance intent
 
-**Process:** Execute `Guides/Test/unit-test-planning-guide.md`
+**Process:**
+1. Create the orchestration document for this workflow:
+   - **Session name:** `<session-name>`
+   - **Subpath:** `testing`
+   - **File name:** `unit-testing.md`
+   - **Full path:** `working-docs/<branch-path>/<session-name>/testing/unit-testing.md`
+   - Start with `Planning 🟡` in the checklist.
+2. Execute `Guides/Test/unit-test-planning-guide.md`
 
-**Output:** Test file with sections marked 🟡 (indicating TODO)
+**Output:**
+- Test file(s) with sections marked 🟡 (indicating TODO)
+- Orchestration document updated with:
+  - `Infrastructure 🟡`
+  - `Writing 🟡`
 
-**Checkpoint:** Wait for advance intent.
+**Gate:** STOP with the planned gate line. Leave `Planning 🟡` in the orchestration document. `Next` should say you will clear `Planning 🟡` and begin the infrastructure pass for all planned tests.
 
 ---
 
-### Step 2: Section Implementation (repeat per section)
+### Step 2: Infrastructure (one pass for all planned tests)
 
 **Trigger:** Advance intent
 
-**For each section marked 🟡:**
+**For all planned tests in the current testing session:**
 
-1. **Infrastructure Phase**
-   - Execute `Guides/Test/unit-test-infrastructure-guide.md` for this section
-   - Stops at checkpoints defined in that guide
-   - Advance intent after infrastructure complete → Proceed to Writing Phase
+1. **Infrastructure pass**
+   - Execute `Guides/Test/unit-test-infrastructure-guide.md` once for the whole testing session
+   - That guide covers **all planned sections/tests across all planned test files**, not one suite or one section at a time
+   - Follow the gates defined in that guide
+   - Advance intent after infrastructure completion → clear `Infrastructure 🟡` in the orchestration document and proceed to section writing
 
-2. **Writing & Execution Phase**
+---
+
+### Step 3: Section Writing & Execution (repeat per section, file-by-file)
+
+**Trigger:** Advance intent
+
+**For each section marked 🟡 in the current file:**
+
+1. **Writing & Execution Phase**
    - Execute `Guides/Test/unit-test-writing-guide.md` for this section
-   - Stops at checkpoints defined in that guide
-   - When all tests pass and work documented, writing phase is complete
+   - Follow the gates defined in that guide
+   - When the writing guide reaches the post-results gate:
+     - if the section passed, advance intent completes that section
+     - if the section stopped with skipped tests due to missing infrastructure, advance intent returns control here with that section still marked 🟡
 
-3. **Section complete**
-   - On advance intent, section is done
+2. **Section complete**
+   - Remove 🟡 from the completed section only after the human gives advance intent at the relevant gate
+   - If no 🟡 sections remain anywhere, clear `Writing 🟡` in the orchestration document only after that final advance intent and complete the workflow
+   - If no 🟡 sections remain anywhere, complete the workflow
 
-**Repeat:** Find next 🟡 section and repeat process
-
-**When no 🟡 sections remain:** All testing complete
+**Repeat:** Finish the current file before moving to the next file:
+- Find the next 🟡 section in the current file and repeat Step 3.
+- If the current file has no remaining runnable sections, the human may decide at the next planned gate whether to re-enter infrastructure or move to the next file.
+- Move to the next file only after the current file's remaining work is either completed or explicitly deferred by the human.
 
 ---
 
 ## Work Documents
 
 Created during implementation, following `Guides/Core/working-doc-conventions.md`:
-- Subpath: `testing/<suite-name>`
-- `<suite-name>` = test file name without "Tests.swift" (e.g., `TemplateRenderer` from `TemplateRendererTests.swift`)
-- See sub-guides for specific file names and structure.
+
+**Orchestration document (owned by this guide):**
+- **Subpath:** `testing`
+- **File name:** `unit-testing.md`
+- **Full path:** `working-docs/<branch-path>/<session-name>/testing/unit-testing.md`
+- **Purpose:** Tracks parent-workflow progress across planning, one global infrastructure pass, and overall writing completion.
+- **Structure:**
+  ```markdown
+  # Unit Testing
+  
+  ## Context
+  This document tracks the overall unit-testing workflow for [scope].
+  
+  ## Checklist
+  
+  - Planning 🟡
+  - Infrastructure 🟡
+  - Writing 🟡
+  
+  ## Notes
+  
+  - [High-level status, skips, or handoff notes]
+  ```
+
+**Sub-guide documents:**
+- Infrastructure guide: `working-docs/<branch-path>/<session-name>/testing/infrastructure.md`
+- Writing guide: per-section writing/execution document under `working-docs/<branch-path>/<session-name>/testing/<suite-name>/`
 
 ---
 
@@ -116,23 +212,30 @@ Created during implementation, following `Guides/Core/working-doc-conventions.md
 ```
 --- Planning ---
 Human: "begin"
+AI: [Creates `working-docs/<branch-path>/<session-name>/testing/unit-testing.md` with `Planning 🟡`]
 AI: [Creates TemplateRendererTests.swift with sections:
      - Render Success Tests 🟡
      - Error Handling Tests 🟡]
-AI: [CHECKPOINT - stops]
+AI: [Adds `Infrastructure 🟡` and `Writing 🟡` to `unit-testing.md`]
+AI: [⏳ GATE: Next: Begin the infrastructure pass for all planned tests.]
+
+--- Infrastructure ---
+Human: "next"
+AI: [Removes `Planning 🟡` from `unit-testing.md`]
+AI: [Executes infrastructure guide for all planned tests in the session]
+AI: [⏳ GATE emitted by infrastructure guide]
+Human: "next"
+AI: [Removes `Infrastructure 🟡` from `unit-testing.md`]
+AI: [Marks infrastructure complete, proceeds to first section]
 
 --- Section 1 ---
 Human: "next"
 AI: [Finds first 🟡 section: Render Success Tests]
-AI: [Executes infrastructure guide]
-AI: [CHECKPOINT - stops after infrastructure analysis]
-Human: "next"
-AI: [Marks infrastructure complete, proceeds to writing guide]
 AI: [Implements tests]
-AI: [CHECKPOINT - stops before running tests]
+AI: [⏳ GATE emitted by writing guide before running tests]
 Human: "next"
 AI: [Runs tests, documents results]
-AI: [Tests pass - CHECKPOINT - presents results]
+AI: [⏳ GATE emitted by writing guide with test results]
 Human: "next"
 AI: [Removes 🟡 from Render Success Tests]
 
@@ -144,7 +247,8 @@ AI: [Finds next 🟡 section: Error Handling Tests]
 
 --- Done ---
 Human: "next"
-AI: "All sections complete. Testing done!"
+AI: [Removes `Writing 🟡` from `unit-testing.md`]
+AI: "🏁 Complete. Let me know if anything needs adjustment."
 ```
 
 ### Multiple Types (Multiple Test Files)
@@ -152,6 +256,7 @@ AI: "All sections complete. Testing done!"
 ```
 --- Planning (creates ALL test files upfront) ---
 Human: "begin"
+AI: [Creates `working-docs/<branch-path>/<session-name>/testing/unit-testing.md` with `Planning 🟡`]
 AI: [Creates PlaceholderParserTests.swift with sections:
      - Doc Placeholder Tests 🟡
      - Fragment Placeholder Tests 🟡]
@@ -161,22 +266,30 @@ AI: [Creates MarkdownTokenizerTests.swift with sections:
 AI: [Creates TemplateRendererTests.swift with sections:
      - Render Success Tests 🟡
      - Error Handling Tests 🟡]
-AI: [CHECKPOINT - stops with list of all planned files]
+AI: [Adds `Infrastructure 🟡` and `Writing 🟡` to `unit-testing.md`]
+AI: [⏳ GATE: Next: Begin the infrastructure pass for all planned tests.]
+
+--- Infrastructure ---
+Human: "next"
+AI: [Removes `Planning 🟡` from `unit-testing.md`]
+AI: [Executes infrastructure guide for all planned tests across all planned test files]
+AI: [⏳ GATE emitted by infrastructure guide]
+Human: "next"
+AI: [Removes `Infrastructure 🟡` from `unit-testing.md`]
 
 --- File 1: PlaceholderParserTests ---
 Human: "next"
 AI: [Finds first 🟡 section in first file: Doc Placeholder Tests]
-AI: [Executes infrastructure guide]
 ...
 [Completes all sections in PlaceholderParserTests]
 
---- File 2: MarkdownTokenizerTests ---
+--- File 2: MarkdownTokenizerTests (after File 1 is complete) ---
 Human: "next"
 AI: [Moves to first 🟡 section in next file: Heading Tests]
 ...
 [Completes all sections in MarkdownTokenizerTests]
 
---- File 3: TemplateRendererTests ---
+--- File 3: TemplateRendererTests (after File 2 is complete) ---
 Human: "next"
 AI: [Moves to first 🟡 section in final file: Render Success Tests]
 ...
@@ -184,24 +297,26 @@ AI: [Moves to first 🟡 section in final file: Render Success Tests]
 
 --- Done ---
 Human: "next"
-AI: "All test files complete. Testing done!"
+AI: [Removes `Writing 🟡` from `unit-testing.md`]
+AI: "🏁 Complete. Let me know if anything needs adjustment."
 ```
 
 ### Using "next auto"
 
 ```
 Human: "next auto"
-AI: [Completes all Feature B Tests - no infrastructure, all pass]
-AI: [Completes all Helper Tests - no infrastructure, all pass]
-AI: [Encounters Feature C Tests - new stub needed]
-AI: [Skips all Feature C Tests, leaves all 🟡, documents infrastructure needs]
+AI: [Creates/updates `working-docs/<branch-path>/<session-name>/testing/unit-testing.md`, auto-clears `Planning 🟡`, completes the global infrastructure pass, auto-clears `Infrastructure 🟡`]
+AI: [Completes all Feature B Tests - infrastructure already covered, all pass]
+AI: [Completes all Helper Tests - infrastructure already covered, all pass]
+AI: [Encounters Feature C Tests - missing infrastructure was not identified earlier]
+AI: [Skips all Feature C Tests, leaves section 🟡 markers in place, re-adds or keeps `Infrastructure 🟡`, documents missing infrastructure needs]
 AI: [Completes 3 of 5 Feature D Tests - 2 fail with unclear logic]
-AI: [Removes 🟡 from 3 passing tests, keeps 🟡 on 2 failing, documents failures]
+AI: [Removes 🟡 from 3 passing tests, keeps 🟡 on 2 failing, keeps `Writing 🟡`, documents failures]
 AI: [Completes all Feature E Tests - no infrastructure, all pass]
-AI: "Auto-advance complete. Completed: B (5/5), Helper (3/3), D (3/5), E (4/4). Skipped: C (0/6 - infrastructure), D (2/5 - test failures)"
+AI: "Auto-advance complete. Completed: B (5/5), Helper (3/3), D (3/5), E (4/4). Skipped: C (0/6 - missing infrastructure discovered during writing), D (2/5 - test failures)"
 Human: [Reviews skipped tests]
 Human: "next"
-AI: [Works on Feature C Tests with human guidance for infrastructure]
+AI: [At the next planned gate, the human decides to re-enter infrastructure; the agent updates `Infrastructure 🟡` work and then resumes section writing]
 ```
 
 ---
@@ -212,3 +327,6 @@ AI: [Works on Feature C Tests with human guidance for infrastructure]
 - Planning: `Guides/Test/unit-test-planning-guide.md`
 - Infrastructure: `Guides/Test/unit-test-infrastructure-guide.md`
 - Writing & Execution: `Guides/Test/unit-test-writing-guide.md`
+
+**Parent progress artifact:**
+- `working-docs/<branch-path>/<session-name>/testing/unit-testing.md`

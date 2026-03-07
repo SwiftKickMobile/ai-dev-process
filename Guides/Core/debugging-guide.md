@@ -2,26 +2,68 @@ Managed-By: skai
 Managed-Id: guide.debugging-core
 Managed-Source: Guides/Core/debugging-guide.md
 Managed-Adapter: repo-source
-Managed-Updated-At: 2026-03-04
+Managed-Updated-At: 2026-03-07
 
 # Debugging / Problem-Resolution Guide (Core)
 
 Goal: prevent "guessing fixes" loops by using evidence, clear tactics, and explicit stopping conditions.
 
-## Checkpoints
+## Gates
 
-This guide follows the shared process-flow mechanics in `Guides/Core/process-flow.md` (checkpoints, advance intent, `auto`, and the standard gate line).
+Core rule: every time the agent is waiting on the human, the message must end with a `⏳ GATE:` line. The only normal exception is full workflow completion, which uses `🏁 Complete. Let me know if anything needs adjustment.`
 
-Workflow-specific gate points (this guide must STOP and wait at these checkpoints):
-- Before running an experiment (pre-experiment): present facts + possibility-space partition (2-4) + chosen tactic + proposed discriminating experiment for approval.
-- After an experiment (post-experiment): present results + conclusions + updated possibility space + recommended next experiment for approval.
-- Before declaring a root cause (root cause, hard gate -- not bypassed by `auto`): present the root cause statement and why it cannot be further partitioned for approval.
-- Before applying a fix (fix, hard gate -- not bypassed by `auto`): present the proposed fix (or fix options) and the expected evidence of success for approval.
-- Before concluding (verify/close, hard gate -- not bypassed by `auto`): present verification results plus any log cleanup/undo of experiment scaffolding for approval to conclude.
+Use these standard gate lines:
+- Planned gate: `⏳ GATE: Next: <what happens after your response>. Say "next" or what to change.`
+- Blocked gate: `⏳ GATE: Blocked: <reason>. Resolve and say "next" to continue.`
+
+Planned gates are the expected review points of this workflow. At each planned gate:
+1. Summarize what you did and what should happen next.
+2. End with the planned gate line.
+3. STOP and wait for the human.
+
+In the planned gate line, `<what happens after your response>` should describe what the agent will do after the human gives advance intent. If the gate is non-standard, make it describe the exact human response or handoff needed to resume the workflow.
+
+If an unexpected blocker prevents continued work, use the blocked gate line and STOP until the human resolves it.
+
+Workflow-specific gate notes:
+- The pre-experiment gate is often a non-standard planned gate. When the human must run the experiment, the normal response is to provide the experiment output or ask for changes to the experiment. `Next` there only means "proceed with this proposed experiment" when the agent can run the experiment itself.
+- The root-cause, fix, and verify/close gates are hard planned gates. `auto` does not bypass them.
+- The pre-experiment and post-experiment gates are the normal iteration gates. `auto` may bypass them when the workflow is still gaining discriminating evidence.
+
+Planned gates for this workflow:
+- Before running an experiment (pre-experiment): after stating the current facts, possibility-space partition, chosen tactic, and proposed discriminating experiment.
+- After an experiment (post-experiment): after stating the evidence, conclusions, updated possibility space, and recommended next step.
+- Before declaring a root cause (root cause, hard gate).
+- Before applying a fix (fix, hard gate).
+- Before concluding (verify/close, hard gate).
 
 ## Advance intent
 
-Advance intent (and `auto`) semantics are defined in `Guides/Core/process-flow.md`. The human may use `auto` to bypass iteration checkpoints, but `auto` does not bypass the hard gates listed above (root cause, fix, verify/close).
+Advance intent moves past the current gate. Common signals: "next", "continue", "go ahead", "do it".
+
+Rules:
+- Recognized as approval to move past a gate only after you output a `⏳ GATE:` line.
+- "we should...", "let's..." = discussion/context-setting, NOT authorization.
+- Outside a gate, interpret "begin"/"next"/"continue" using the workflow's active-phase rules below. Do not use them to skip hard approval gates or clear unrelated 🟡 markers.
+
+`auto` = advance intent that bypasses planned gates only. Blocked gates always require explicit human resolution.
+`auto to <milestone>` = auto-advance but STOP before the named planned gate. Use stable, workflow-specific milestone names.
+
+Progress tracking:
+- Default rule: 🟡 = TODO or pending approval. Do not clear 🟡 without human approval.
+- This workflow currently uses inline discussion rather than a required debugging work document.
+- The active debugging state lives in the conversation itself: current facts, possibility space, selected tactic, proposed experiment, and latest evidence.
+- At the pre-experiment gate, STOP after proposing the smallest discriminating experiment and wait for the human to run it or redirect it.
+- At the pre-experiment gate, the normal resume signal is experiment evidence from the human, not advance intent.
+- At the post-experiment gate, STOP after interpreting the evidence and proposing the next step.
+- At the root-cause, fix, and verify/close gates, STOP and wait for explicit human approval before advancing.
+
+Workflow-specific advance behavior:
+- `auto` may bypass the post-experiment iteration gate while the workflow is still in evidence-gathering mode.
+- `auto` does not bypass a pre-experiment gate when the human must run the experiment and provide evidence.
+- `auto` does not bypass the root-cause, fix, or verify/close hard gates.
+- Use `root cause`, `fix`, and `verify` as the stable bounded-auto targets for this guide.
+- At the pre-experiment gate, advance intent is only relevant when the agent can run the proposed experiment itself. When the human must run it, the workflow resumes on evidence rather than on `next`.
 
 ## Required mindset
 
@@ -45,7 +87,7 @@ For each iteration:
 4. Run (human) → report evidence → update the possibility space.
 5. If the tactic isn't producing new discriminating evidence quickly, switch tactics.
 
-Checkpoint: STOP for approval before proceeding to the next iteration (use the standard gate line; see `Guides/Core/process-flow.md`).
+Gate: before each experiment, state the current possibility space, tactic choice, and proposed discriminating experiment, then STOP at the pre-experiment gate. When the human is the one running the experiment, end with a gate line that asks them to run it and share the output, or tell you what to change first.
 
 ## Debugging toolbox (core)
 
@@ -126,6 +168,8 @@ Inspection-only exception (narrow):
 5. **State facts**: report what the evidence shows.
 6. **Repeat** until the root cause statement is isolated.
 
+Gate: after each experiment, report the evidence, state only the facts it supports, update the possibility space, and recommend the next experiment or the move to root cause. Then STOP at the post-experiment gate unless `auto` is carrying the workflow forward.
+
 ### Root cause (definition + hard gate)
 
 "Root cause" means the most specific, testable statement that explains the observed symptom and is supported by discriminating evidence (or direct code proof for truly local inspection-only bugs).
@@ -135,7 +179,25 @@ Do not declare a root cause prematurely:
 - Before declaring "this bucket/path is the root cause" or "this bucket/path cannot be partitioned further", inspect the relevant code within the current best-explanation path and attempt at least one further partition based on concrete code structure/branches/contracts.
 - If the current best explanation is still a category ("it's in module X", "it's caching", "it's concurrency"), STOP and propose the next partition or the smallest experiment that will partition it further.
 
-Checkpoint: STOP and get explicit approval before declaring a root cause or applying a fix (use the standard gate line; see `Guides/Core/process-flow.md`).
+Gate: STOP and get explicit approval at the root-cause gate before declaring a root cause, and again at the fix gate before applying a fix.
+
+## Fix gate
+
+Before applying a fix:
+- summarize the proposed fix (or the viable fix options)
+- explain why it follows from the approved root cause
+- state the expected verification evidence if the fix is correct
+
+Gate: STOP at the fix gate and wait for explicit approval before changing code.
+
+## Verify / close gate
+
+After applying an approved fix:
+- run or request the planned verification
+- report the verification results
+- note any cleanup of temporary logs, assertions, or experiment scaffolding
+
+Gate: STOP at the verify/close gate and wait for explicit approval before concluding the debugging workflow.
 
 ## Log hygiene
 
@@ -145,10 +207,10 @@ Checkpoint: STOP and get explicit approval before declaring a root cause or appl
 
 ## Stop conditions (workflow-specific)
 
-Universal STOP conditions (ambiguity, missing evidence, destructive operations) are defined in `Guides/Core/process-flow.md` and apply here.
-
-Additional stop condition for this workflow:
-- **Stalled progress**: if you've iterated without gaining discriminating evidence, STOP and ask the human for a direction change (e.g., choose a different tactic, broaden/narrow the possibility space, provide missing evidence, or accept a workaround). This applies even in `auto`.
+Use the blocked gate and STOP when:
+- **Expected behavior is ambiguous**: product intent is required before you can design a valid discriminating experiment.
+- **Required evidence is missing**: the human has not provided the output needed to proceed.
+- **Stalled progress**: you've iterated without gaining discriminating evidence. Ask the human for a direction change (different tactic, broader/narrower possibility space, additional evidence, or a workaround). This applies even in `auto`.
 
 ## Adapter notes (minimal)
 

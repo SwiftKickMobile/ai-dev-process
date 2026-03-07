@@ -2,7 +2,7 @@ Managed-By: skai
 Managed-Id: guide.unit-test-planning
 Managed-Source: Guides/Test/unit-test-planning-guide.md
 Managed-Adapter: repo-source
-Managed-Updated-At: 2026-03-04
+Managed-Updated-At: 2026-03-07
 
 # Unit Test Planning Guide
 
@@ -10,25 +10,46 @@ Managed-Updated-At: 2026-03-04
 
 Defines the process for creating complete test plans with ALL test stubs and documentation across ALL sections before any implementation begins.
 
-## Checkpoints
+## Gates
 
-This guide follows the shared process-flow mechanics in `Guides/Core/process-flow.md` (checkpoints, advance intent, `auto`, and the standard gate line).
+Use these standard gate lines:
+- Planned gate: `⏳ GATE: Next: <what happens after your response>. Say "next" or what to change.`
+- Blocked gate: `⏳ GATE: Blocked: <reason>. Resolve and say "next" to continue.`
 
-Workflow-specific gate points (this guide must STOP and wait at these checkpoints):
+Planned gates are the expected review points of this workflow. At each planned gate:
+1. Summarize what was planned and what should happen next.
+2. End with the planned gate line.
+3. STOP and wait for the human.
+
+In the planned gate line, `<what happens after your response>` should describe what the agent will do after the human gives advance intent.
+
+If an unexpected blocker prevents continued work, use the blocked gate line and STOP until the human resolves it.
+
+When the workflow finishes, return control to the parent testing workflow.
+
+Planned gates for this workflow:
 - After planning is complete (all files/sections/tests are stubbed and marked 🟡).
-- When ambiguities block planning (missing product intent, unclear expected behavior, unclear public API to test).
-
-At checkpoints, end checkpoint output with the standard gate line (see `Guides/Core/process-flow.md`).
 
 ---
 
 ## Advance intent
 
-Advance intent (and `auto`) semantics are defined in `Guides/Core/process-flow.md`.
+Advance intent moves past the current gate. Common signals: "next", "continue", "go ahead", "do it".
+
+Rules:
+- Recognized as approval to move past a gate only after you output a `⏳ GATE:` line.
+- "we should...", "let's..." = discussion/context-setting, NOT authorization.
+- Outside a gate, interpret "begin"/"next"/"continue" as "resume planning where you left off." Do not use them to clear planning markers early.
+
+Progress tracking:
+- Default rule: 🟡 = TODO or pending approval. Do not clear 🟡 without human approval.
+- In this workflow, section-level and test-level 🟡 markers in the planned test files remain in place when planning completes.
+- Advance intent at the planning-complete gate returns control to the parent testing workflow; it does not clear the planned test sections/tests.
+- Planning ambiguities should stop with the blocked gate line and leave all planning markers in place.
 
 **Behavior:** Context determines the action:
-- If waiting to proceed → mark planning complete, return to parent process
-- If stopped due to ambiguities or unexpected challenges → resume where you left off
+- If waiting at the planning-complete gate → return control to the parent testing workflow
+- If stopped due to planning ambiguities or unexpected challenges → resume planning where you left off
 
 ---
 
@@ -77,7 +98,7 @@ Advance intent (and `auto`) semantics are defined in `Guides/Core/process-flow.m
 When planning tests for multiple types:
 - Create ALL test files in a single planning phase
 - Each file follows the same structure (sections with 🟡, test stubs with 🟡)
-- Present complete list of all planned files at checkpoint
+- Present the complete list of all planned files at the planning-complete gate
 - Implementation proceeds file-by-file after planning approval
 
 **CRITICAL:**

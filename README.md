@@ -178,12 +178,12 @@ Structured planning and specification for complex features. Produces a planning 
 
 **Phases:**
 
-1. **Planning document.** Agent summarizes the discussion into a document seeded with 🟡 open questions. Optional: for large efforts, the planning document can be organized into explicit phase sections; each phase runs its own mini-cycle (discussion, API sketch, requirements normalization, work spec) before moving to the next. Checkpoint: human reviews and resolves 🟡 items.
+1. **Planning document.** Agent summarizes the discussion into a document seeded with 🟡 open questions. Optional: for large efforts, the planning document can be organized into explicit phase sections; each phase runs its own mini-cycle (discussion, API sketch, requirements normalization, work spec) before moving to the next. Gate: human reviews and resolves 🟡 items before the workflow advances.
 2. **Design discussion.** Agent proposes, human decides. Iterates until all 🟡 items are resolved.
-3. **API sketch.** Agent drafts the API surfaces implied by the design. Checkpoint: human confirms the design is ready to proceed.
-4. **Requirements normalization.** Agent promotes behaviors from the planning document into canonical requirements. Checkpoint: human acknowledges requirements updates.
-5. **Work spec first pass.** Agent writes top-level tasks only (no subtasks). Checkpoint: human reviews the task list.
-6. **Work spec second pass.** Agent adds subtasks, requirement IDs, and traceability mapping. Checkpoint: human reviews the completed work spec.
+3. **API sketch.** Agent drafts the API surfaces implied by the design. Gate: human confirms the design is ready to proceed.
+4. **Requirements normalization.** Agent promotes behaviors from the planning document into canonical requirements. Gate: human acknowledges requirements updates.
+5. **Work spec first pass.** Agent writes top-level tasks only (no subtasks). Gate: human reviews the task list.
+6. **Work spec second pass.** Agent adds subtasks, requirement IDs, and traceability mapping. Gate: human reviews the completed work spec.
 
 ### Work spec implementation (skill `skai-work-spec-implementation`)
 
@@ -195,11 +195,11 @@ Execute tasks from a completed work spec, one top-level task per cycle.
 
 **Phases (repeating):**
 
-1. **Implement next top-level task.** Agent implements all subtasks under Task N. Checkpoint: agent stops after finishing Task N and waits before moving to Task N+1.
+1. **Implement next top-level task.** Agent implements all subtasks under Task N. Gate: agent stops after finishing Task N and waits before moving to Task N+1.
 
 ### Unit testing (skill `skai-unit-testing`)
 
-Plan-first testing workflow. The agent plans all tests upfront, then implements them one logical section at a time (e.g. "Success Tests", "Error Handling Tests"). Handles new test suites, additions to existing suites, and fixing failing tests.
+Plan-first testing workflow. The agent creates an orchestration document for the overall testing session, plans all tests upfront, runs one infrastructure pass across all planned tests, and then implements tests one logical section at a time (e.g. "Success Tests", "Error Handling Tests"). Handles new test suites, additions to existing suites, and fixing failing tests.
 
 - Guides [`Guides/Test/unit-testing-guide.md`](Guides/Test/unit-testing-guide.md), [`Guides/Test/unit-test-planning-guide.md`](Guides/Test/unit-test-planning-guide.md), [`Guides/Test/unit-test-infrastructure-guide.md`](Guides/Test/unit-test-infrastructure-guide.md), [`Guides/Test/unit-test-writing-guide.md`](Guides/Test/unit-test-writing-guide.md)
 
@@ -207,9 +207,9 @@ Plan-first testing workflow. The agent plans all tests upfront, then implements 
 
 **Phases:**
 
-1. **Planning.** Agent creates test files organized into sections, with test stubs in each. Doc comments on every stub serve as the test plan. Checkpoint: human reviews the plan before implementation begins.
-2. **Infrastructure.** Agent identifies required test infrastructure for all planned tests in the suite (stubs, fixtures, production code abstractions) and proposes additions. Checkpoint: human approves infrastructure changes (if any).
-3. **Writing** (per section). Agent implements tests and then runs them. Checkpoints: agent stops after writing (before running tests), and stops after test results to confirm conclusions and next steps (including any proposed production-code fixes). If a test requires infrastructure that wasn't identified in Phase 2, it is skipped and the human can re-enter the infrastructure phase later.
+1. **Planning.** Agent chooses a session name for the current testing effort and creates `working-docs/<branch-path>/<session-name>/testing/unit-testing.md` (following [`Guides/Core/working-doc-conventions.md`](Guides/Core/working-doc-conventions.md)), adds `Planning 🟡`, and creates test files organized into sections with test stubs in each. Doc comments on every stub serve as the test plan. At the planning gate, `Planning 🟡` remains until the human approves advancing to infrastructure.
+2. **Infrastructure.** Agent identifies required test infrastructure across all planned tests in the testing session (stubs, fixtures, production code abstractions) and proposes additions. The orchestration document keeps `Infrastructure 🟡` until the human approves advancing to writing. Related infrastructure docs and artifacts live under the same `working-docs/<branch-path>/<session-name>/...` session folder.
+3. **Writing** (per section, file-by-file). Agent implements tests and then runs them section-by-section, finishing the current file before moving to the next. Gates: agent stops after writing (before running tests), and stops after test results to confirm conclusions and next steps (including any proposed production-code fixes). The orchestration document keeps `Writing 🟡` until all sections in the testing session are approved complete. If a test requires infrastructure that wasn't identified in Phase 2, it is skipped, the missing infrastructure is documented, and the human can decide at the next planned gate whether to re-enter the infrastructure phase or defer that skipped work.
 
 Phase 3 repeats for each section until none remain.
 
@@ -223,7 +223,7 @@ Evidence-first problem resolution. Prevents "guessing fixes" loops by requiring 
 
 **Phases (repeating):**
 
-1. **Hypothesize and experiment.** Agent states the current possibility space, chooses a tactic, and proposes the smallest discriminating experiment. Checkpoints: pre-experiment, post-experiment, root cause, fix, and verify/close.
+1. **Hypothesize and experiment.** Agent states the current possibility space, chooses a tactic, and proposes the smallest discriminating experiment. Gates: pre-experiment and post-experiment during iteration, then hard gates for root cause, fix, and verify/close.
 
 Repeats until the root cause is isolated.
 
@@ -237,8 +237,8 @@ Completeness backstop that can be used at any point during any workflow. Reviews
 
 **Phases:**
 
-1. **Retro.** Agent performs the full checklist and reports findings. Checkpoint: agent stops after the retro output.
-2. **Ticket filing (optional).** If the retro identifies process improvements, agent writes them as 🟡 ticket drafts to the `process-tickets.md` working file (with labels and confidentiality applied). Checkpoint: human reviews drafts. When ready, agent files them as GitHub issues on `skai` via [`Guides/Process/process-improvement.md`](Guides/Process/process-improvement.md).
+1. **Retro.** Agent performs the full checklist, reports findings, and completes immediately if no process suggestions were generated.
+2. **Process improvement follow-up (optional).** If the retro identifies process improvements, agent lists them in the retro output and stops at a handoff gate. On `next`, the agent enters [`Guides/Process/process-improvement.md`](Guides/Process/process-improvement.md), which drafts `process-tickets.md`, lets the human review/edit the resulting `## 🟡 Ticket: ...` entries, and files the remaining ones on `next`.
 
 ### Suggestion (skill `skai-suggestion`)
 
@@ -250,8 +250,8 @@ Ad-hoc process improvement suggestions outside of a retro. The agent helps the d
 
 **Phases:**
 
-1. **Draft.** Agent asks clarifying questions to understand the suggestion (skipped if the developer provides enough detail up front). Agent writes a 🟡 ticket draft to the `process-tickets.md` working file. Checkpoint: human reviews the draft.
-2. **File (optional).** When the developer is ready, agent presents drafts for review (file/revise/skip per entry) and files approved entries as GitHub issues on `skai`.
+1. **Understand and draft.** Agent asks clarifying questions to understand the suggestion (skipped if the developer provides enough detail up front). Once it has enough context, it stops at a ready-to-draft gate. On `next`, it chooses a session name, writes one or more `## 🟡 Ticket: ...` drafts to `working-docs/<branch-path>/<session-name>/process-tickets.md`, and presents them for review.
+2. **Review and file (optional).** The draft-review gate is the main filing gate: the human can revise or remove drafts there, or say `next` to file the remaining `## 🟡 Ticket: ...` entries as GitHub issues on `skai`. On filing, the draft marker is removed and the entry records the filed issue number.
 
 ### Update installation (skill `skai-update-installation`)
 
@@ -263,7 +263,7 @@ Check for upstream `skai` updates, review what changed, and re-run adapter runbo
 
 **Phases:**
 
-1. **Check and report.** Agent checks for upstream changes, pulls the latest, and presents the changelog delta. Checkpoint: human acknowledges before any runbooks are re-run.
+1. **Check and report.** Agent checks for upstream changes, updates the submodule as needed, and presents the changelog delta. Gate: human acknowledges before any runbooks are re-run.
 2. **Re-run adapters.** Agent re-runs each installed adapter's install/update runbook to pick up new or changed assets.
 
 ### Working documents

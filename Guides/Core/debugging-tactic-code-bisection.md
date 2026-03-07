@@ -2,7 +2,7 @@ Managed-By: skai
 Managed-Id: guide.debugging-tactic-code-bisection
 Managed-Source: Guides/Core/debugging-tactic-code-bisection.md
 Managed-Adapter: repo-source
-Managed-Updated-At: 2026-02-27
+Managed-Updated-At: 2026-03-07
 
 # Debugging tactic: code bisection
 
@@ -10,19 +10,58 @@ Purpose: isolate the smallest delta that flips a result (fail -> pass or pass ->
 
 This is not `git bisect` (history search). This is code-level bisection within an implementation or reproducer.
 
-## Checkpoints
+## Gates
 
-This tactic is used inside the debugging workflow and follows the shared process-flow mechanics in `Guides/Core/process-flow.md` (checkpoints, advance intent, `auto`, and the standard gate line).
+Core rule: every time the agent is waiting on the human, the message must end with a `⏳ GATE:` line. The only normal exception is full workflow completion, which uses `🏁 Complete. Let me know if anything needs adjustment.`
 
-Workflow-specific gate points (this tactic must STOP and wait at these checkpoints):
-- Before starting git-based bisection: get explicit approval to create commits for this tactic (commits are still gated by universal safety rules).
-- When the smallest failing delta is isolated: STOP and present the minimal diff + evidence before doing any real fix work.
+Use these standard gate lines:
+- Planned gate: `⏳ GATE: Next: <what happens after your response>. Say "next" or what to change.`
+- Blocked gate: `⏳ GATE: Blocked: <reason>. Resolve and say "next" to continue.`
 
-At checkpoints, end checkpoint output with the standard gate line (see `Guides/Core/process-flow.md`).
+Planned gates are the expected review points of this tactic. At each planned gate:
+1. Summarize what you did and what should happen next.
+2. End with the planned gate line.
+3. STOP and wait for the human.
+
+In the planned gate line, `<what happens after your response>` should describe what the agent will do after the human gives advance intent. If the gate is non-standard, make it describe the exact human response or handoff needed to resume the workflow.
+
+If an unexpected blocker prevents continued work, use the blocked gate line and STOP until the human resolves it.
+
+Workflow-specific gate notes:
+- Starting git-based bisection is a hard planned gate because it creates temporary commits and branches.
+- Isolating the smallest failing delta is also a hard planned gate: this tactic stops there and hands control back to the main debugging workflow or the human's next decision.
+
+Planned gates for this workflow:
+- Before starting git-based bisection: after explaining why bisection is the right tactic, what branch/worktree setup will be created, and why temporary commits are required.
+- When the smallest failing delta is isolated: after presenting the minimal diff + evidence and before doing any real fix work.
+
+Workflow-specific blocked gates:
+- The symptom is not reproducible enough for bisection to produce meaningful pass/fail results.
+- You do not have explicit authorization to create the temporary bisection commits/branches required by this tactic.
 
 ## Advance intent
 
-Advance intent (and `auto`) semantics are defined in `Guides/Core/process-flow.md`.
+Advance intent moves past the current gate. Common signals: "next", "continue", "go ahead", "do it".
+
+Rules:
+- Recognized as approval to move past a gate only after you output a `⏳ GATE:` line.
+- "we should...", "let's..." = discussion/context-setting, NOT authorization.
+- Outside a gate, interpret "begin"/"next"/"continue" using the tactic's active-step rules below. Do not use them to skip required approval for temporary commits or to jump straight from isolation into applying a fix.
+
+`auto` = advance intent that bypasses planned gates only. Blocked gates always require explicit human resolution.
+`auto to <milestone>` = auto-advance but STOP before the named planned gate. Use stable, workflow-specific milestone names.
+
+Progress tracking:
+- Default rule: 🟡 = TODO or pending approval. Do not clear 🟡 without human approval.
+- This tactic currently uses inline discussion rather than a required bisection work document.
+- The active state lives in the conversation plus the temporary branch/worktree and the sequence of bisection commits.
+- At the start gate, STOP before creating the temporary branch/worktree or making the first bisection commit.
+- At the isolated-delta gate, STOP after presenting the minimal diff + evidence and before switching into real fix work.
+
+Workflow-specific advance behavior:
+- `auto` does not bypass the start gate for git-based bisection.
+- `auto` does not bypass the isolated-delta gate.
+- Use `start bisection` and `isolated delta` as the stable bounded-auto targets for this tactic.
 
 ## Preconditions (must be true)
 
@@ -33,6 +72,8 @@ Advance intent (and `auto`) semantics are defined in `Guides/Core/process-flow.m
 ## Setup (non-polluting)
 
 Goal: do not pollute the branch under work.
+
+Gate: before doing any setup that creates the temporary branch/worktree or the first bisection commit, STOP at the start gate and get explicit approval.
 
 - Record the current branch name (the branch under work).
 - Create a temporary local branch off the current HEAD named `<current branch name>/bisection`.
@@ -60,7 +101,7 @@ Each iteration is one discriminating experiment:
 2. Apply the change.
 3. Run the reproducer/test and classify the result (pass/fail).
 4. Commit the iteration.
-5. Record the iteration in the working document.
+5. Keep enough inline trace in the conversation to explain what changed, what commit was created, and whether the result moved you toward or away from the failing delta.
 
 ### Commit discipline (required)
 
@@ -68,6 +109,8 @@ Each iteration is one discriminating experiment:
 - Commit messages must be descriptive enough to recover from mistakes.
   - Format recommendation: `BISect: step N - <what changed> - <expected> -> <observed>`
 - Record: step N, commit SHA, delta summary, pass/fail.
+
+At minimum, state that information in the conversation as you go so the trail stays recoverable even without a separate work document.
 
 ### Switching backward (when you overshoot)
 

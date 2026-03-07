@@ -2,7 +2,7 @@ Managed-By: skai
 Managed-Id: guide.work-spec-implementation
 Managed-Source: Guides/Spec/work-spec-implementation.md
 Managed-Adapter: repo-source
-Managed-Updated-At: 2026-03-04
+Managed-Updated-At: 2026-03-07
 
 
 # Work Task Development Rules
@@ -14,20 +14,47 @@ Managed-Updated-At: 2026-03-04
 - You NEVER remove 🟡 from the CURRENT task 
 - Task completion (removing 🟡) happens when the human asks for the next task
 
-## Checkpoints
+## Gates
 
-This guide follows the shared process-flow mechanics in `Guides/Core/process-flow.md`.
+Use these standard gate lines:
+- Planned gate: `⏳ GATE: Next: <what happens after your response>. Say "next" or what to change.`
+- Blocked gate: `⏳ GATE: Blocked: <reason>. Resolve and say "next" to continue.`
 
-Workflow-specific gate points (this guide must STOP and wait at these checkpoints):
-- After completing the implementation work for Task N (before moving to Task N+1).
-- When blocked by ambiguity, unclear requirements, missing evidence, or a non-trivial issue.
-- At the end of `"next auto"` to report what was completed vs what remains (and why).
+Planned gates are the expected review points of this workflow. At each planned gate:
+1. Summarize what you finished and what should happen next.
+2. End with the planned gate line.
+3. STOP and wait for the human.
+
+In the planned gate line, `<what happens after your response>` should describe what the agent will do after the human gives advance intent.
+
+If an unexpected blocker prevents continued work, use the blocked gate line and STOP until the human resolves it.
+
+When the workflow finishes (all tasks complete), use: `🏁 Complete. Let me know if anything needs adjustment.`
+
+Planned gates for this workflow:
+- After completing the implementation work for Task N, but before clearing Task N's 🟡 marker and starting Task N+1.
+- At the end of `next auto`, if work remains or the run stopped early, to report what was completed vs what remains (and why).
 
 ---
 
 ## Advance intent
 
-Advance intent (and `auto`) semantics are defined in `Guides/Core/process-flow.md`.
+Advance intent moves past the current gate. Common signals: "next", "continue", "go ahead", "do it".
+
+Rules:
+- Recognized as approval to move past a gate only after you output a `⏳ GATE:` line.
+- "we should...", "let's..." = discussion/context-setting, NOT authorization.
+- Outside a gate, interpret "begin"/"next"/"continue" using the active-task rules below. Do not use them to clear the current task marker early.
+
+`auto` = advance intent that bypasses planned gates only. Blocked gates always require explicit human resolution.
+`auto to <target>` = auto-advance but STOP before the named workflow target. Use stable task identifiers such as `task 7` or a task number/title.
+
+Progress tracking:
+- Default rule: 🟡 = TODO or pending approval. Do not clear 🟡 without human approval.
+- In this workflow, the current task's task-line 🟡 marker is the task gate/phase marker.
+- When Task N implementation work finishes, STOP at the planned gate with Task N still marked 🟡.
+- Only after the human gives advance intent may the agent remove 🟡 from Task N, remove any fully satisfied work-spec-only inventory/API markers completed by Task N, and begin Task N+1.
+- If work stops due to a blocker, do not clear the current task's 🟡 marker.
 
 **Behavior:** Context determines the action:
 - If waiting to proceed → mark previous task complete (if applicable) and begin next task
@@ -44,8 +71,10 @@ Advance intent (and `auto`) semantics are defined in `Guides/Core/process-flow.m
 
 **Workflow-specific `auto` rules:**
 
-- Automatically implements all remaining 🟡 tasks in sequence, removing 🟡 from completed tasks as it progresses.
-- At end: reports progress (tasks completed vs tasks remaining with 🟡).
+- Automatically implements all remaining 🟡 tasks in sequence, clearing each completed task as auto advances.
+- If auto completes the final remaining task with no blocker and no bounded target stop, clear that final task's 🟡 marker and complete the workflow with `🏁 Complete...` rather than stopping at a planned gate.
+- `auto to <target>` should use stable task identifiers (for example, `task 7`).
+- If auto stops early because work remains, report progress at the planned gate (tasks completed vs tasks remaining with 🟡).
 
 **Auto-fixes allowed:**
 - Obvious typos (wrong variable names, enum values)
@@ -60,6 +89,14 @@ Advance intent (and `auto`) semantics are defined in `Guides/Core/process-flow.m
 - Any change where the spec said X and you are implementing not-X
 
 **Bright-line test:** If your fix requires editing the work spec to remove or weaken a requirement or design decision, STOP. That is a spec deviation, not a fix -- it requires human input regardless of how obvious the alternative seems.
+
+**Workflow-specific STOP notes:** In this workflow, common blocked cases include:
+- A required build/test/verification tool or integration is missing or broken
+- Project configuration or environment problems prevent correct implementation or verification
+- The work spec says X but the next viable implementation step would do not-X
+- Required verification evidence cannot be produced, or new evidence contradicts the current task/spec
+
+For any of these, STOP with the blocked gate line and leave the current task's 🟡 marker in place.
 
 ## Task N Implementation
 
@@ -85,12 +122,13 @@ When implementing Task N:
   - Use project-specific commands/paths from `docs/skai/integration.md` (do not invent commands).
   - Record evidence inline on the verification subtask line using an evidence bracket.
     - Format: `[evidence: <command variant>; exit <code>; output: <optional link(s)>]`
-    - On failure: persist full output to a file under `working-docs/<branch-path>/work-spec/<spec-name>/evidence/` (or the workflow-specific location if one exists) and link it.
+    - On failure: persist full output to a file under `working-docs/<branch-path>/<spec-name>/work-spec/evidence/` (or the workflow-specific location if one exists) and link it.
     - On success: linked output is optional; still record command variant and exit code.
 - If implementation differs from the spec (spec deviation):
   - STOP and propose a spec amendment (exact text change) for approval.
   - Only after approval: update the work spec, then proceed.
   - Never silently edit the spec after the fact to justify an already-made deviation.
+  - End with the blocked gate line.
 
 ### Step 2.5: Stop on Ambiguity
 If you encounter ambiguity, incompleteness, or potential errors in the spec during implementation:
@@ -99,12 +137,15 @@ If you encounter ambiguity, incompleteness, or potential errors in the spec duri
 - Do NOT continue implementing with a flawed understanding
 - Explain the ambiguity clearly and propose options if applicable
 - Wait for the human to resolve the ambiguity
+- End with the blocked gate line.
 
 ### Step 3: Stop and Wait
 - **DO NOT** remove 🟡 from Task N in the work spec
 - **DO NOT** proceed to the next task
 - **DO NOT** update current task status
-- Simply stop and wait for user authorization
+- End with the planned gate line.
+- If there is another task after Task N, the `Next` text should say you will clear Task N and begin Task N+1 after advance intent.
+- If Task N is the final task, the `Next` text should say you will clear Task N and complete the workflow after advance intent.
 
 ### Step 4: During Implementation
 - When asked questions, do not make changes unless explicitly instructed

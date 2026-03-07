@@ -2,25 +2,56 @@ Managed-By: skai
 Managed-Id: guide.update-installation
 Managed-Source: Guides/Core/update-installation-guide.md
 Managed-Adapter: repo-source
-Managed-Updated-At: 2026-03-04
+Managed-Updated-At: 2026-03-07
 
 # Update Installation Guide
 
 Updates the `skai` submodule and re-runs installed adapter runbooks.
 
-## Checkpoints
+## Gates
 
-This guide follows the shared process-flow mechanics in `Guides/Core/process-flow.md` (checkpoints, advance intent, `auto`, and the standard gate line).
+Core rule: every time the agent is waiting on the human, the message must end with a `⏳ GATE:` line. The only normal exception is full workflow completion, which uses `🏁 Complete. Let me know if anything needs adjustment.`
 
-Workflow-specific gate points (this guide must STOP and wait at these checkpoints):
-- If `docs/skai/install-state.json` is missing: STOP and ask the human to run initial install/update runbooks first.
-- After reporting what changed (changelog summary or `git log` fallback): STOP and wait for the human to acknowledge before proceeding to runbooks.
+Use these standard gate lines:
+- Planned gate: `⏳ GATE: Next: <what happens after your response>. Say "next" or what to change.`
+- Blocked gate: `⏳ GATE: Blocked: <reason>. Resolve and say "next" to continue.`
 
-At checkpoints, end checkpoint output with the standard gate line (see `Guides/Core/process-flow.md`).
+Planned gates are the expected review points of this workflow. At each planned gate:
+1. Summarize what you did and what should happen next.
+2. End with the planned gate line.
+3. STOP and wait for the human.
+
+In the planned gate line, `<what happens after your response>` should describe what the agent will do after the human gives advance intent. If the gate is non-standard, make it describe the exact human response or handoff needed to resume the workflow.
+
+If an unexpected blocker prevents continued work, use the blocked gate line and STOP until the human resolves it.
+
+Planned gates for this workflow:
+- After reporting what changed (changelog summary or `git log` fallback), but before running the adapter install/update runbooks.
+
+Workflow-specific blocked gates:
+- `docs/skai/install-state.json` is missing, so the update workflow does not know what was previously installed.
 
 ## Advance intent
 
-Advance intent (and `auto`) semantics are defined in `Guides/Core/process-flow.md`.
+Advance intent moves past the current gate. Common signals: "next", "continue", "go ahead", "do it".
+
+Rules:
+- Recognized as approval to move past a gate only after you output a `⏳ GATE:` line.
+- "we should...", "let's..." = discussion/context-setting, NOT authorization.
+- Outside a gate, interpret "begin"/"next"/"continue" using the workflow's active-step rules below. Do not use them to skip required prerequisite checks.
+
+`auto` = advance intent that bypasses planned gates only. Blocked gates always require explicit human resolution.
+`auto to <milestone>` = auto-advance but STOP before the named planned gate. Use stable, workflow-specific milestone names.
+
+Progress tracking:
+- This workflow currently uses inline discussion rather than a required work document.
+- The active state lives in the conversation plus `docs/skai/install-state.json`.
+- At the changelog-review gate, STOP after summarizing what changed and wait for approval before re-running adapter runbooks.
+
+Workflow-specific advance behavior:
+- `auto` may bypass the changelog-review gate and continue directly into the adapter runbooks.
+- `auto` does not bypass the blocked missing-install-state case.
+- Use `runbooks` as the stable bounded-auto target for this guide.
 
 ## Prerequisites
 
@@ -63,7 +94,7 @@ git submodule update --remote <submodulePath>
 - Read `<submodulePath>/CHANGELOG.md`.
 - Show the human all changelog entries dated **after** `lastUpdatedAt` from the state file.
 - If no new entries exist (edge case: non-changelog-worthy internal changes), note that and show a brief `git log --oneline <oldSHA>..<newSHA>` instead.
-- **Wait for the human to acknowledge** before proceeding.
+- Gate: STOP after reporting what changed and end with `⏳ GATE: Next: Run the installed adapter update runbooks. Say "next" or what to change.`
 
 ### 5. Run adapter install/update runbooks
 
@@ -78,3 +109,5 @@ Update `docs/skai/install-state.json` with:
 - The new submodule HEAD SHA
 - Today's date (run `date +%Y-%m-%d` -- see `Install/managed-header.md`)
 - Per-adapter `lastRunAt` timestamps
+
+Then complete the workflow.

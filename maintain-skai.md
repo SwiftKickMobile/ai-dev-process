@@ -71,51 +71,144 @@ Applies to all workflow documents: files under `Guides/`, internal runbooks (`ma
 
 ### Standard structure for guides with gates
 
-If the guide has any STOP points / gates, use this structure for the process-flow sections:
+If the guide has any STOP points / gates, inline the process-flow operational template in both sections. Do not reference `Guides/Core/process-flow.md` as a runtime dependency -- agents skip indirect references.
 
 ```
-## Checkpoints
-<one-line reference to process-flow for shared mechanics>
-<enumerate this guide's workflow-specific gates -- one bullet per gate>
+## Gates
+
+Core rule: every time the agent is waiting on the human, the message must end with a `⏳ GATE:` line. The only normal exception is full workflow completion, which uses `🏁 Complete. Let me know if anything needs adjustment.`
+
+Use these standard gate lines:
+- Planned gate: `⏳ GATE: Next: <what happens after your response>. Say "next" or what to change.`
+- Blocked gate: `⏳ GATE: Blocked: <reason>. Resolve and say "next" to continue.`
+
+Planned gates are the expected review points of this workflow. At each planned gate:
+1. Summarize what you did and what should happen next.
+2. End with the planned gate line.
+3. STOP and wait for the human.
+
+In the planned gate line, `<what happens after your response>` should describe what the agent will do after the human gives advance intent. If the gate is non-standard, make it describe the exact human response or handoff needed to resume the workflow.
+
+If an unexpected blocker prevents continued work, use the blocked gate line and STOP until the human resolves it.
+
+Workflow-specific gate notes (optional):
+- If a planned gate has workflow-specific semantics rather than the default "review complete, say `next` to advance" behavior, state the exact gate response and what `Next` means there.
+- Review/handoff gates are one common example, but not the only allowed variation.
+- Recognition test for a non-standard planned gate:
+  - If the human response needed there is not simply "review complete; `next` means approve-and-advance", treat it as non-standard.
+  - If leaving the gate standard would misdescribe what the human should do next, clear 🟡 markers too early, or advance to the wrong phase, treat it as non-standard.
+  - For any non-standard planned gate, document the exact `⏳ GATE: Next: ...` response, what kind of human response resumes the workflow, what `Next` means there, and how progress markers track that gate.
+- For any non-standard planned gate, use 🟡 markers in the most natural workflow artifact to show what remains open for that gate.
+- Make the marker lifecycle explicit:
+  - which 🟡 markers track gate/phase state vs local working state
+  - what specific human intent approves clearing them
+  - that the agent removes them only after that human intent is received
+- If the workflow has guide-specific blocked cases discovered through retros, list them here. Otherwise keep blocked behavior generic.
+
+Planned gates for this workflow:
+- <gate 1>
+- <gate 2>
 
 ## Advance intent
-<one-line reference to process-flow>
-<workflow-specific advance behavior ONLY if it differs from the default>
+
+Advance intent moves past the current gate. Common signals: "next", "continue", "go ahead", "do it".
+
+Rules:
+- Recognized as approval to move past a gate only after you output a `⏳ GATE:` line.
+- "we should...", "let's..." = discussion/context-setting, NOT authorization.
+- Outside a gate, interpret "begin"/"next"/"continue" using the workflow's active-phase rules below. Do not use them to skip phases or clear unrelated 🟡 markers.
+
+`auto` = advance intent that bypasses planned gates only. Blocked gates always require explicit human resolution.
+`auto to <milestone>` = auto-advance but STOP before the named planned gate. Use stable, workflow-specific milestone names.
+
+Progress tracking:
+- Default rule: 🟡 = TODO or pending approval. Do not clear 🟡 without human approval.
+- At a planned gate, advance intent is the approval signal for clearing the guide-owned 🟡 markers completed by the phase that just finished.
+- Ordering rule: the agent first stops and waits at the gate, then removes the approved 🟡 markers only after the human gives advance intent.
+- If a workflow needs a custom marker lifecycle (for example, inline discussion markers resolved during a human-led discussion loop), define that exception explicitly and narrowly below.
+- If a workflow uses both gate/phase markers and local working markers, keep them distinct: local approvals clear local working markers; advance intent clears the gate/phase marker.
+- For any custom marker lifecycle, specify both:
+  - the artifact where the 🟡 markers live
+  - the exact human intent that authorizes their removal
+
+<workflow-specific advance behavior>
 ```
 
-**Checkpoints section rules:**
-- Reference `Guides/Core/process-flow.md` for shared mechanics (do not restate what checkpoints are or how gate lines work).
-- List only this guide's planned gates -- one bullet per gate describing what the agent presents and why it stops.
+**Gates section rules:**
+- Copy the standardized gates template verbatim, then add workflow-specific planned gates.
+- If the guide has a custom review/handoff gate, explicitly state the exact `⏳ GATE: Next: ...` response and what human action resumes the workflow.
+- Keep blocked-gate behavior generic unless the workflow has concrete blocker cases discovered through retros.
+- Every place the guide says the agent must STOP and wait on the human must correspond to a `⏳ GATE:` line in the runtime behavior.
+- After the template block, list this guide's workflow-specific gates.
 
 **Advance intent section rules:**
-- Start with a one-line reference to process-flow (e.g., "Advance intent (and `auto`) semantics are defined in `Guides/Core/process-flow.md`.").
-- Add workflow-specific behavior only when this guide's advance action differs from the default (e.g., "marks previous task complete and begins next task").
-- Do not restate what advance intent means, how authorization works, or general `auto` semantics.
-- Workflow-specific `auto` rules (skip conditions, auto-fix rules) belong here.
+- Copy the standardized advance intent template verbatim (the block above starting "Advance intent moves past").
+- After the template block, add workflow-specific behavior (if any): custom advance actions, `auto` milestone names, custom marker-lifecycle exceptions, hard gates that `auto` does not bypass.
 
-### Process-flow separation (do not restate general mechanics)
+### Process-flow house style
 
-`Guides/Core/process-flow.md` is the single source of truth for:
-- What a checkpoint/gate is and how it works
-- The standard gate line variants (Continue, Blocked) and workflow completion line
-- Advance intent recognition and authorization
-- General `auto` semantics and universal STOP conditions
-- 🟡 marker semantics (TODO, pending approval, must not clear without approval)
-- Marker update protocol
+`Guides/Core/process-flow.md` is the **house style reference** for process-flow mechanics. It is the canonical definition used by maintainers to ensure consistency across guides. It is NOT a runtime reference that agents read during workflow execution.
 
-**Do not restate these in individual guides.** Restating general mechanics creates contradictions when either source is updated independently. Proven failure mode: a guide's "Flow" section said markers are removed automatically when tests pass, contradicting process-flow's rule that markers require human approval.
+The operational core is inlined in each guide using the standard template above. When process-flow house style changes:
+1. Update `Guides/Core/process-flow.md` (the canonical definition).
+2. Update the standard template in this section.
+3. Propagate the template changes to all workflow guides.
 
-Specifically, do not include:
+**What guides should contain (inline):**
+- The standardized gates and advance intent template (copied verbatim)
+- Workflow-specific gate descriptions, phase sequencing, `auto` skip/fix rules
+- Workflow-specific procedures, examples, and reference material
+
+**What guides should NOT contain:**
+- References to `Guides/Core/process-flow.md` as a required runtime read
 - "Flow" or "Process Overview" subsections that embed checkpoint behavior or marker removal steps alongside phase sequencing. State only which phases exist and their order.
 - Standalone "Progress Tracking" sections that restate 🟡 = TODO / no marker = complete.
-- "Quick Reference" content that restates process-flow rules (checkpoint behavior, marker semantics, authorization). Quick references should contain only workflow-specific content (e.g., test commands, file paths, task structure).
-- Inline restatements of marker removal timing (e.g., "remove 🟡 when complete") -- process-flow already defines when markers are cleared.
+- Inline restatements of marker removal timing (e.g., "remove 🟡 when complete") unless gated on advance intent.
 
-**What guides should contain:**
-- Workflow-specific phase sequencing (which phases, their order, what each phase does)
-- Workflow-specific gate descriptions (what the agent presents at each gate)
-- Workflow-specific `auto` skip/fix rules
-- Workflow-specific procedures, examples, and reference material
+### Flow reflection (required for guides with gates)
+
+After editing a guide with gates, imagine a fresh agent using it from the start of the workflow and mentally step through the first few human/agent exchanges plus each gate transition.
+
+Required post-edit simulation:
+- Explicitly simulate at least:
+  - one normal transition
+  - one blocked case
+  - one `auto` case
+- If the simulation exposes a gap, patch the guide immediately and re-run the affected simulation.
+- If the simulation exposes no issues, record `No issues found in simulation` in the active working notes before moving to the next guide.
+
+For each stop, verify:
+- why the agent is stopping
+- the exact `⏳ GATE:` line the agent should emit
+- what human response resumes the workflow
+- whether that response is advance intent, local approval, or some other workflow-specific action
+- which workflow-owned artifact is tracking that gate or phase
+- which specific 🟡 marker is still present while waiting
+- what 🟡 marker changes, and only after what human intent
+- what exact artifact change happens after that human intent
+
+Look specifically for:
+- waits on the human that do not end with a `⏳ GATE:` line
+- gates where `Next` is unclear or misleading
+- planned gates that have no workflow-owned artifact or no gate/phase marker to clear
+- marker removals that happen before approval
+- non-standard gates whose custom semantics are implied but not stated
+- top-level summaries that do not match the actual gated sequence
+
+### Pre-edit workflow model (required for guides with gates)
+
+Before rewriting a guide with gates:
+- Extract the workflow model first:
+  - happy-path progression
+  - workflow-owned artifact(s)
+  - marker lifecycle
+  - blocker categories
+- Simulate at least:
+  - one normal transition
+  - one blocked/tooling failure
+  - one ambiguity/spec flaw
+  - one `auto` case
+- Only then apply the standardized gate/advance-intent template.
 
 ### Sanity scan (after every edit)
 
@@ -124,21 +217,29 @@ Run this scan after *each* guide edit, not just at the end of a batch. Deferring
 Checks:
 
 **Structure:**
-- Missing `## Checkpoints` section (if the guide has gates)
+- Missing `## Gates` section (if the guide has gates)
 - Missing `## Advance intent` section (if the guide has gates)
 - Inconsistent terms ("Next Command" instead of "advance intent")
+- Mixed gate terminology ("checkpoint" and "gate" used interchangeably without a workflow-specific reason)
 - Stack-mismatched references (e.g., Xcode terms in Android-only sections)
+- If the guide creates working docs or artifacts, stale path layouts that skip the required `session-name` folder
 
-**Process-flow separation:**
-- Restated process-flow mechanics (marker semantics, checkpoint behavior, authorization rules)
+**Process-flow template compliance:**
+- Gates section missing the standardized gates template (the block starting "Core rule: every time the agent is waiting on the human...")
+- Advance intent section missing the standardized advance intent template (the block starting "Advance intent moves past the current gate.")
+- References to `Guides/Core/process-flow.md` that imply it is a required runtime read (e.g., "This guide follows the shared process-flow mechanics in...")
 - Standalone "Progress Tracking" or "Emoji System" sections that redefine 🟡
 
 **Flow control integrity:**
-- Any "remove 🟡" language that is not explicitly gated on advance intent or a checkpoint. Search for `remove 🟡` and `Remove 🟡` and verify each occurrence is tied to an advance intent trigger, not to an autonomous condition (e.g., "when complete", "as you complete them").
-- Flow/sequence descriptions where marker removal appears before a STOP/checkpoint (wrong order -- the checkpoint must come first, marker removal happens on the subsequent advance intent).
-- Examples or walkthroughs that show markers being removed without a preceding checkpoint + advance intent step.
-- `auto` sections that list gates bypassed by `auto` without labeling which gates are hard (not bypassed). If a guide has both soft and hard gates, the Checkpoints section should label the hard ones.
-- Inline "Checkpoint:" signposts that add mechanics not present in the `## Checkpoints` section (acceptable to say "Checkpoint: STOP"; not acceptable to add new rules about what happens at the checkpoint).
+- Any place where the guide says the agent waits for the human but does not end with a `⏳ GATE:` line in the described runtime behavior.
+- Any planned gate that does not have a workflow-owned artifact and a gate/phase marker that remains while waiting for advance intent.
+- Any "remove 🟡" language that is not explicitly gated on advance intent or a documented workflow-specific exception. Search for `remove 🟡` and `Remove 🟡` and verify each occurrence is tied either to a gate/advance-intent step or to an explicitly documented custom lifecycle.
+- Any guide where the planned gate exists but the post-approval artifact change is not explicit (for example, no statement of which marker is removed after advance intent).
+- Flow/sequence descriptions where marker removal appears before a STOP/gate (wrong order -- the STOP comes first, marker removal happens on the subsequent advance intent unless a documented local exception applies).
+- Examples or walkthroughs that show markers being removed without a preceding gate + advance intent step, unless the guide explicitly documents a narrower exception (for example, inline discussion markers resolved during human-approved discussion).
+- `auto` sections that list gates bypassed by `auto` without labeling which gates are hard (not bypassed). If a guide has both soft and hard gates, the `## Gates` section should label the hard ones.
+- Inline "Gate:" signposts that add mechanics not present in the `## Gates` section (acceptable to say "Gate: STOP"; not acceptable to add new rules about what happens at the gate unless they are already defined in the gate model).
+- If the guide defines working-doc paths, any examples or artifact paths that place files directly under `working-docs/<branch-path>/...` instead of `working-docs/<branch-path>/<session-name>/...`.
 
 ## README Usage section conventions
 

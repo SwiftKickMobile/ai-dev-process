@@ -16,18 +16,38 @@ Orchestrates the work specification creation process. Work specifications provid
 - **No Code**: Contains no actual code - only descriptions of what needs to be implemented
 
 **Overall Process:**
-1. **Planning Phase**: Collaborative design through three stages -- scope discussion, ideation/questions/discussion, API sketch. Produces a planning document with all design decisions resolved.
-2. **Requirements Normalization**: Promote product/system behaviors discovered during planning into the canonical requirements repository.
-3. **Work Spec First Pass**: Write high-level tasks only (no subtasks) for review.
-4. **Work Spec Second Pass**: Add detailed subtasks after approval.
+1. **Planning Document Draft**: Summarize the scope discussion into a planning document seeded with 🟡 discussion items.
+2. **Planning Discussion**: Resolve the planning document's inline 🟡 items through collaborative discussion.
+3. **API Sketch**: Capture the non-private API surface implied by the resolved planning discussion.
+4. **Requirements Normalization**: Promote product/system behaviors discovered during planning into the canonical requirements repository.
+5. **Work Spec First Pass**: Write high-level tasks only (no subtasks) for review.
+6. **Work Spec Second Pass**: Add detailed subtasks after approval.
 
-## Checkpoints
+## Gates
 
-This guide follows the shared process-flow mechanics in `Guides/Core/process-flow.md`.
+Use these standard gate lines:
+- Planned gate: `⏳ GATE: Next: <thing>. Say "next" or what to change.`
+- Blocked gate: `⏳ GATE: Blocked: <reason>. Resolve and say "next" to continue.`
 
-Workflow-specific gate points (this guide must STOP and wait at these checkpoints):
-- After drafting the planning document (with 🟡 open questions).
-- After resolving all 🟡 items and completing the API sketch (human confirms readiness to proceed).
+Planned gates are the expected review points of this workflow. At each planned gate:
+1. Summarize what you did and what should happen next.
+2. End with the planned gate line.
+3. STOP and wait for advance intent. Do not proceed.
+
+If an unexpected blocker prevents continued work, use the blocked gate line and STOP until the human resolves it.
+
+Workflow-specific gate note:
+- The planning-draft gate is a review/handoff gate.
+- Gate response for this gate: `⏳ GATE: Next: Review the seeded discussion items and respond to them directly, or say "next" for me to start walking through them.`
+- After the agent drafts the planning document, the human reviews the seeded discussion items and may begin Stage 1 by responding to them directly.
+- This gate does not mean approval to move to API sketch.
+
+When the workflow finishes (all steps done), use: `🏁 Complete. Let me know if anything needs adjustment.`
+
+Planned gates for this workflow:
+- After drafting the planning document (with 🟡 open questions) for human review and discussion handoff.
+- After resolving all planning-discussion 🟡 items (human confirms readiness to begin the API sketch).
+- After completing the API sketch (human confirms readiness to proceed to requirements normalization).
 - After requirements normalization updates to `/requirements/**` (human acknowledges before proceeding).
 - After the work spec first pass (high-level tasks only) for review.
 - After the work spec second pass (subtasks + traceability) for review.
@@ -36,19 +56,37 @@ Workflow-specific gate points (this guide must STOP and wait at these checkpoint
 
 ## Advance intent
 
-Advance intent (and `auto`) semantics are defined in `Guides/Core/process-flow.md`.
+Advance intent moves past the current gate. Common signals: "next", "continue", "go ahead", "do it".
+
+Rules:
+- Recognized as approval to move past a gate only after you output a `⏳ GATE:` line.
+- "we should...", "let's..." = discussion/context-setting, NOT authorization.
+- Outside a gate, interpret "begin"/"next"/"continue" using the active-phase rules below. Do not use them to skip phases or clear unrelated 🟡 markers.
+
+Workflow-specific exception -- planning-draft gate:
+- After the planning document draft is presented, the human may begin Stage 1 by commenting on, answering, reprioritizing, or redirecting the seeded discussion items.
+- That response starts the planning discussion loop. It is not the same as approval to move to API sketch.
+- The planning discussion moves to API sketch only at the later planned gate where all planning-discussion 🟡 items are resolved.
+
+`auto` = advance intent that bypasses planned gates only. Blocked gates always require explicit human resolution.
+`auto to <milestone>` = auto-advance but STOP before the named planned gate. Valid milestones in this workflow: `planning draft`, `planning discussion complete`, `api sketch complete`, `requirements normalization`, `work spec first pass`, `work spec second pass`.
+
+Progress tracking:
+- Default rule: 🟡 = TODO or pending approval. Do not clear 🟡 without human approval.
+- At a planned gate, advance intent is the approval signal for clearing the guide-owned 🟡 markers completed by the phase that just finished.
+- Workflow-specific exception -- planning discussion: inline 🟡 items in the planning document are resolved during Stage 1 discussion, not at a planned gate. Replace a 🟡 item inline only after the human explicitly approves that specific resolution.
+- Workflow-specific note -- work-spec task markers: the second pass creates 🟡 task markers in the work spec, but this workflow does not clear them. They are cleared later by the implementation workflow.
 
 **Behavior:** Context determines the action. The same command drives every phase of the process; the agent infers which step to execute based on the current state of the conversation and any existing documents.
 
-**Workflow-specific `auto` rules:**
+**Workflow-specific `auto` rules:** `auto` can be useful after the human has already approved the planning document, the planning discussion is complete, and the API sketch is approved, to batch requirements normalization, work spec first pass, and work spec second pass. If the planning document still has unresolved 🟡 items, this workflow is blocked on human decisions and `auto` should STOP at the planning-discussion-complete gate.
 
-`auto` can be useful after the human has already approved the planning document and there are no remaining 🟡 items, to batch requirements normalization, work spec first pass, and work spec second pass. If the planning document still has unresolved 🟡 items, this workflow is blocked on human decisions and `auto` should STOP at that checkpoint.
+**Phase actions when the human says "begin", "next", or "continue":**
 
-**Phase actions on advance intent:**
-
-- **Planning -- Create Planning Document:** summarize the scope discussion into a planning document; seed with 🟡 open questions for Stage 1.
-- **Planning -- Resolve Open Questions:** continue the iterative discussion, updating the document as decisions are made.
-- **Requirements Normalization:** promote product/system behaviors from the planning document into the canonical requirements repository.
+- **Planning -- Create Planning Document:** summarize the scope discussion into a planning document; seed with 🟡 open questions for Stage 1; then STOP at the planning-draft gate for human review.
+- **Planning -- Resolve Open Questions:** continue the iterative discussion, updating the document as decisions are made. This continues the active discussion loop; it does not approve unresolved 🟡 items by itself.
+- **Planning -- API Sketch:** after the planning-discussion gate is approved, write the API sketch using the resolved planning document as input.
+- **Requirements Normalization:** after the API sketch gate is approved, promote product/system behaviors from the planning document into the canonical requirements repository.
 - **Work Spec -- First Pass:** create work specification with high-level tasks only (no subtasks, no Traceability). Allows human to review overall sequence before details.
 - **Work Spec -- Second Pass:** add detailed subtasks, 🟡 indicators, and the Traceability section.
 
@@ -56,7 +94,7 @@ Advance intent (and `auto`) semantics are defined in `Guides/Core/process-flow.m
 
 ## Planning Phase
 
-Before writing a work spec, the design must be worked through in a planning document. The planning phase is a collaborative, iterative process with two stages.
+Before writing a work spec, the design must be worked through in a planning document. The planning phase begins by drafting the planning document, then proceeds through two stages: Stage 1 discussion and Stage 2 API sketch.
 
 **Prerequisite:** An informal scope discussion has already taken place (in chat, a meeting, a Jira ticket, etc.). The human and agent have discussed the problem space -- what is being solved, motivating use cases, scope boundaries, and affected architecture. The human enters the planning phase when they are ready to formalize the discussion into a planning document (e.g., "begin planning").
 
@@ -75,6 +113,7 @@ Work through the design collaboratively. The agent proposes design elements and 
 
 **🟡 Marker Protocol for Planning Documents:**
 
+- Use the planning section's own 🟡 marker to track the planning gate/phase state. Keep this separate from the topic-level discussion markers inside the section.
 - Mark all unresolved discussion items with 🟡:
   - open questions
   - proposals/options under consideration
@@ -90,6 +129,13 @@ Work through the design collaboratively. The agent proposes design elements and 
   - Do NOT repeat the same topic across multiple sections ("Topic X" in Discussion and again in Questions).
   - Do NOT create "Decision" sub-sections (or "Decision:" labels). Decisions are expressed by replacing the unresolved text inline.
   - Instead: each topic heading contains its own inline 🟡 questions/proposals/tradeoffs where they naturally belong.
+- Planning section marker lifecycle:
+  - The planning section heading starts with 🟡 while planning is still open.
+  - After drafting the planning document, STOP at the planning-draft gate with the section heading still marked 🟡.
+  - When the human begins Stage 1 discussion, keep the section heading marked 🟡; that response starts the discussion loop but does not complete the planning phase.
+  - While Stage 1 is active, explicit human approval of a specific discussion item removes only that item's 🟡 marker. It does NOT remove the planning section's 🟡 marker.
+  - When the last discussion-item 🟡 marker is resolved, STOP at the planning-discussion gate with the planning section heading still marked 🟡.
+  - Remove the planning section's 🟡 marker only after the human gives advance intent to begin the API sketch.
 - When the human explicitly approves a resolution:
   - REPLACE the 🟡 item inline with the approved plan/requirement/decision text (no separate "Questions" section, no "approved" marker).
   - Do NOT remove 🟡 preemptively. Only replace when the human has explicitly decided.
@@ -142,7 +188,7 @@ Rules:
   3. Requirements normalization
   4. Work spec writing
 - Process-flow note: when Phase N is complete, the next step is to begin Phase N+1 (or conclude if there are no more phases).
-  - Stopping condition: at the end of Phase N's cycle, STOP and wait using the standard gate line (see `Guides/Core/process-flow.md`). The "Next" step should be "Begin Phase N+1" (or "Complete" if there are no more phases).
+  - Stopping condition: at the end of Phase N's cycle, STOP and output the standard gate line. The "Next" step should be "Begin Phase N+1" (or "Complete" if there are no more phases).
   - Advance intent at that point is the signal to initialize Phase N+1's Stage 1 discussion content (seed proposals/questions under that phase section).
 - Phase sections can start as lightweight placeholders (scope, rough idea). When it is time to begin a phase, the human tells the agent to initialize the phase's discussion content.
 
@@ -164,6 +210,8 @@ Recommended phased planning shape:
 - When the human asks a question, answer it directly -- do not reframe it as a choice between options you've invented.
 - Use concrete scenarios (design-by-use-case) to drive design decisions rather than abstract analysis.
 - Capture both the decision and the reasoning in the document.
+
+Gate: when all planning-discussion 🟡 items are resolved, STOP and output the planned gate line. The next step should be `API sketch`.
 
 ### Stage 2: API Sketch
 
@@ -196,6 +244,8 @@ struct FileReference: Codable {                                 // new type
 
 Output: the planning document's "API Sketch" or equivalent section describes the non-private surface area -- types, protocols, and their relationships -- with enough specificity that a work spec can reference them.
 
+Gate: when the API sketch is complete, STOP and output the planned gate line. The next step should be `requirements normalization`.
+
 ### Planning Document Completeness
 
 The planning phase is complete when:
@@ -211,7 +261,7 @@ If the planning document uses phases:
   - an API sketch for the phase, and
   - the human's approval to proceed with that phase.
 
-Checkpoint: STOP and wait for the human to confirm readiness to proceed.
+Gate: STOP and output the planned gate line.
 
 ---
 
@@ -271,7 +321,7 @@ Write canonical requirements as if authored by a **product manager with no knowl
 
 The work specification references canonical requirement IDs produced by this step.
 
-Checkpoint: STOP and wait for the human to acknowledge requirements updates before starting the work spec draft.
+Gate: STOP and output the planned gate line.
 
 ---
 
@@ -321,20 +371,22 @@ When promoting requirements from planning:
 Work specification and planning files are working documents. Create them following `Guides/Core/working-doc-conventions.md`.
 
 **Planning Document:**
+- Session name: `[spec-name]`
 - Subpath: (none)
-- File name: `[spec-name]-planning.md`
-- Full path: `working-docs/<branch-path>/[spec-name]-planning.md`
+- File name: `work-spec-planning.md`
+- Full path: `working-docs/<branch-path>/[spec-name]/work-spec-planning.md`
 
 **Work Spec Document:**
+- Session name: `[spec-name]`
 - Subpath: (none)
-- File name: `[spec-name]-work-spec.md`
-- Full path: `working-docs/<branch-path>/[spec-name]-work-spec.md`
+- File name: `work-spec-implementation.md`
+- Full path: `working-docs/<branch-path>/[spec-name]/work-spec-implementation.md`
 
-Where `[spec-name]` = the specification name (e.g., `observable-wrapper`).
+Where `[spec-name]` = the specification name for this workflow session (e.g., `observable-wrapper`). In this workflow, `[spec-name]` serves as the required `session-name` from `Guides/Core/working-doc-conventions.md`.
 
 **Examples** (branch: `work/step-refactor`):
-- Planning: `working-docs/work/step-refactor/observable-wrapper-planning.md`
-- Work Spec: `working-docs/work/step-refactor/observable-wrapper-work-spec.md`
+- Planning: `working-docs/work/step-refactor/observable-wrapper/work-spec-planning.md`
+- Work Spec: `working-docs/work/step-refactor/observable-wrapper/work-spec-implementation.md`
 
 ## Structure
 
@@ -416,7 +468,7 @@ Include a short mapping section that ensures every requirement is implemented or
 
 Sub-tasks use indented numbered lists. Number subtasks sequentially across the task (including Verification). Referencing "1.2" means task 1, sub-task 2 -- the nesting is implied by indentation.
 
-Tasks are created with 🟡 (see `Guides/Core/process-flow.md` for marker semantics).
+Tasks are created with 🟡. Only mark main tasks (not sub-tasks).
 
 ### Task Naming
 - Use descriptive action-oriented names
@@ -464,7 +516,7 @@ Tasks are created with 🟡 (see `Guides/Core/process-flow.md` for marker semant
   - Source of truth for project-specific commands/paths is `docs/skai/integration.md` (do not invent commands).
   - Evidence must be captured inline on the verification subtask line using an evidence bracket:
     - Format: `[evidence: <command variant>; exit <code>; output: <optional link(s)>]`
-    - Example: `[evidence: <command>; exit 0; output: [output](working-docs/<branch-path>/work-spec/<spec-name>/evidence/<slug>.txt)]`
+    - Example: `[evidence: <command>; exit 0; output: [output](working-docs/<branch-path>/<spec-name>/work-spec/evidence/<slug>.txt)]`
     - On failure: persist full output to a file and link it.
     - On success: a linked output file is optional; still record command variant and exit code inline.
 
@@ -520,13 +572,6 @@ Rules:
 - Main tasks should describe functional goals
 - Avoid mixing high-level and low-level concerns
 
-## Progress Tracking
-
-🟡 marker semantics are defined in `Guides/Core/process-flow.md`.
-
-Work-spec-specific rule:
-- Only mark main tasks with 🟡 (not sub-tasks)
-
 ## Example Template
 
 ```markdown
@@ -580,7 +625,7 @@ Work-spec-specific rule:
      2. [Specific sub-task] (CAT-A-02, CAT-B-01)
      3. [Specific sub-task] (DEFER-01 if deferring something explicitly)
    - **Verification**
-     4. [Run command(s) from integration doc; define "pass"] (CAT-A-01) [evidence: exit 0; output: [log](working-docs/<branch-path>/work-spec/<spec-name>/evidence/<slug>.txt)]
+     4. [Run command(s) from integration doc; define "pass"] (CAT-A-01) [evidence: exit 0; output: [log](working-docs/<branch-path>/<spec-name>/work-spec/evidence/<slug>.txt)]
 
 2. **[Task Name]** 🟡
    - **Done when:** [Behavioral + verification-based completion criteria]
@@ -588,7 +633,7 @@ Work-spec-specific rule:
      1. [Specific sub-task] (CAT-A-01)
      2. [Specific sub-task] (CAT-B-01)
    - **Verification**
-     3. [Run command(s) from integration doc; define "pass"] (CAT-B-01) [evidence: exit 0; output: [log](working-docs/<branch-path>/work-spec/<spec-name>/evidence/<slug>.txt)]
+     3. [Run command(s) from integration doc; define "pass"] (CAT-B-01) [evidence: exit 0; output: [log](working-docs/<branch-path>/<spec-name>/work-spec/evidence/<slug>.txt)]
 
 3. **[Task Name]** 🟡
    - **Done when:** [Behavioral + verification-based completion criteria]
@@ -597,7 +642,7 @@ Work-spec-specific rule:
      2. [Specific sub-task] (CAT-A-02)
      3. [Specific sub-task] (CAT-B-01)
    - **Verification**
-     4. [Run command(s) from integration doc; define "pass"] (CAT-A-02) [evidence: exit 0; output: [log](working-docs/<branch-path>/work-spec/<spec-name>/evidence/<slug>.txt)]
+     4. [Run command(s) from integration doc; define "pass"] (CAT-A-02) [evidence: exit 0; output: [log](working-docs/<branch-path>/<spec-name>/work-spec/evidence/<slug>.txt)]
 
 ## Traceability
 - CAT-A-01 → Tasks 1, 2
