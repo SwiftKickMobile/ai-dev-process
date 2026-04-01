@@ -113,7 +113,12 @@ Work through the design collaboratively. The agent proposes design elements and 
 
 **🟡 Marker Protocol for Planning Documents:**
 
-- Use the planning section's own 🟡 marker to track the planning gate/phase state. Keep this separate from the topic-level discussion markers inside the section.
+**Why markers go on content, not headings:** Each 🟡 marker is a precise pointer that tells the human "this specific item needs your attention." The total count of 🟡 markers should equal the number of real decisions the human needs to make. Markers on headings or parent bullets are just status indicators on containers -- they inflate the count, obscure what actually needs discussion, and force the human to hunt through the section to find the real item.
+
+- **Content-only placement (hard rule):**
+  - Place 🟡 only on the specific content line that needs human input: a proposal, question, tradeoff, or undecided design point.
+  - NEVER place 🟡 on heading lines (`##`, `###`, etc.) or on parent bullets that merely group child items.
+  - NEVER create roll-up markers -- a parent does not get 🟡 just because its children have 🟡.
 - Mark all unresolved discussion items with 🟡:
   - open questions
   - proposals/options under consideration
@@ -121,21 +126,14 @@ Work through the design collaboratively. The agent proposes design elements and 
 - Avoid over-granularity:
   - If a single proposal contains many sub-bullets, prefer one 🟡 marker on the proposal line rather than 🟡 on every sub-bullet.
   - Use per-sub-bullet 🟡 only when individual sub-items can be independently accepted/rejected or are likely to be worked in different iterations.
-- Do not propagate markers up the hierarchy:
-  - Do NOT put 🟡 on a topic heading (or parent bullet) solely because it contains child 🟡 items.
-  - Only mark the specific unresolved item line(s) with 🟡 so the marker count reflects true open items.
 - Organize the document by topic (natural structure). This is a hard requirement:
   - Do NOT create workflow-shaped sections like "Questions", "Discussion", or "Decisions".
   - Do NOT repeat the same topic across multiple sections ("Topic X" in Discussion and again in Questions).
   - Do NOT create "Decision" sub-sections (or "Decision:" labels). Decisions are expressed by replacing the unresolved text inline.
   - Instead: each topic heading contains its own inline 🟡 questions/proposals/tradeoffs where they naturally belong.
-- Planning section marker lifecycle:
-  - The planning section heading starts with 🟡 while planning is still open.
-  - After drafting the planning document, STOP at the planning-draft gate with the section heading still marked 🟡.
-  - When the human begins Stage 1 discussion, keep the section heading marked 🟡; that response starts the discussion loop but does not complete the planning phase.
-  - While Stage 1 is active, explicit human approval of a specific discussion item removes only that item's 🟡 marker. It does NOT remove the planning section's 🟡 marker.
-  - When the last discussion-item 🟡 marker is resolved, STOP at the planning-discussion gate with the planning section heading still marked 🟡.
-  - Remove the planning section's 🟡 marker only after the human gives advance intent to begin the API sketch.
+- Marker lifecycle during planning discussion:
+  - While Stage 1 is active, explicit human approval of a specific discussion item removes only that item's 🟡 marker.
+  - When the last discussion-item 🟡 marker is resolved, STOP at the planning-discussion gate.
 - When the human explicitly approves a resolution:
   - REPLACE the 🟡 item inline with the approved plan/requirement/decision text (no separate "Questions" section, no "approved" marker).
   - Do NOT remove 🟡 preemptively. Only replace when the human has explicitly decided.
@@ -146,6 +144,12 @@ Work through the design collaboratively. The agent proposes design elements and 
 - "Questions" section + "Discussion" section + the same topic mentioned in both (duplicate content, multiple 🟡 markers for the same unresolved item).
 - "Decisions" section that mirrors earlier proposals/questions.
 - A topic described once as a proposal (🟡) and again elsewhere as a question (🟡) instead of being a single coherent entry.
+- 🟡 on a heading with unmarked content below (human must hunt for what needs attention):
+  - ❌ `## Data Model 🟡` → `Proposal: use a single table...`
+- 🟡 on a heading AND its children (roll-up inflates the count):
+  - ❌ `## Data Model 🟡` → `🟡 Proposal: use a single table...`
+- Correct: heading is unmarked, marker is on the specific item:
+  - ✅ `## Data Model` → `🟡 Proposal: use a single table...`
 
 **Preferred pattern (topic-first, single source of truth):**
 
