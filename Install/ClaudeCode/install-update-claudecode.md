@@ -1,10 +1,19 @@
-# JetBrains + Claude Code adapter: install/update (LLM runbook)
+# Claude Code adapter: install/update (LLM runbook)
 
-Purpose: install/update `skai` into a repo where developers use a JetBrains IDE (e.g., IntelliJ IDEA) and Claude Code.
+Purpose: install/update `skai` into any repo using Claude Code (standalone app, Mac app, terminal, or alongside any IDE).
 
-Notes:
-- This adapter is **stack-aware** (Swift/Xcode, Android/Kotlin, etc.). Infer from the repo and then confirm with the developer.
-- The Integration doc remains project-owned at `docs/skai/integration.md`.
+This adapter is **stack-aware** (Xcode/Swift, Android/Kotlin, etc.). It detects the project stack from repo signals, then applies stack-specific guidance from addenda files.
+
+## Assumptions (stop if false)
+
+Assume the following, unless the host repo already establishes a different working convention:
+
+- Claude instructions file is rooted at either `CLAUDE.md` or `claude.md` (prefer existing; default to `CLAUDE.md`).
+- Claude ignore file is `.claudeignore`.
+- Agent-facing skills live at `.claude/skills/skai-*/` (managed skill wrappers pointing to submodule sources).
+- Mixed-agent repos may also contain `.cursor/**`; Claude sessions should ignore Cursor-specific assets by default.
+
+If any assumption is false in the host repo's setup, STOP and ask the human what file/path/convention to use.
 
 ## Inputs (required reading)
 
@@ -23,11 +32,18 @@ Follow the discover → classify → plan → confirm → execute workflow.
 
 - Identify whether `skai` is already present as a submodule (and where).
 - If this is an update, record the current submodule commit SHA (pre-update) and the intended new SHA (post-update).
-- Infer stack (signals: `.xcodeproj`, `.xcworkspace`, `Package.swift`, `build.gradle`, `settings.gradle`, `*.swift`, `*.kt`).
+- **Detect stack** from project signals:
+  - Xcode/Swift: `.xcodeproj`, `.xcworkspace`, `Package.swift`, `*.swift`
+  - Android/Kotlin: `build.gradle`, `settings.gradle`, `*.kt`, `*.kts`
+  - Otherwise: generic (no stack addendum needed)
+  - Confirm the detected stack with the developer.
+- **Detect IDE context** (for coexistence rules):
+  - Note whether `.cursor/` exists (for `.claudeignore` setup).
+  - Note whether `.cursorignore` exists (for proposing `.claude/**` exclusion).
+  - Do **not** inventory or classify other IDEs' contents — those belong to other adapters and are out of scope.
 - Inventory existing install artifacts:
   - Claude instruction files (`claude.md`, `CLAUDE.md`, `.claude/**`)
   - `docs/**`
-- Note whether `.cursor/` exists (for `.claudeignore` setup). Do **not** inventory or classify its contents -- those belong to the Cursor adapter and are out of scope for this runbook.
 - Identify any existing docs containing integration details (to migrate into Integration doc).
 
 ### 2) Classify
@@ -46,6 +62,7 @@ Prepare a concrete plan:
 - Legacy candidates to supersede (create new canonical outputs)
 - Integration doc migration items
 - Legacy cleanup proposals (permission-gated)
+- Legacy adapter migration (see "Migrating from old adapter IDs" below)
 
 ### 4) Confirm (human gate)
 
@@ -66,6 +83,9 @@ If updating the submodule, include an "update review" section:
      - Add explicit 🟡 placeholders for missing items.
      - STOP and ask the human for the missing items before proceeding.
    - Prefer non-interactive command-line commands over GUI instructions. If you can't produce command-line commands with high confidence, leave 🟡 placeholders and ask.
+   - **Stack-specific integration doc guidance**: if a stack was detected, read the corresponding addendum for additional rules:
+     - Xcode/Swift → `Install/ClaudeCode/stack-xcode.md`
+     - Android/Kotlin → `Install/ClaudeCode/stack-android.md`
    - Follow `Install/integration-doc-install-update.md` for how to update the Integration doc safely (managed blocks + human overrides).
 3. Create/update the Claude instruction file (`claude.md` vs `CLAUDE.md`) using managed headers.
 4. Install Claude Code skills into `.claude/skills/` (see "Installing Claude Code skills" below).
@@ -75,6 +95,7 @@ If updating the submodule, include an "update review" section:
    - Update `.claudeignore` by inserting/updating a managed block:
      - Exclude `.cursor/**` so Claude sessions don't ingest Cursor-specific assets by default.
      - Do NOT exclude `Submodules/skai/**` here; use editor UI excludes for autocomplete/search clutter instead.
+   - If `.cursorignore` exists, propose inserting/updating an equivalent managed block to exclude `.claude/**` (ask approval before changing).
 6. Optionally propose cleanup of legacy candidates as a separate explicit step.
 7. Write/update `docs/skai/install-state.json` (see "Install state file" below).
 
@@ -142,7 +163,16 @@ Format:
 Rules:
 - If the file does not exist, create it with this adapter's entry.
 - If the file already exists, **merge**: update `lastSHA`, `lastUpdatedAt`, and upsert this adapter's entry in `installedAdapters` (preserve entries from other adapters).
-- The adapter ID for this runbook is `jetbrains-claudecode`; the runbook path is `Install/JetBrains-ClaudeCode/install-update-jetbrains-claudecode.md`.
+- The adapter ID for this runbook is `claude-code`; the runbook path is `Install/ClaudeCode/install-update-claudecode.md`.
+
+## Migrating from old adapter IDs
+
+Previous versions of `skai` used IDE-specific adapter IDs for Claude Code installations: `jetbrains-claudecode`, `xcode-claudecode`, `androidstudio-claudecode`. These have been consolidated into the single `claude-code` adapter.
+
+During discovery, if `install-state.json` contains any of the old adapter IDs:
+- Replace the old entry with a single `claude-code` entry.
+- Use the current date as `lastRunAt`.
+- Include this migration in the plan presented at the confirm gate.
 
 ## Legacy artifact cleanup (permission-gated)
 

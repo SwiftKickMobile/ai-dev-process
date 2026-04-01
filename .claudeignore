@@ -1,0 +1,4 @@
+# BEGIN Managed-By: skai
+# Exclude Cursor agent-facing assets from Claude Code context
+.cursor/**
+# END Managed-By: skai

@@ -166,22 +166,22 @@
       "tags": ["adapter:cursor"]
     },
     {
-      "id": "runbook.androidstudio-claudecode-install-update",
+      "id": "runbook.claudecode-install-update",
       "type": "runbook",
-      "sourcePath": "Install/AndroidStudio-ClaudeCode/install-update-androidstudio-claudecode.md",
-      "tags": ["adapter:android-studio", "adapter:claude-code"]
+      "sourcePath": "Install/ClaudeCode/install-update-claudecode.md",
+      "tags": ["adapter:claude-code"]
     },
     {
-      "id": "runbook.jetbrains-claudecode-install-update",
-      "type": "runbook",
-      "sourcePath": "Install/JetBrains-ClaudeCode/install-update-jetbrains-claudecode.md",
-      "tags": ["adapter:jetbrains", "adapter:claude-code"]
+      "id": "install-policy.stack-xcode",
+      "type": "install-policy",
+      "sourcePath": "Install/ClaudeCode/stack-xcode.md",
+      "tags": ["adapter:claude-code", "stack:xcode"]
     },
     {
-      "id": "runbook.xcode-claudecode-install-update",
-      "type": "runbook",
-      "sourcePath": "Install/Xcode-ClaudeCode/install-update-xcode-claudecode.md",
-      "tags": ["adapter:xcode", "adapter:claude-code", "experimental"]
+      "id": "install-policy.stack-android",
+      "type": "install-policy",
+      "sourcePath": "Install/ClaudeCode/stack-android.md",
+      "tags": ["adapter:claude-code", "stack:android"]
     },
     {
       "id": "install-policy.managed-header",

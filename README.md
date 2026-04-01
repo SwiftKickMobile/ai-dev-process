@@ -44,33 +44,16 @@ Paste ONE of these prompts into your agent chat (from the host repo root).
 > - Use `docs/skai/integration.md` ([`docs/skai/integration.md`](docs/skai/integration.md)) as the project-owned Integration doc and migrate any legacy build/test command notes into it (do not delete legacy files unless I explicitly approve).
 > - Only overwrite files that contain the managed header (`Managed-By: skai`). Treat lookalike files without the header as legacy candidates.
 
-#### JetBrains (IntelliJ IDEA) + Claude Code prompt
+#### Claude Code prompt
 
-> Install/update `skai` in this repo by following `Submodules/skai/Install/JetBrains-ClaudeCode/install-update-jetbrains-claudecode.md`.
+> Install/update `skai` in this repo by following `Submodules/skai/Install/ClaudeCode/install-update-claudecode.md`.
 >
 > - If the `Submodules/skai` submodule is missing, add it there.
 > - Do a discovery pass first, then propose a migration plan, then WAIT for approval before writing.
 > - Use `docs/skai/integration.md` ([`docs/skai/integration.md`](docs/skai/integration.md)) as the project-owned Integration doc and migrate any legacy build/test command notes into it (do not delete legacy files unless I explicitly approve).
 > - Only overwrite files that contain the managed header (`Managed-By: skai`). Treat lookalike files without the header as legacy candidates.
 
-#### Xcode (MCP-hosted) + Claude Code prompt (EXPERIMENTAL)
-
-> Install/update `skai` in this repo by following `Submodules/skai/Install/Xcode-ClaudeCode/install-update-xcode-claudecode.md`.
->
-> - If the `Submodules/skai` submodule is missing, add it there.
-> - Do a discovery pass first, then propose a migration plan, then WAIT for approval before writing.
-> - Use `docs/skai/integration.md` ([`docs/skai/integration.md`](docs/skai/integration.md)) as the project-owned Integration doc and migrate any legacy build/test command notes into it (do not delete legacy files unless I explicitly approve).
-> - Only overwrite files that contain the managed header (`Managed-By: skai`). Treat lookalike files without the header as legacy candidates.
-> - This runbook is experimental: if any Xcode+MCP assumption doesn't match this repo's setup, STOP and ask me what convention to use.
-
-#### Android Studio + Claude Code prompt (Android stack)
-
-> Install/update `skai` in this repo by following `Submodules/skai/Install/AndroidStudio-ClaudeCode/install-update-androidstudio-claudecode.md`.
->
-> - If the `Submodules/skai` submodule is missing, add it there.
-> - Do a discovery pass first, then propose a migration plan, then WAIT for approval before writing.
-> - Use `docs/skai/integration.md` ([`docs/skai/integration.md`](docs/skai/integration.md)) as the project-owned Integration doc and migrate any legacy build/test command notes into it (do not delete legacy files unless I explicitly approve).
-> - Only overwrite files that contain the managed header (`Managed-By: skai`). Treat lookalike files without the header as legacy candidates.
+This works with any IDE (JetBrains, Xcode, Android Studio, VS Code, etc.) or standalone Claude Code (Mac app, terminal). The runbook auto-detects the project stack and applies the appropriate guidance.
 
 ### 3) Set up a GitHub MCP server (optional)
 
