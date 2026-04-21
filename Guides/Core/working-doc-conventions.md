@@ -55,9 +55,9 @@ Notes:
 ## Examples
 
 - Work spec planning:
-  - `working-docs/<branch-path>/observable-wrapper/work-spec-planning.md`
+  - `working-docs/<branch-path>/observable-wrapper/observable-wrapper-plan.md`
 - Work spec implementation:
-  - `working-docs/<branch-path>/observable-wrapper/work-spec-implementation.md`
+  - `working-docs/<branch-path>/observable-wrapper/observable-wrapper-impl.md`
 - Unit testing orchestration:
   - `working-docs/<branch-path>/login-tests/testing/unit-testing.md`
 - Unit test suite infrastructure:

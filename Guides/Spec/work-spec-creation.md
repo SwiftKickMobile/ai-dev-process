@@ -377,20 +377,20 @@ Work specification and planning files are working documents. Create them followi
 **Planning Document:**
 - Session name: `[spec-name]`
 - Subpath: (none)
-- File name: `work-spec-planning.md`
-- Full path: `working-docs/<branch-path>/[spec-name]/work-spec-planning.md`
+- File name: `[spec-name]-plan.md`
+- Full path: `working-docs/<branch-path>/[spec-name]/[spec-name]-plan.md`
 
 **Work Spec Document:**
 - Session name: `[spec-name]`
 - Subpath: (none)
-- File name: `work-spec-implementation.md`
-- Full path: `working-docs/<branch-path>/[spec-name]/work-spec-implementation.md`
+- File name: `[spec-name]-impl.md`
+- Full path: `working-docs/<branch-path>/[spec-name]/[spec-name]-impl.md`
 
-Where `[spec-name]` = the specification name for this workflow session (e.g., `observable-wrapper`). In this workflow, `[spec-name]` serves as the required `session-name` from `Guides/Core/working-doc-conventions.md`.
+Where `[spec-name]` = the specification name for this workflow session (e.g., `observable-wrapper`). In this workflow, `[spec-name]` serves as the required `session-name` from `Guides/Core/working-doc-conventions.md`, and is also used as the filename prefix so working docs are distinguishable per spec in editor quick-open.
 
 **Examples** (branch: `work/step-refactor`):
-- Planning: `working-docs/work/step-refactor/observable-wrapper/work-spec-planning.md`
-- Work Spec: `working-docs/work/step-refactor/observable-wrapper/work-spec-implementation.md`
+- Planning: `working-docs/work/step-refactor/observable-wrapper/observable-wrapper-plan.md`
+- Work Spec: `working-docs/work/step-refactor/observable-wrapper/observable-wrapper-impl.md`
 
 ## Structure
 
