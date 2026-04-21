@@ -29,7 +29,7 @@ Whenever a date is needed (for `Managed-Updated-At`, CHANGELOG entries, `install
 
 - For file formats that require comment prefixes, the header should still be present as plain text at the top of the file unless that breaks the format. If it breaks the format, adapt by prefixing each line with the file's comment marker while preserving the same keys.
 
-## Skill files (`.cursor/skills/**/SKILL.md`, `.claude/skills/**/SKILL.md`)
+## Skill files (`.cursor/skills/**/SKILL.md`, `.claude/skills/**/SKILL.md`, `.agents/skills/**/SKILL.md`)
 
 Skill files require YAML frontmatter at the top of the file, so the standard managed header cannot appear as the literal first lines.
 
@@ -43,7 +43,7 @@ description: ...
 <!-- Managed-By: skai | Managed-Id: skill.skai-debugging | Managed-Source: Submodules/skai/Templates/skills/skai-debugging/SKILL.md | Managed-Adapter: cursor | Managed-Updated-At: 2026-02-17 -->
 ```
 
-The shared skill templates at `Templates/skills/*/SKILL.md` do **not** contain the managed marker. Each installer stamps it at copy time with the appropriate `Managed-Adapter` value (`cursor` or `claude-code`).
+The shared skill templates at `Templates/skills/*/SKILL.md` do **not** contain the managed marker. Each installer stamps it at copy time with the appropriate `Managed-Adapter` value (`cursor`, `claude-code`, or `codex`).
 
 Rules:
 - Installers may overwrite a skill file only when this marker is present (or when the destination does not exist).
@@ -54,7 +54,7 @@ Rules:
 
 Symlinks cannot "contain" a managed header. For symlinked installs, treat a host path as managed if it is a symlink pointing at the expected `skai` target path.
 
-## Ignore files (`.cursorignore`, `.claudeignore`)
+## Ignore files (`.gitignore`, `.cursorignore`, `.claudeignore`)
 
 Ignore files are typically gitignore-style and are often project-owned. Installers must not overwrite them wholesale.
 

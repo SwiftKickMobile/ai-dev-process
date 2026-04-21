@@ -8,11 +8,12 @@ This repo is designed to be installed as a **git submodule** and activated by an
 - writes **managed files** only (safe updates),
 - installs agent-facing assets into the host repo's expected directories (IDE/agent-specific),
 - generates IDE-specific artifacts (e.g., Cursor `.mdc`) into the host repo.
-- updates Cursor/Claude ignore files using managed blocks so multi-agent installs can coexist cleanly (permission-gated if the ignore files already exist).
+- updates agent ignore files using managed blocks so multi-agent installs can coexist cleanly (permission-gated if the ignore files already exist).
 
 Recommended host locations for agent-facing docs:
 - Cursor: `.cursor/skills/skai-*/`
 - Claude Code: `.claude/skills/skai-*/`
+- Codex: `.agents/skills/skai-*/`
 
 ## Quick start (recommended)
 
@@ -37,7 +38,7 @@ Paste ONE of these prompts into your agent chat (from the host repo root).
 
 #### Cursor prompt
 
-> Install/update `skai` in this repo by following `Submodules/skai/Install/Cursor/install-update-cursor.md`.
+> Install/update `skai` in this repo by following `Submodules/skai/Install/Cursor/install-update-cursor.md` ([`Install/Cursor/install-update-cursor.md`](Install/Cursor/install-update-cursor.md)).
 >
 > - If the `Submodules/skai` submodule is missing, add it there.
 > - Do a discovery pass first, then propose a migration plan, then WAIT for approval before writing.
@@ -46,14 +47,24 @@ Paste ONE of these prompts into your agent chat (from the host repo root).
 
 #### Claude Code prompt
 
-> Install/update `skai` in this repo by following `Submodules/skai/Install/ClaudeCode/install-update-claudecode.md`.
+> Install/update `skai` in this repo by following `Submodules/skai/Install/ClaudeCode/install-update-claudecode.md` ([`Install/ClaudeCode/install-update-claudecode.md`](Install/ClaudeCode/install-update-claudecode.md)).
 >
 > - If the `Submodules/skai` submodule is missing, add it there.
 > - Do a discovery pass first, then propose a migration plan, then WAIT for approval before writing.
 > - Use `docs/skai/integration.md` ([`docs/skai/integration.md`](docs/skai/integration.md)) as the project-owned Integration doc and migrate any legacy build/test command notes into it (do not delete legacy files unless I explicitly approve).
 > - Only overwrite files that contain the managed header (`Managed-By: skai`). Treat lookalike files without the header as legacy candidates.
 
-This works with any IDE (JetBrains, Xcode, Android Studio, VS Code, etc.) or standalone Claude Code (Mac app, terminal). The runbook auto-detects the project stack and applies the appropriate guidance.
+#### Codex prompt
+
+> Install/update `skai` in this repo by following `Submodules/skai/Install/Codex/install-update-codex.md` ([`Install/Codex/install-update-codex.md`](Install/Codex/install-update-codex.md)).
+>
+> - If the `Submodules/skai` submodule is missing, add it there.
+> - Do a discovery pass first, then propose a migration plan, then WAIT for approval before writing.
+> - Use `docs/skai/integration.md` ([`docs/skai/integration.md`](docs/skai/integration.md)) as the project-owned Integration doc and migrate any legacy build/test command notes into it (do not delete legacy files unless I explicitly approve).
+> - Use `.agents/AGENTS.md` as the Codex instruction file.
+> - Only overwrite files that contain the managed header (`Managed-By: skai`). Treat lookalike files without the header as legacy candidates.
+
+These runbooks work with any IDE (JetBrains, Xcode, Android Studio, VS Code, etc.) or standalone agent environment. Stack-aware runbooks auto-detect the project stack and apply the appropriate guidance.
 
 ### 3) Set up a GitHub MCP server (optional)
 
@@ -78,6 +89,7 @@ Add a GitHub MCP server to your IDE's MCP configuration with a personal access t
 **Config file locations:**
 - Cursor: `.cursor/mcp.json` (project-level) or `~/.cursor/mcp.json` (global)
 - Claude Code: `~/.claude.json`
+- Codex: use the MCP configuration location supported by your Codex environment.
 
 ## How installs stay safe
 
@@ -122,7 +134,7 @@ Example for Cursor/VS Code workspace settings (`.vscode/settings.json`):
 
 Android Studio (JetBrains):
 - In the Project tool window, right-click `Submodules/skai` → **Mark Directory as** → **Excluded**.
-- Optionally also exclude `.claude/skills/skai-*` if you don't want the skill install artifacts in search results.
+- Optionally also exclude `.claude/skills/skai-*` or `.agents/skills/skai-*` if you don't want the skill install artifacts in search results.
 - Prefer local IDE excludes over committing `.idea` changes unless your repo explicitly versions IDE config.
 
 ## Usage
@@ -282,4 +294,3 @@ This repo is typically maintained with an LLM. When you ask an LLM to make chang
   - [`README.md`](README.md) Usage section (developer-facing guides should be documented at file level)
 - Update [`CHANGELOG.md`](CHANGELOG.md) for user-visible changes.
 - Do not introduce scripts that mutate host repos; installers are LLM-runbook-driven and must follow the safety policies in [`Policies/`](Policies/).
-

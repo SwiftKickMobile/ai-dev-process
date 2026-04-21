@@ -5,7 +5,7 @@ This policy defines how installers and update runbooks must behave in the presen
 ## File classes
 
 - **Managed file**: contains the managed header (`Managed-By: skai`).
-- **Managed skill file**: a skill file at `.cursor/skills/**/SKILL.md` or `.claude/skills/**/SKILL.md` that contains the managed marker comment described in `Install/managed-header.md`.
+- **Managed skill file**: a skill file at `.cursor/skills/**/SKILL.md`, `.claude/skills/**/SKILL.md`, or `.agents/skills/**/SKILL.md` that contains the managed marker comment described in `Install/managed-header.md`.
 - **Managed symlink**: a symlink created by the installer that points at the expected repo-owned target path.
 - **Managed block file**: a project-owned file that contains a delimited managed block (begin/end markers) that the installer may update in-place (e.g., ignore files).
 - **Legacy candidate**: appears to be an older copy of a managed asset but lacks the managed header.
@@ -42,4 +42,3 @@ Cleanup of legacy candidates is always a separate step:
 - Present the list of legacy candidates.
 - Ask whether to delete, keep, replace with a symlink, or strip overlapping content.
 - Do not delete or strip without explicit approval.
-

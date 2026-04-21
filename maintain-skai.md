@@ -38,7 +38,8 @@ When you change assets, keep these in sync:
  - Skills (if you add/change them):
    - shared templates live at `Templates/skills/skai-*/SKILL.md`
    - Cursor installer installs them into host repos at `.cursor/skills/`
-   - Claude Code installers install them into host repos at `.claude/skills/`
+   - Claude Code installer installs them into host repos at `.claude/skills/`
+   - Codex installer installs them into host repos at `.agents/skills/`
    - **Wrapper pattern (invariant)**: skill templates must be thin wrappers -- a few lines that point the LLM at the corresponding Guide(s) in `Guides/`. All substantive logic lives in the Guide, not in the skill template. This keeps the files copied into host projects small and ensures the Guide is the single source of truth.
    - When adding a new skill: start by writing the Guide under `Guides/`, then create the skill wrapper that references it. This order prevents accidentally inlining logic into the skill template.
  - Install state file:
@@ -61,7 +62,7 @@ When adding a new guide, place it in the most appropriate existing subdirectory.
 
 ## Guide house style
 
-Applies to all workflow documents: files under `Guides/`, internal runbooks (`maintain-*.md`), and skill entry points (`SKILL.md` files under `Templates/skills/` and `.cursor/skills/`). Follow these rules whenever adding or substantially editing any of them.
+Applies to all workflow documents: files under `Guides/`, internal runbooks (`maintain-*.md`), and skill entry points (`SKILL.md` files under `Templates/skills/`, `.cursor/skills/`, `.claude/skills/`, and `.agents/skills/`). Follow these rules whenever adding or substantially editing any of them.
 
 ### Required elements
 
@@ -342,4 +343,3 @@ Use this as a starting prompt when maintaining this repo:
 > Update `assets.manifest.json`, `README.md` (asset inventory), and `CHANGELOG.md` as needed.
 > Do not commit or delete files unless I explicitly ask.
 > After edits, summarize exactly what changed and list touched files.
-

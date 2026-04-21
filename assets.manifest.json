@@ -94,6 +94,12 @@
       "tags": ["core"]
     },
     {
+      "id": "template.codex-agents",
+      "type": "template",
+      "sourcePath": "Templates/agents/codex/AGENTS.md",
+      "tags": ["adapter:codex"]
+    },
+    {
       "id": "guide.work-spec-creation",
       "type": "guide",
       "sourcePath": "Guides/Spec/work-spec-creation.md",
@@ -127,7 +133,7 @@
       "id": "skill.skai-suggestion",
       "type": "skill",
       "sourcePath": "Templates/skills/skai-suggestion/SKILL.md",
-      "tags": ["adapter:cursor", "adapter:claude-code"]
+      "tags": ["adapter:cursor", "adapter:claude-code", "adapter:codex"]
     },
     {
       "id": "guide.ticket-implementation",
@@ -172,6 +178,12 @@
       "tags": ["adapter:claude-code"]
     },
     {
+      "id": "runbook.codex-install-update",
+      "type": "runbook",
+      "sourcePath": "Install/Codex/install-update-codex.md",
+      "tags": ["adapter:codex"]
+    },
+    {
       "id": "install-policy.stack-xcode",
       "type": "install-policy",
       "sourcePath": "Install/ClaudeCode/stack-xcode.md",
@@ -182,6 +194,18 @@
       "type": "install-policy",
       "sourcePath": "Install/ClaudeCode/stack-android.md",
       "tags": ["adapter:claude-code", "stack:android"]
+    },
+    {
+      "id": "install-policy.codex-stack-xcode",
+      "type": "install-policy",
+      "sourcePath": "Install/Codex/stack-xcode.md",
+      "tags": ["adapter:codex", "stack:xcode"]
+    },
+    {
+      "id": "install-policy.codex-stack-android",
+      "type": "install-policy",
+      "sourcePath": "Install/Codex/stack-android.md",
+      "tags": ["adapter:codex", "stack:android"]
     },
     {
       "id": "install-policy.managed-header",
@@ -205,55 +229,55 @@
       "id": "skill.skai-debugging",
       "type": "skill",
       "sourcePath": "Templates/skills/skai-debugging/SKILL.md",
-      "tags": ["adapter:cursor", "adapter:claude-code"]
+      "tags": ["adapter:cursor", "adapter:claude-code", "adapter:codex"]
     },
     {
       "id": "skill.skai-work-spec-creation",
       "type": "skill",
       "sourcePath": "Templates/skills/skai-work-spec-creation/SKILL.md",
-      "tags": ["adapter:cursor", "adapter:claude-code"]
+      "tags": ["adapter:cursor", "adapter:claude-code", "adapter:codex"]
     },
     {
       "id": "skill.skai-work-spec-implementation",
       "type": "skill",
       "sourcePath": "Templates/skills/skai-work-spec-implementation/SKILL.md",
-      "tags": ["adapter:cursor", "adapter:claude-code"]
+      "tags": ["adapter:cursor", "adapter:claude-code", "adapter:codex"]
     },
     {
       "id": "skill.skai-unit-testing",
       "type": "skill",
       "sourcePath": "Templates/skills/skai-unit-testing/SKILL.md",
-      "tags": ["adapter:cursor", "adapter:claude-code"]
+      "tags": ["adapter:cursor", "adapter:claude-code", "adapter:codex"]
     },
     {
       "id": "skill.skai-unit-test-planning",
       "type": "skill",
       "sourcePath": "Templates/skills/skai-unit-test-planning/SKILL.md",
-      "tags": ["adapter:cursor", "adapter:claude-code"]
+      "tags": ["adapter:cursor", "adapter:claude-code", "adapter:codex"]
     },
     {
       "id": "skill.skai-unit-test-infrastructure",
       "type": "skill",
       "sourcePath": "Templates/skills/skai-unit-test-infrastructure/SKILL.md",
-      "tags": ["adapter:cursor", "adapter:claude-code"]
+      "tags": ["adapter:cursor", "adapter:claude-code", "adapter:codex"]
     },
     {
       "id": "skill.skai-unit-test-writing",
       "type": "skill",
       "sourcePath": "Templates/skills/skai-unit-test-writing/SKILL.md",
-      "tags": ["adapter:cursor", "adapter:claude-code"]
+      "tags": ["adapter:cursor", "adapter:claude-code", "adapter:codex"]
     },
     {
       "id": "skill.skai-dev-retro",
       "type": "skill",
       "sourcePath": "Templates/skills/skai-dev-retro/SKILL.md",
-      "tags": ["adapter:cursor", "adapter:claude-code"]
+      "tags": ["adapter:cursor", "adapter:claude-code", "adapter:codex"]
     },
     {
       "id": "skill.skai-update-installation",
       "type": "skill",
       "sourcePath": "Templates/skills/skai-update-installation/SKILL.md",
-      "tags": ["adapter:cursor", "adapter:claude-code"]
+      "tags": ["adapter:cursor", "adapter:claude-code", "adapter:codex"]
     },
     {
       "id": "guide.maintain-retro",
@@ -263,4 +287,3 @@
     }
   ]
 }
-

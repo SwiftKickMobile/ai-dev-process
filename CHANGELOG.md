@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- 2026-04-16 **Codex install adapter added.** Added `Install/Codex/install-update-codex.md`, Codex stack addenda, and a managed `.agents/AGENTS.md` template so host repos can install skai into `.agents/skills/` with adapter ID `codex`.
 - 2026-04-11 **Retro output splits observations by scope.** Step 6 of `Guides/Process/dev-retro.md` now produces two sections: "Session observations" (agent behavior, project-specific friction -- noted but no handoff) and "SKAI process suggestions" (skai framework improvements -- `🟡` markers, flows to process-improvement handoff). The handoff gate only fires when the SKAI section has entries.
 - 2026-04-01 **Planning document marker placement tightened.** 🟡 markers must go on specific content lines (proposals, questions, tradeoffs) only -- never on headings or parent bullets. Removed the planning section heading marker. Added "why" explanation and concrete anti-pattern examples to prevent roll-up markers and heading-level markers.
 - 2026-04-01 **Claude Code install runbooks consolidated.** Replaced three IDE-specific Claude Code runbooks (JetBrains, Xcode, Android Studio) with one generic `Install/ClaudeCode/install-update-claudecode.md` that auto-detects project stack and applies stack-specific guidance from addenda (`stack-xcode.md`, `stack-android.md`). Works with any IDE or standalone Claude Code (Mac app, terminal). Old adapter IDs (`jetbrains-claudecode`, `xcode-claudecode`, `androidstudio-claudecode`) are migrated to `claude-code` on update.
@@ -106,4 +107,3 @@
 - 2026-02-13 Added `Guides/dev-retro.md` (dev-session retro) and a Cursor skill wrapper (`ai-dev-process-dev-retro`); deprecated `retro-prd`.
 - 2026-02-13 Added `maintain-retro.md` as a post-change checklist for maintainers/LLMs.
 - 2026-02-13 Added `assets.manifest.json` to enumerate assets and adapter applicability.
-
