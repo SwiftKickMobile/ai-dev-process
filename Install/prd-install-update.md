@@ -73,6 +73,14 @@ Specific gates the install runbook drives (skip a gate if the corresponding seed
 
 For each per-app file, copy `Submodules/skai/Templates/requirements/apps/per-app-stub.md` into `<local-root>/apps/<app-name>/<app-name>.md` (rename to match the app's name), then gate on the description.
 
+After collecting descriptions, update the `<local-root>/apps/apps.md` catalog with one entry per app, using the catalog format defined in `Guides/Core/prd-guide.md`:
+
+```
+- [<app-name>](<app-name>/<app-name>.md) -- <one-line description>
+```
+
+This keeps the apps scope index in sync with the per-app index files.
+
 ### 5) Update the host README
 
 If the host repo has a `README.md` and the shape is not `none`, inject or update a managed `Section: requirements` block using the template at `Templates/docs/skai/readme-requirements-block.md`. Substitute placeholders with values from the integration doc's Requirements section:
