@@ -15,6 +15,25 @@ Recommended host locations for agent-facing docs:
 - Claude Code: `.claude/skills/skai-*/`
 - Codex: `.agents/skills/skai-*/`
 
+## Contents
+
+- [Quick start](#quick-start-recommended)
+- [How installs stay safe](#how-installs-stay-safe)
+- [Integration document](#integration-document-how-to-use-it)
+- [Project requirements (PRD)](#project-requirements-prd)
+- [IDE clutter / autocomplete](#ide-clutter--autocomplete-recommended)
+- [Usage](#usage)
+  - [How all workflows work](#how-all-workflows-work)
+  - [Work spec creation](#work-spec-creation-skill-skai-work-spec-creation)
+  - [Work spec implementation](#work-spec-implementation-skill-skai-work-spec-implementation)
+  - [Unit testing](#unit-testing-skill-skai-unit-testing)
+  - [Debugging](#debugging-skill-skai-debugging)
+  - [Dev retro](#dev-retro-skill-skai-dev-retro)
+  - [Suggestion](#suggestion-skill-skai-suggestion)
+  - [Update installation](#update-installation-skill-skai-update-installation)
+  - [Working documents](#working-documents)
+- [Development guide (for contributors)](#development-guide-for-contributors)
+
 ## Quick start (recommended)
 
 ### 1) Add the submodule (one-time)
