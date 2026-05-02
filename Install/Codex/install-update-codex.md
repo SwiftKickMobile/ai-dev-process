@@ -19,6 +19,8 @@ If any assumption is false in the host repo's setup, STOP and ask the human what
 - `assets.manifest.json`
 - `Install/managed-header.md`
 - `Install/conflict-precedence-policy.md`
+- `Install/integration-doc-install-update.md`
+- `Install/prd-install-update.md`
 - `Policies/safe-operations.md`
 - `Policies/universal-stop-conditions.md`
 - `Templates/docs/skai/integration.md`
@@ -46,6 +48,7 @@ Follow the discover -> classify -> plan -> confirm -> execute workflow.
   - Codex skill files (`.agents/skills/**`)
   - `docs/**`
 - Identify any existing docs containing integration details (to migrate into Integration doc).
+- Identify any existing PRD content (`requirements/`, `docs/requirements/`, `prd/`, `specs/requirements/`, etc.) to migrate per `Install/prd-install-update.md`.
 
 ### 2) Classify
 
@@ -78,26 +81,22 @@ If updating the submodule, include an "update review" section:
 
 1. Ensure submodule is present/updated.
 2. Create/update `docs/skai/integration.md` (migrate legacy command docs into it; do not delete legacy docs by default).
-   - If you cannot find the required integration information in-repo:
-     - Create/seed the Integration doc from `Templates/docs/skai/integration.md`.
-     - Fill only what you can source with high confidence.
-     - Add explicit 🟡 placeholders for missing items.
-     - STOP and ask the human for the missing items before proceeding.
-   - Prefer non-interactive command-line commands over GUI instructions. If you can't produce command-line commands with high confidence, leave 🟡 placeholders and ask.
+   - Use the gated-discussion default for any required values you cannot infer (see `Install/integration-doc-install-update.md`). 🟡 + INSTRUCTION stubs are the fallback for human deferral or `auto` mode.
    - **Stack-specific integration doc guidance**: if a stack was detected, read the corresponding addendum for additional rules:
      - Xcode/Swift -> `Install/Codex/stack-xcode.md`
      - Android/Kotlin -> `Install/Codex/stack-android.md`
-   - Follow `Install/integration-doc-install-update.md` for how to update the Integration doc safely (managed blocks + human overrides).
-3. Create/update `.agents/AGENTS.md` by copying `Templates/agents/codex/AGENTS.md` and stamping the managed header with `Managed-Id: template.codex-agents`, `Managed-Source: Submodules/skai/Templates/agents/codex/AGENTS.md`, and `Managed-Adapter: codex`.
-4. Install Codex skills into `.agents/skills/` (see "Installing Codex skills" below).
-5. Create/update ignore files (permission-gated if they already exist and are project-owned):
+   - Follow `Install/integration-doc-install-update.md` for how to update the Integration doc safely (managed blocks + human overrides). Insert/update both the `required-values` and `Section: requirements` managed blocks.
+3. Follow `Install/prd-install-update.md` to scaffold the PRD layout, gather product / app descriptions via gated discussion, perform migrations, and update the host README managed `Section: requirements` block. (Skip with a one-line trace if the integration doc's PRD shape is `none`.)
+4. Create/update `.agents/AGENTS.md` by copying `Templates/agents/codex/AGENTS.md` and stamping the managed header with `Managed-Id: template.codex-agents`, `Managed-Source: Submodules/skai/Templates/agents/codex/AGENTS.md`, and `Managed-Adapter: codex`.
+5. Install Codex skills into `.agents/skills/` (see "Installing Codex skills" below).
+6. Create/update ignore files (permission-gated if they already exist and are project-owned):
    - Update `.gitignore` by inserting/updating a managed block:
      - Add `working-docs/` so ephemeral working documents are not committed.
    - If `.cursorignore` exists, propose inserting/updating a managed block to exclude `.agents/**` so Cursor sessions don't ingest Codex-specific assets by default (ask approval before changing).
    - If `.claudeignore` exists, propose inserting/updating a managed block to exclude `.agents/**` so Claude sessions don't ingest Codex-specific assets by default (ask approval before changing).
    - Do NOT exclude `Submodules/skai/**` here; use editor UI excludes for autocomplete/search clutter instead.
-6. Optionally propose cleanup of legacy candidates as a separate explicit step.
-7. Write/update `docs/skai/install-state.json` (see "Install state file" below).
+7. Optionally propose cleanup of legacy candidates as a separate explicit step.
+8. Write/update `docs/skai/install-state.json` (see "Install state file" below).
 
 Required Integration doc fields to request (minimum set):
 - Build/compile command(s)

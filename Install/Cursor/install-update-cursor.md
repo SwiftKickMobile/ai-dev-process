@@ -7,6 +7,8 @@ This document is the canonical Cursor install/update runbook.
 - `assets.manifest.json`
 - `Install/managed-header.md`
 - `Install/conflict-precedence-policy.md`
+- `Install/integration-doc-install-update.md`
+- `Install/prd-install-update.md`
 - `Policies/safe-operations.md`
 - `Templates/docs/skai/integration.md`
 
@@ -34,6 +36,7 @@ Follow the discover → classify → plan → confirm → execute workflow.
   - `docs/**`
   - any "integration glue" docs/notes (build/test commands, destinations, artifact paths), wherever they live (README, docs, CI scripts, etc.)
 - Inventory any existing Integration doc candidates and existing rule/policy docs (do not assume specific filenames).
+- Identify any existing PRD content (`requirements/`, `docs/requirements/`, `prd/`, `specs/requirements/`, etc.) to migrate per `Install/prd-install-update.md`.
 
 ### 2) Classify
 
@@ -76,25 +79,22 @@ If updating the submodule, include an "update review" section:
 
 1. Ensure submodule is present/updated.
 2. Create/update `docs/skai/integration.md` (migrate legacy command docs into it; do not delete legacy docs by default).
-   - If you cannot find the required integration information in-repo:
-     - Create/seed the Integration doc from `Templates/docs/skai/integration.md`.
-     - Fill only what you can source with high confidence.
-     - Add explicit 🟡 placeholders for missing items.
-     - STOP and ask the human for the missing items before proceeding with the rest of the install.
-   - When filling "Build / compile" and "Unit tests", prefer non-interactive command-line commands (e.g., `xcodebuild ...`) over GUI instructions ("open Xcode…"). If you can't produce command-line commands with high confidence, leave 🟡 placeholders and ask.
-   - For Xcode projects: never invent a simulator/device model. If a canonical `xcodebuild -destination` string is not already established in-repo, propose one and ask the human to confirm before writing it.
-   - Follow `Install/integration-doc-install-update.md` for how to update the Integration doc safely (managed blocks + human overrides).
-2.5 Create/update ignore files (permission-gated if the files already exist and are project-owned):
+   - Use the gated-discussion default for any required values you cannot infer (see `Install/integration-doc-install-update.md`). 🟡 + INSTRUCTION stubs are the fallback for human deferral or `auto` mode.
+   - When filling "Build / compile" and "Unit tests", prefer non-interactive command-line commands (e.g., `xcodebuild ...`) over GUI instructions ("open Xcode..."). If you can't produce command-line commands with high confidence, gate-and-discuss; do not guess.
+   - For Xcode projects: never invent a simulator/device model. If a canonical `xcodebuild -destination` string is not already established in-repo, gate-and-discuss with the human before writing it.
+   - Follow `Install/integration-doc-install-update.md` for how to update the Integration doc safely (managed blocks + human overrides). Insert/update both the `required-values` and `Section: requirements` managed blocks.
+3. Follow `Install/prd-install-update.md` to scaffold the PRD layout, gather product / app descriptions via gated discussion, perform migrations, and update the host README managed `Section: requirements` block. (Skip with a one-line trace if the integration doc's PRD shape is `none`.)
+4. Create/update ignore files (permission-gated if the files already exist and are project-owned):
    - Update `.gitignore` by inserting/updating a managed block:
      - Add `working-docs/` so ephemeral working documents are not committed.
    - Update `.cursorignore` by inserting/updating a managed block:
      - Exclude `.claude/**` so Cursor sessions don't ingest Claude-specific assets by default.
      - Do NOT exclude `Submodules/skai/**` here; use editor UI excludes for autocomplete/search clutter instead.
    - If `.claudeignore` exists, propose inserting/updating an equivalent managed block to exclude `.cursor/**` (ask approval before changing).
-3. Generate managed Cursor `.mdc` rule files into `.cursor/rules/skai/`.
-4. Install `skai` Cursor skills into `.cursor/skills/`.
-5. If approved, perform legacy cleanup (delete or replace with symlinks).
-6. Write/update `docs/skai/install-state.json` (see "Install state file" below).
+5. Generate managed Cursor `.mdc` rule files into `.cursor/rules/skai/`.
+6. Install `skai` Cursor skills into `.cursor/skills/`.
+7. If approved, perform legacy cleanup (delete or replace with symlinks).
+8. Write/update `docs/skai/install-state.json` (see "Install state file" below).
 
 Required Integration doc fields to request (minimum set):
 - Build/compile command(s)

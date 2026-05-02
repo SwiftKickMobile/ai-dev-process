@@ -73,8 +73,9 @@ Read the documents and artifacts that were produced or used during this session,
   - `docs/skai/integration.md`
 - Evidence artifacts produced during the session:
   - build/test outputs, logs, result bundles/reports, screenshots/screen recordings, crash reports, etc.
-- The canonical requirements library:
-  - `/requirements/**` (or your org's equivalent)
+- The project's PRD (Product Requirements Document):
+  - shape and root recorded in `docs/skai/integration.md`, `Section: requirements`
+  - canonical content rules in `Guides/Core/prd-guide.md`
 
 If any of these inputs are missing but required to perform the retro, STOP and ask the human where they are.
 
@@ -114,19 +115,29 @@ If the session changed behavior, conventions, or integration details:
 
 If you are not confident what should be documented, STOP and ask the human what level of documentation is expected.
 
-### 5) Product requirements backfill (retro requirements)
+### 5) Product requirements backfill
 
-Goal: if the session discovered or clarified externally observable behavior, ensure `/requirements/**` reflects it.
+Goal: if the session discovered or clarified externally observable behavior, ensure the project's PRD reflects it.
 
-Rules (migrated from the former `retro-prd` process):
-- Infer externally observable or cross-component behavioral contracts from the code + evidence from this session.
-- Compare them to the existing `/requirements/**` library.
-- Add missing requirements and update incorrect/outdated ones.
-- Do NOT introduce implementation details (types, functions, files, initializers).
-- Place each requirement using the project's scope rules (platform/domains/features/apps, etc.).
-- Do NOT add progress markers.
+`Guides/Core/prd-guide.md` is the canonical reference for PRD content rules (scopes, placement, writing style, ID conventions). This step does not restate those rules; it calls them out as required reading.
 
-Only update `/requirements/**`.
+**Workflow-specific behavior:**
+
+- Use the gated-discussion default for any human input needed (new domain terms, scope routing decisions). See `Guides/Core/prd-guide.md`, "Authoring via gated discussion".
+- If the project's PRD shape (in `docs/skai/integration.md`, `Section: requirements`) is `none`, skip this step and emit a one-line trace ("PRD: none -- skipping backfill").
+
+**Tasks (checklist):**
+
+1. Read `Guides/Core/prd-guide.md` to follow canonical content rules.
+2. Read the integration doc's `Section: requirements` to determine PRD shape, local root, and (in the hybrid shape) scope routing.
+3. Infer externally observable or cross-component behavioral contracts from the code + session evidence.
+4. Compare against the existing PRD. Add missing requirements; update incorrect or outdated ones (per the placement decision tree in `Guides/Core/prd-guide.md`).
+5. Update relevant scope indexes (`<scope>/<scope>.md`) with new catalog entries.
+6. If new domain terms emerged, add them to the glossary.
+7. Run the prd-guide self-check on each new or updated requirement.
+8. Report in the retro output: list new and updated requirement IDs with their scope, plus any 🟡 markers still remaining in PRD content. An empty or missing report signals a skipped step.
+
+Only update PRD content (under the local requirements root, and -- in the hybrid shape -- the shared root for shared-scope items).
 
 ### 6) Process reflection
 

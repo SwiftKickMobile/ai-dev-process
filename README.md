@@ -112,6 +112,37 @@ How humans should fill it:
   - remove the 🟡 marker
   - delete the `INSTRUCTION:` line(s) under it
 - If a future install/update can't infer a required value with high confidence, the installer may **restore** 🟡 + `INSTRUCTION:` prompts so the doc remains a complete, reliable source of truth.
+- The default during install/update is **gated discussion**: when the installer needs project-specific values it can't infer, it stops, asks the human, and writes the canonical entry from the discussion. 🟡 + `INSTRUCTION:` stubs are reserved for explicit deferral or non-interactive `auto` runs.
+
+## Project requirements (PRD)
+
+`skai` workflows can be backed by a project-owned PRD (Product Requirements Document) that captures behavioral and contractual requirements separate from implementation. The PRD is the canonical answer to "what must this system do?" and is referenced (read-only) by work-spec implementation, debugging, and unit testing. Authoring happens in the work-spec-creation and dev-retro workflows.
+
+The full conventions live in the canonical guide: [`Guides/Core/prd-guide.md`](Guides/Core/prd-guide.md). Quick orientation:
+
+- **Scopes**: `platform`, `domains`, `features`, `apps/<app-name>` -- pick exactly one per requirement (placement decision tree in the guide).
+- **Layout**: each folder has a same-named index file (e.g. `requirements/features/features.md`). Per-requirement files use stable IDs and behavioral, implementation-agnostic prose.
+- **Glossary**: `requirements/glossary.md` defines domain terms used across requirements.
+
+### Repository shape
+
+Projects vary in how they distribute code across repos. The PRD adapts via four shapes (recorded in the integration doc's `Section: requirements`):
+
+- **`single-repo`** -- one repo, all PRD content lives there.
+- **`multi-repo-no-share`** -- multiple repos, each maintains its own self-contained PRD.
+- **`hybrid`** -- multiple repos, with a shared repo (typically a submodule) owning cross-cutting scopes (`platform`, `domains`, sometimes `features`); per-repo PRDs own app-specific content.
+- **`none`** -- the project does not maintain a PRD; normalization and backfill are skipped.
+
+The shape is chosen during install/update; the installer scaffolds the appropriate layout (templates at [`Templates/requirements/`](Templates/requirements/)) and gates on a product / app description so the LLM has anchoring context. Cross-repo references in the `hybrid` shape use a `shared:` ID prefix (e.g. `shared:ORDER-04`).
+
+### How the PRD gets populated
+
+The PRD is built up over time by two skai workflows:
+
+- **Forward (planning -> PRD)** -- during `skai-work-spec-creation`, behaviors discovered in planning are normalized into the PRD before tasks are written.
+- **Backward (code -> PRD)** -- during `skai-dev-retro`, behaviors discovered while working with existing code are backfilled into the PRD.
+
+Both follow the content rules in [`Guides/Core/prd-guide.md`](Guides/Core/prd-guide.md) and use the **gated-discussion** approach: the LLM stops to discuss with the human when content can't be inferred, then writes the canonical-format entry from the discussion. Silent 🟡 + `INSTRUCTION:` stubs are reserved as fallback (deferral or `auto` mode).
 
 ## IDE clutter / autocomplete (recommended)
 
@@ -176,7 +207,7 @@ Structured planning and specification for complex features. Produces a planning 
 1. **Planning document.** Agent summarizes the discussion into a document seeded with 🟡 open questions. Optional: for large efforts, the planning document can be organized into explicit phase sections; each phase runs its own mini-cycle (discussion, API sketch, requirements normalization, work spec) before moving to the next. Gate: human reviews and resolves 🟡 items before the workflow advances.
 2. **Design discussion.** Agent proposes, human decides. Iterates until all 🟡 items are resolved.
 3. **API sketch.** Agent drafts the API surfaces implied by the design. Gate: human confirms the design is ready to proceed.
-4. **Requirements normalization.** Agent promotes behaviors from the planning document into canonical requirements. Gate: human acknowledges requirements updates.
+4. **Requirements normalization.** Agent promotes behaviors from the planning document into the project's PRD per [`Guides/Core/prd-guide.md`](Guides/Core/prd-guide.md). Gate: human acknowledges requirements updates.
 5. **Work spec first pass.** Agent writes top-level tasks only (no subtasks). Gate: human reviews the task list.
 6. **Work spec second pass.** Agent adds subtasks, requirement IDs, and traceability mapping. Gate: human reviews the completed work spec.
 

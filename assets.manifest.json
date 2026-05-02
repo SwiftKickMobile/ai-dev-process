@@ -64,6 +64,12 @@
       "tags": ["core"]
     },
     {
+      "id": "guide.prd",
+      "type": "guide",
+      "sourcePath": "Guides/Core/prd-guide.md",
+      "tags": ["core"]
+    },
+    {
       "id": "guide.process-flow",
       "type": "guide",
       "sourcePath": "Guides/Core/process-flow.md",
@@ -91,6 +97,60 @@
       "id": "template.integration-section-android-gradle",
       "type": "template",
       "sourcePath": "Templates/docs/skai/integration-sections/android-gradle.md",
+      "tags": ["core"]
+    },
+    {
+      "id": "template.integration-section-requirements",
+      "type": "template",
+      "sourcePath": "Templates/docs/skai/integration-sections/requirements.md",
+      "tags": ["core"]
+    },
+    {
+      "id": "template.readme-requirements-block",
+      "type": "template",
+      "sourcePath": "Templates/docs/skai/readme-requirements-block.md",
+      "tags": ["core"]
+    },
+    {
+      "id": "template.requirements-root",
+      "type": "template",
+      "sourcePath": "Templates/requirements/requirements.md",
+      "tags": ["core"]
+    },
+    {
+      "id": "template.requirements-glossary",
+      "type": "template",
+      "sourcePath": "Templates/requirements/glossary.md",
+      "tags": ["core"]
+    },
+    {
+      "id": "template.requirements-platform-index",
+      "type": "template",
+      "sourcePath": "Templates/requirements/platform/platform.md",
+      "tags": ["core"]
+    },
+    {
+      "id": "template.requirements-domains-index",
+      "type": "template",
+      "sourcePath": "Templates/requirements/domains/domains.md",
+      "tags": ["core"]
+    },
+    {
+      "id": "template.requirements-features-index",
+      "type": "template",
+      "sourcePath": "Templates/requirements/features/features.md",
+      "tags": ["core"]
+    },
+    {
+      "id": "template.requirements-apps-index",
+      "type": "template",
+      "sourcePath": "Templates/requirements/apps/apps.md",
+      "tags": ["core"]
+    },
+    {
+      "id": "template.requirements-per-app-stub",
+      "type": "template",
+      "sourcePath": "Templates/requirements/apps/per-app-stub.md",
       "tags": ["core"]
     },
     {
@@ -223,6 +283,12 @@
       "id": "install-policy.integration-doc-install-update",
       "type": "install-policy",
       "sourcePath": "Install/integration-doc-install-update.md",
+      "tags": ["core"]
+    },
+    {
+      "id": "install-policy.prd-install-update",
+      "type": "install-policy",
+      "sourcePath": "Install/prd-install-update.md",
       "tags": ["core"]
     },
     {

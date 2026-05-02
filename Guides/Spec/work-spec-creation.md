@@ -19,7 +19,7 @@ Orchestrates the work specification creation process. Work specifications provid
 1. **Planning Document Draft**: Summarize the scope discussion into a planning document seeded with 🟡 discussion items.
 2. **Planning Discussion**: Resolve the planning document's inline 🟡 items through collaborative discussion.
 3. **API Sketch**: Capture the non-private API surface implied by the resolved planning discussion.
-4. **Requirements Normalization**: Promote product/system behaviors discovered during planning into the canonical requirements repository.
+4. **Requirements Normalization**: Promote product/system behaviors discovered during planning into the project's PRD (per `Guides/Core/prd-guide.md`).
 5. **Work Spec First Pass**: Write high-level tasks only (no subtasks) for review.
 6. **Work Spec Second Pass**: Add detailed subtasks after approval.
 
@@ -48,7 +48,7 @@ Planned gates for this workflow:
 - After drafting the planning document (with 🟡 open questions) for human review and discussion handoff.
 - After resolving all planning-discussion 🟡 items (human confirms readiness to begin the API sketch).
 - After completing the API sketch (human confirms readiness to proceed to requirements normalization).
-- After requirements normalization updates to `/requirements/**` (human acknowledges before proceeding).
+- After requirements normalization updates to the PRD (human acknowledges before proceeding).
 - After the work spec first pass (high-level tasks only) for review.
 - After the work spec second pass (subtasks + traceability) for review.
 
@@ -86,7 +86,7 @@ Progress tracking:
 - **Planning -- Create Planning Document:** summarize the scope discussion into a planning document; seed with 🟡 open questions for Stage 1; then STOP at the planning-draft gate for human review.
 - **Planning -- Resolve Open Questions:** continue the iterative discussion, updating the document as decisions are made. This continues the active discussion loop; it does not approve unresolved 🟡 items by itself.
 - **Planning -- API Sketch:** after the planning-discussion gate is approved, write the API sketch using the resolved planning document as input.
-- **Requirements Normalization:** after the API sketch gate is approved, promote product/system behaviors from the planning document into the canonical requirements repository.
+- **Requirements Normalization:** after the API sketch gate is approved, promote product/system behaviors from the planning document into the project's PRD (follow the checklist in "Requirements Normalization" below; canonical content rules live in `Guides/Core/prd-guide.md`).
 - **Work Spec -- First Pass:** create work specification with high-level tasks only (no subtasks, no Traceability). Allows human to review overall sequence before details.
 - **Work Spec -- Second Pass:** add detailed subtasks, 🟡 indicators, and the Traceability section.
 
@@ -269,104 +269,35 @@ Gate: STOP and output the planned gate line.
 
 ---
 
-## Canonical Requirements (PRD) Normalization Step
+## Requirements Normalization
 
-After the planning phase is complete, product/system behaviors discovered during planning must be normalized into the canonical requirements repository.
+After the planning phase is complete, behaviors discovered during planning must be promoted into the project's PRD (Product Requirements Document).
 
-**Process (lightweight):**
-1. Review the planning document.
-2. For each product or system behavior:
-   - If it already exists in the requirements repository → reuse its ID.
-   - If it is new or changes existing behavior → add or update a requirement entry in `/requirements/**`.
-3. Do not create tasks, subtasks, progress markers, or implementation decisions in the requirements repository.
+`Guides/Core/prd-guide.md` is the canonical reference for PRD content rules (scopes, placement decision tree, writing style, ID conventions, file shape, glossary). This step does not restate those rules; it calls them out as required reading.
 
-**Rules:**
-- The requirements repository contains behavioral / contractual requirements only.
-- Requirements must be written as **implementation-agnostic black-box behavior**.
-- It must not name concrete types, functions, files, initializers, modules, targets, or third-party libraries/frameworks.
-- It must not contain 🟡 / TODO / pending markers.
-- Git history is the source of change/audit information.
-- Requirements must be placed into the correct scope folder as defined in
-  "Requirements Repository Organization".
+**Workflow-specific behavior:**
 
-### Canonical requirements writing style (anti-implementation guidance)
+- This step is gated. STOP at the planned gate after completion.
+- Use the gated-discussion default for any human input the planning doc cannot supply (new domain terms, naming choices, scope routing decisions). See `Guides/Core/prd-guide.md`, "Authoring via gated discussion".
+- If the project's PRD shape (in `docs/skai/integration.md`, `Section: requirements`) is `none`, skip this step and emit a one-line trace ("PRD: none -- skipping normalization") at the gate.
 
-Write canonical requirements as if authored by a **product manager with no knowledge of the codebase**:
+**Tasks (checklist):**
 
-- Focus on **user-visible behavior**, **domain invariants**, and **system contracts**.
-- Describe **what must be true**, not how it is achieved.
-- Every requirement should be verifiable from the outside (a user, QA, or another system), without reading code.
+1. Read `Guides/Core/prd-guide.md` to follow canonical content rules.
+2. Read the integration doc's `Section: requirements` to determine PRD shape, local root, and (in the hybrid shape) scope routing.
+3. Review the planning document for product / system behaviors.
+4. For each behavior:
+   - If it already exists in the PRD, reuse its ID.
+   - If new or changed, add or update the requirement in the appropriate scope (per the placement decision tree in `Guides/Core/prd-guide.md`).
+   - In the hybrid shape: requirements routed to a shared scope are written into the shared submodule path; references to them from local files use the `shared:` ID prefix.
+5. Update the relevant scope index (`<scope>/<scope>.md`) catalog so new entries are discoverable.
+6. If new domain terms emerged that are not in the glossary, add them to `<requirements-root>/glossary.md`.
+7. Run the prd-guide self-check (3 questions) on each new or updated requirement to confirm it is PRD-style (no implementation details, no code identifiers, behavioral framing).
+8. Report at the gate: list new and updated requirement IDs with their scope, plus any 🟡 markers still remaining in PRD content (e.g. unfilled product/app descriptions deferred to a later run). An empty or missing report signals a skipped step.
 
-**Do not include implementation/technical details such as:**
-
-- Specific data structures, algorithms, or execution strategies (e.g., "use caching", "use a queue", "debounce", "run in background task")
-- Storage mechanisms (e.g., "persist to disk as JSON", "CoreData", "SQLite", "FileStorage")
-- Concurrency / threading / actors / async design (e.g., "use async/await", "MainActor", "perform off the main thread")
-- Concrete Swift identifiers, file paths, or code formatting (backticked types, `.swift` filenames, method names, initializer signatures)
-- Tooling and patterns (dependency injection frameworks, logging frameworks, testing frameworks)
-
-**If a detail is important but inherently technical:**
-
-- Put it in the **work spec** under "Work-spec requirements (technical / transitional)" (e.g. `MIG-01`, `TEMP-02`) instead of the canonical requirements repo.
-
-#### Quick self-check (before writing to `/requirements/**`)
-
-- Can this be understood by a non-engineer without loss of meaning?
-- Does it mention *any* code identifier, file, module, dependency, or framework? If yes → rewrite.
-- Is it phrased as a behavior/contract ("must/should/will") rather than a plan ("implement/add/refactor")?
-
-#### Examples
-
-- ✅ "The system must detect and report circular references in templated documents."
-- ❌ "The `AssetCatalog` should DFS templates and throw `CircularReferenceError`."
-
-- ✅ "Users must be able to view all validation issues for an asset in a single report."
-- ❌ "Accumulate errors during parsing and return an aggregated error array."
-
-The work specification references canonical requirement IDs produced by this step.
+The work spec's own "Requirements Inventory" section (below) references the canonical PRD IDs produced by this step. Technical / transitional items (e.g. `MIG-01`, `TEMP-02`) belong in the work spec, not in the PRD.
 
 Gate: STOP and output the planned gate line.
-
----
-
-## Requirements Repository Organization
-
-All canonical requirements MUST be written into `/requirements/**` using the following scope rules.
-
-Exactly one scope must be chosen for each requirement.
-
-### Scopes
-
-- `/requirements/platform`
-  System-wide and cross-app behavioral contracts.
-  (e.g. document formats, templating rules, identity rules, rendering semantics)
-
-- `/requirements/domains`
-  Business / domain rules shared across apps and tools.
-  (e.g. entities, invariants, validation rules, relationships, state transitions)
-
-- `/requirements/features`
-  Reusable, user-facing features shared across multiple consumer apps.
-  (e.g. search, favorites, offline, entitlements, content browsing)
-
-- `/requirements/apps`
-  App-specific behavior and flows.
-  (e.g. consumer app only rules, CMS-only behavior, app-specific integrations)
-
-### Placement rule
-
-When promoting requirements from planning:
-
-1. If the behavior applies to all apps → use `platform`
-2. Else if it defines domain meaning or rules → use `domains`
-3. Else if it is a reusable end-user feature across consumer apps → use `features`
-4. Else → use `apps/<app-name>`
-
-### Prohibited structures
-
-- Do NOT organize requirements by Xcode project.
-- Do NOT organize requirements by module or package.
-- Do NOT create per-target or per-framework requirement folders.
 
 ---
 
@@ -426,7 +357,7 @@ To avoid missing requirements from planning, include an inventory with stable ID
 This inventory is split into two scopes.
 
 #### Canonical requirements (by reference only)
-- List only IDs from the canonical requirements repository (e.g. `DOC-02`, `PROMPT-04`).
+- List only IDs from the PRD (e.g. `DOC-02`, `PROMPT-04`). For cross-repo references in the hybrid shape, use the `shared:` prefix (e.g. `shared:ORDER-04`).
 - Do NOT restate or redefine their content here.
 - Do NOT use 🟡 markers for canonical requirements.
 

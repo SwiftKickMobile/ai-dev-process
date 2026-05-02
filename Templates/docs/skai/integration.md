@@ -97,6 +97,9 @@ Purpose: define the project-specific "evidence contract" so agents can debug det
 
 <!-- END Managed-By: skai | Section: required-values -->
 
+<!-- BEGIN Managed-By: skai | Section: requirements -->
+<!-- END Managed-By: skai | Section: requirements -->
+
 <!-- BEGIN Managed-By: skai | Section: xcode -->
 <!-- END Managed-By: skai | Section: xcode -->
 

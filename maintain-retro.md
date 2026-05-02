@@ -43,7 +43,9 @@ This retro is a **backstop for completeness**, not a git/diff report.
   - Stack-specific templates exist under `Templates/docs/skai/integration-sections/`.
   - Runbooks still describe how to merge/update/remove the managed blocks.
   - 🟡 is used only for true project-specific constants/mappings (not for variables or standard procedures).
-  - Integration section templates are **integration-doc-ready** content (no 🟡 TODO lists; no installer/human instruction prose; include copy/pasteable CLI templates with `<...>` variables).
+  - **Stack-specific** integration section templates (xcode/swift-package/android-gradle) are command templates: no 🟡 markers, no installer/human instruction prose, copy/pasteable CLI templates with `<...>` variables.
+  - **Required-values-style** integration sections (e.g. `requirements.md`) capture project-specific config and follow the same 🟡 + `INSTRUCTION:` pattern as the main `required-values` block. Verify any 🟡 in those sections is for a true project-specific value, not a TODO.
+  - Install runbooks follow the gated-discussion default for human input (see `Install/integration-doc-install-update.md`); 🟡 + `INSTRUCTION:` stubs are fallback only.
 
 ## 4) Installer safety checks
 

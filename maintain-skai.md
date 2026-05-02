@@ -287,6 +287,10 @@ To preserve that:
   - Propose delete/replace (often replace-with-symlink), but do not execute without explicit approval.
 - **Gray areas must be surfaced**:
   - Example: legacy `.cursor/rules/debugging.mdc` should be flagged and deletion should be proposed only after migrating any project-specific logging conventions into the Integration doc and getting approval.
+- **Gated discussion is the default for human input**:
+  - When the runbook needs project-specific information that cannot be inferred from the host repo, it must STOP at a gate, ask the human, and write the canonical-format entry from the discussion. Do not silently emit 🟡 + `INSTRUCTION:` stubs as the first move.
+  - Stubs remain as the fallback for explicit human deferral or non-interactive `auto` mode (per `Install/integration-doc-install-update.md`).
+  - Applies to integration doc fields, the integration doc's `Section: requirements`, and PRD product / app descriptions during scaffolding (see `Install/prd-install-update.md`).
 
 ## Integration doc architecture (do not regress)
 
