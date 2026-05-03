@@ -83,6 +83,10 @@ Use these standard gate lines:
 - Planned gate: `⏳ GATE: Next: <what happens after your response>. Say "next" or what to change.`
 - Blocked gate: `⏳ GATE: Blocked: <reason>. Resolve and say "next" to continue.`
 
+The gate line is exclusively about advance intent. Place questions, proposals, options, drafts, and any other solicitation of human input *above* the gate line as discussion content. Never phrase a gate as "answer X, then I'll do Y" or "pick option A/B/C, then I'll proceed" -- that collapses discussion into advance intent and pre-commits the agent to execute on the next message regardless of how the human responds.
+
+If the human's response contains discussion (answers, refinements, follow-up questions) but not explicit advance intent, treat the response as discussion: incorporate it (revise drafts, refine proposals, ask follow-ups) and re-gate. Do not auto-advance.
+
 Planned gates are the expected review points of this workflow. At each planned gate:
 1. Summarize what you did and what should happen next.
 2. End with the planned gate line.

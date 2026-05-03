@@ -2,7 +2,7 @@ Managed-By: skai
 Managed-Id: guide.dev-retro
 Managed-Source: Guides/Process/dev-retro.md
 Managed-Adapter: repo-source
-Managed-Updated-At: 2026-03-07
+Managed-Updated-At: 2026-05-03
 
 # Dev-session retro (LLM + human)
 
@@ -17,6 +17,10 @@ Core rule: every time the agent is waiting on the human, the message must end wi
 Use these standard gate lines:
 - Planned gate: `⏳ GATE: Next: <what happens after your response>. Say "next" or what to change.`
 - Blocked gate: `⏳ GATE: Blocked: <reason>. Resolve and say "next" to continue.`
+
+The gate line is exclusively about advance intent. Place questions, proposals, options, drafts, and any other solicitation of human input *above* the gate line as discussion content. Never phrase a gate as "answer X, then I'll do Y" or "pick option A/B/C, then I'll proceed" -- that collapses discussion into advance intent and pre-commits the agent to execute on the next message regardless of how the human responds.
+
+If the human's response contains discussion (answers, refinements, follow-up questions) but not explicit advance intent, treat the response as discussion: incorporate it (revise drafts, refine proposals, ask follow-ups) and re-gate. Do not auto-advance.
 
 Planned gates are the expected review points of this workflow. At each planned gate:
 1. Summarize what you did and what should happen next.
@@ -132,7 +136,7 @@ Goal: if the session discovered or clarified externally observable behavior, ens
 2. Read the integration doc's `Section: requirements` to determine PRD shape, local root, and (in the hybrid shape) scope routing.
 3. Infer externally observable or cross-component behavioral contracts from the code + session evidence.
 4. Compare against the existing PRD. Add missing requirements; update incorrect or outdated ones (per the placement decision tree in `Guides/Core/prd-guide.md`).
-5. Update relevant scope indexes (`<scope>/<scope>.md`) with new catalog entries.
+5. Update relevant scope indexes (`<scope>/_<scope>.md`) with new catalog entries.
 6. If new domain terms emerged, add them to the glossary.
 7. Run the prd-guide self-check on each new or updated requirement.
 8. Report in the retro output: list new and updated requirement IDs with their scope, plus any 🟡 markers still remaining in PRD content. An empty or missing report signals a skipped step.

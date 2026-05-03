@@ -2,7 +2,7 @@ Managed-By: skai
 Managed-Id: guide.work-spec
 Managed-Source: Guides/Spec/work-spec-creation.md
 Managed-Adapter: repo-source
-Managed-Updated-At: 2026-03-04
+Managed-Updated-At: 2026-05-03
 
 # Work Specification Guide
 
@@ -26,8 +26,12 @@ Orchestrates the work specification creation process. Work specifications provid
 ## Gates
 
 Use these standard gate lines:
-- Planned gate: `⏳ GATE: Next: <thing>. Say "next" or what to change.`
+- Planned gate: `⏳ GATE: Next: <what happens after your response>. Say "next" or what to change.`
 - Blocked gate: `⏳ GATE: Blocked: <reason>. Resolve and say "next" to continue.`
+
+The gate line is exclusively about advance intent. Place questions, proposals, options, drafts, and any other solicitation of human input *above* the gate line as discussion content. Never phrase a gate as "answer X, then I'll do Y" or "pick option A/B/C, then I'll proceed" -- that collapses discussion into advance intent and pre-commits the agent to execute on the next message regardless of how the human responds.
+
+If the human's response contains discussion (answers, refinements, follow-up questions) but not explicit advance intent, treat the response as discussion: incorporate it (revise drafts, refine proposals, ask follow-ups) and re-gate. Do not auto-advance.
 
 Planned gates are the expected review points of this workflow. At each planned gate:
 1. Summarize what you did and what should happen next.
@@ -290,7 +294,7 @@ After the planning phase is complete, behaviors discovered during planning must 
    - If it already exists in the PRD, reuse its ID.
    - If new or changed, add or update the requirement in the appropriate scope (per the placement decision tree in `Guides/Core/prd-guide.md`).
    - In the hybrid shape: requirements routed to a shared scope are written into the shared submodule path; references to them from local files use the `shared:` ID prefix.
-5. Update the relevant scope index (`<scope>/<scope>.md`) catalog so new entries are discoverable.
+5. Update the relevant scope index (`<scope>/_<scope>.md`) catalog so new entries are discoverable.
 6. If new domain terms emerged that are not in the glossary, add them to `<requirements-root>/glossary.md`.
 7. Run the prd-guide self-check (3 questions) on each new or updated requirement to confirm it is PRD-style (no implementation details, no code identifiers, behavioral framing).
 8. Report at the gate: list new and updated requirement IDs with their scope, plus any 🟡 markers still remaining in PRD content (e.g. unfilled product/app descriptions deferred to a later run). An empty or missing report signals a skipped step.

@@ -2,7 +2,7 @@ Managed-By: skai
 Managed-Id: guide.prd
 Managed-Source: Guides/Core/prd-guide.md
 Managed-Adapter: repo-source
-Managed-Updated-At: 2026-05-02
+Managed-Updated-At: 2026-05-03
 
 # PRD Guide
 
@@ -105,36 +105,37 @@ For a repo that hosts PRD content, the layout under the local requirements root 
 
 ```
 requirements/
-  requirements.md               <- root index (system overview + map of scopes)
+  _requirements.md              <- root index (system overview + map of scopes)
   glossary.md                   <- domain terms shared across requirements
   platform/
-    platform.md                 <- scope index (catalog of platform requirement files)
+    _platform.md                <- scope index (catalog of platform requirement files)
     <topic>.md                  <- one or more requirement files
   domains/
-    domains.md                  <- scope index
+    _domains.md                 <- scope index
     <entity>.md                 <- typically one file per domain entity
   features/
-    features.md                 <- scope index
+    _features.md                <- scope index
     <feature>.md                <- one file per feature
   apps/
-    apps.md                     <- scope index (catalog of apps)
+    _apps.md                    <- scope index (catalog of apps)
     <app-name>/
-      <app-name>.md             <- per-app index
+      _<app-name>.md            <- per-app index
       <flow>.md                 <- one or more requirement files for that app
 ```
 
-A scope-level file (e.g. `features/widgets.md`) may grow large enough to become a folder (e.g. `features/widgets/`). When it does, the new folder gets its own index file `widgets/widgets.md` and the original content is split across files inside the folder.
+A scope-level file (e.g. `features/widgets.md`) may grow large enough to become a folder (e.g. `features/widgets/`). When it does, the new folder gets its own index file `widgets/_widgets.md` and the original content is split across files inside the folder.
 
-### Naming convention: `<folder>/<folder>.md`
+### Naming convention: `<folder>/_<folder>.md`
 
-Every folder that contains an index file uses the convention `<folder>/<folder>.md`. The index file shares its name with its containing folder.
+Every folder that contains an index file uses the convention `<folder>/_<folder>.md`. The index file shares its name with its containing folder, prefixed with `_` (underscore).
 
 Why:
+- The leading `_` sorts the index file above the leaf requirement files in most editors' file explorers (Cursor / VS Code, etc.), so humans can find it immediately rather than hunting for it among alphabetically-sorted leaves.
 - No `README.md` collisions in editor tabs (every tab has a meaningful name).
 - The path itself documents what the file is.
-- Easy to reference from prose ("see `features/features.md`").
+- Easy to reference from prose ("see `features/_features.md`").
 
-### Root index (`requirements/requirements.md`)
+### Root index (`requirements/_requirements.md`)
 
 Contains:
 - A short paragraph describing the product / system at a high level.
@@ -144,7 +145,7 @@ Contains:
 
 The product description is gathered at install time via gated discussion (see "Authoring via gated discussion" below).
 
-### Scope indexes (`<scope>/<scope>.md`)
+### Scope indexes (`<scope>/_<scope>.md`)
 
 Contains:
 - A one-line reminder of what this scope is. Example: `Features = user-facing capabilities reusable across apps; see Guides/Core/prd-guide.md for the full taxonomy.`

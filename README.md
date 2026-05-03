@@ -140,7 +140,7 @@ How humans should fill it:
 The full conventions live in the canonical guide: [`Guides/Core/prd-guide.md`](Guides/Core/prd-guide.md). Quick orientation:
 
 - **Scopes**: every requirement lives in one of four scopes -- `platform`, `domains`, `features`, or `apps/<app-name>`. See [`Guides/Core/prd-guide.md`](Guides/Core/prd-guide.md) for definitions and the placement rules.
-- **Layout**: each folder has a same-named index file (e.g. `requirements/features/features.md`). Per-requirement files use stable IDs and behavioral, implementation-agnostic prose.
+- **Layout**: each folder has a same-named index file with a `_` prefix so it sorts above the leaf files (e.g. `requirements/features/_features.md`). Per-requirement files use stable IDs and behavioral, implementation-agnostic prose.
 - **Glossary**: `requirements/glossary.md` defines domain terms used across requirements.
 
 ### Repository shape

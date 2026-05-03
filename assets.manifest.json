@@ -114,7 +114,7 @@
     {
       "id": "template.requirements-root",
       "type": "template",
-      "sourcePath": "Templates/requirements/requirements.md",
+      "sourcePath": "Templates/requirements/_requirements.md",
       "tags": ["core"]
     },
     {
@@ -126,25 +126,25 @@
     {
       "id": "template.requirements-platform-index",
       "type": "template",
-      "sourcePath": "Templates/requirements/platform/platform.md",
+      "sourcePath": "Templates/requirements/platform/_platform.md",
       "tags": ["core"]
     },
     {
       "id": "template.requirements-domains-index",
       "type": "template",
-      "sourcePath": "Templates/requirements/domains/domains.md",
+      "sourcePath": "Templates/requirements/domains/_domains.md",
       "tags": ["core"]
     },
     {
       "id": "template.requirements-features-index",
       "type": "template",
-      "sourcePath": "Templates/requirements/features/features.md",
+      "sourcePath": "Templates/requirements/features/_features.md",
       "tags": ["core"]
     },
     {
       "id": "template.requirements-apps-index",
       "type": "template",
-      "sourcePath": "Templates/requirements/apps/apps.md",
+      "sourcePath": "Templates/requirements/apps/_apps.md",
       "tags": ["core"]
     },
     {

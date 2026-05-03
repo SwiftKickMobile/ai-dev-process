@@ -32,12 +32,13 @@ If the shape value is missing, follow the gated-discussion default in `Install/i
 
 Before scaffolding, inspect the host repo for existing PRD content that may need migration:
 
-- An existing `requirements/` folder without the `requirements.md` root index -- propose adopting the new layout (create indexes, scope folders, glossary; reorganize loose files into the appropriate scope).
+- An existing `requirements/` folder without the `_requirements.md` root index -- propose adopting the new layout (create indexes, scope folders, glossary; reorganize loose files into the appropriate scope).
+- An existing layout that uses unprefixed index files (`requirements/requirements.md`, `features/features.md`, `<app-name>/<app-name>.md`, etc.) instead of the current `_`-prefixed convention -- propose renaming each index in place: `requirements/requirements.md` -> `requirements/_requirements.md`, `<scope>/<scope>.md` -> `<scope>/_<scope>.md`, `<app-name>/<app-name>.md` -> `<app-name>/_<app-name>.md`. Update any catalog entries that link to the renamed files.
 - Existing PRD-like content under other paths (e.g. `docs/requirements/`, `prd/`, `specs/requirements/`) -- propose moving it under the configured local root.
 - Existing requirement files at the root of `requirements/` (not under a scope folder) -- propose moving them into the appropriate scope.
 - Loose files that look like requirement entries but lack stable IDs -- flag and propose normalizing (assign IDs).
 
-Migrations are permission-gated. Present the migration plan (which files move where, what gets created, what IDs get assigned) at the Confirm gate and STOP for human approval before executing.
+Migrations are permission-gated. Present the migration plan (which files move where, what gets created, what gets renamed, what IDs get assigned) at the Confirm gate and STOP for human approval before executing.
 
 When updating an existing install (re-run): if all the seeded files already exist with the expected names, treat the layout as already established and skip scaffolding for those files. Re-surface any remaining 🟡 markers in those files as gates for the human to fill (per the gated-discussion default).
 
@@ -47,12 +48,12 @@ Seed templates live at `Submodules/skai/Templates/requirements/`. Copy them into
 
 For `single-repo` and `multi-repo-no-share`, copy:
 
-- `requirements/requirements.md` (root index)
+- `requirements/_requirements.md` (root index)
 - `requirements/glossary.md`
-- `requirements/platform/platform.md`
-- `requirements/domains/domains.md`
-- `requirements/features/features.md`
-- `requirements/apps/apps.md`
+- `requirements/platform/_platform.md`
+- `requirements/domains/_domains.md`
+- `requirements/features/_features.md`
+- `requirements/apps/_apps.md`
 
 For `hybrid`, copy only the files whose scope is routed to `local` per the integration doc's scope routing.
 
@@ -68,15 +69,15 @@ For each piece of content the seed templates leave as 🟡 (product description,
 
 Specific gates the install runbook drives (skip a gate if the corresponding seed file was not scaffolded):
 
-- **Product description** -- one paragraph at the top of `<local-root>/requirements.md`. Gate prompt: "What does this product / system do? Who uses it? What problem does it solve?"
-- **Per-app description(s)** -- for each app in the project, one line at the top of `<local-root>/apps/<app>/<app>.md`. If the list of apps is not obvious, ask the human first ("What apps does this repo contain?"), then gate per app for descriptions.
+- **Product description** -- one paragraph at the top of `<local-root>/_requirements.md`. Gate prompt: "What does this product / system do? Who uses it? What problem does it solve?"
+- **Per-app description(s)** -- for each app in the project, one line at the top of `<local-root>/apps/<app-name>/_<app-name>.md`. If the list of apps is not obvious, ask the human first ("What apps does this repo contain?"), then gate per app for descriptions.
 
-For each per-app file, copy `Submodules/skai/Templates/requirements/apps/per-app-stub.md` into `<local-root>/apps/<app-name>/<app-name>.md` (rename to match the app's name), then gate on the description.
+For each per-app file, copy `Submodules/skai/Templates/requirements/apps/per-app-stub.md` into `<local-root>/apps/<app-name>/_<app-name>.md` (rename to match the app's name with the `_` prefix), then gate on the description.
 
-After collecting descriptions, update the `<local-root>/apps/apps.md` catalog with one entry per app, using the catalog format defined in `Guides/Core/prd-guide.md`:
+After collecting descriptions, update the `<local-root>/apps/_apps.md` catalog with one entry per app, using the catalog format defined in `Guides/Core/prd-guide.md`:
 
 ```
-- [<app-name>](<app-name>/<app-name>.md) -- <one-line description>
+- [<app-name>](<app-name>/_<app-name>.md) -- <one-line description>
 ```
 
 This keeps the apps scope index in sync with the per-app index files.

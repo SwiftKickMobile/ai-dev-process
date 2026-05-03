@@ -2,7 +2,7 @@ Managed-By: skai
 Managed-Id: guide.process-flow
 Managed-Source: Guides/Core/process-flow.md
 Managed-Adapter: repo-source
-Managed-Updated-At: 2026-03-07
+Managed-Updated-At: 2026-05-03
 
 # Process flow (house style reference)
 
@@ -41,6 +41,28 @@ Use:
 Blocked gates may occur at any point in a workflow. They are not limited to the planned gates listed in a guide.
 
 Keep blocked-gate behavior generic unless a workflow has concrete blocker cases discovered through retros and documented in that guide.
+
+### Gate-vs-discussion separation
+
+The gate line is exclusively about advance intent. Place questions, proposals, options, drafts, and any other solicitation of human input *above* the gate line as discussion content.
+
+Anti-patterns (do not write gates like these):
+
+- `⏳ GATE: Next: Answer the 5 questions above, then I'll execute the plan.`
+- `⏳ GATE: Next: Pick option A or B, then I'll proceed.`
+- `⏳ GATE: Next: Provide the missing values, then I'll continue.`
+
+Each of these collapses discussion into advance intent and pre-commits the agent to execute on the next message regardless of how the human responds. They strip the human's ability to discuss further (refine a draft, push back on a proposal, ask follow-ups) without triggering execution.
+
+Correct shape:
+
+```
+[discussion content: questions, proposals, drafts, options]
+
+⏳ GATE: Next: <what the agent will do after advance intent>. Say "next" or what to change.
+```
+
+If the human's response contains discussion (answers, refinements, follow-up questions) but not explicit advance intent, treat the response as discussion: incorporate it (revise drafts, refine proposals, ask follow-ups) and re-gate. Do not auto-advance just because the human supplied content the agent asked for.
 
 ## Advance intent
 

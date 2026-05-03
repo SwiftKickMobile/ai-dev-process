@@ -12,10 +12,11 @@ This is a shared guide for installers that create/update the host project's Inte
 
 When the install runbook needs project-specific information that cannot be inferred from the host repo, the default is:
 
-1. STOP at a gate.
-2. Ask the human a focused question (or a small list of related questions).
-3. Receive the answer.
-4. Write the canonical-format entry into the relevant file. The human supplies source material; the agent writes the prose.
+1. Place the question (or small set of related questions) in the discussion content of the message.
+2. End the message with the standard planned gate line. The gate line is exclusively about advance intent; never phrase it as "answer X, then I'll do Y." See `Guides/Core/process-flow.md`, "Gate-vs-discussion separation" for the canonical rule.
+3. STOP and wait for the human.
+4. If the response contains discussion (answers, refinements, follow-ups) but not explicit advance intent, incorporate the response and re-gate. Do not auto-advance just because the human supplied content the agent asked for.
+5. After explicit advance intent, write the canonical-format entry into the relevant file. The human supplies source material; the agent writes the prose.
 
 Reserve 🟡 + `INSTRUCTION:` stubs for cases where the human explicitly defers ("skip for now") or the runbook is in non-interactive `auto` mode. In `auto`, the runbook leaves the stubs and continues; the next non-auto run surfaces them as gates again.
 
