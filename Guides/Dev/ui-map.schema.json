@@ -1,0 +1,229 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://skai.dev/schema/ui-map/v1.json",
+  "title": "UI Map",
+  "description": "Schema for UI Map YAML documents. A UI Map describes all scenes in an app and the routing relationships between them.",
+  "type": "object",
+  "required": ["version", "app", "domains"],
+  "additionalProperties": false,
+  "properties": {
+    "version": {
+      "description": "Schema version. Currently always 1.",
+      "type": "integer",
+      "const": 1
+    },
+    "app": {
+      "description": "Human-readable app name (e.g. 'LumenNotes').",
+      "type": "string",
+      "minLength": 1
+    },
+    "modal_styles": {
+      "description": "Project vocabulary of valid modal presentation styles (e.g. sheet, full_screen, card). A scene's 'modal_style' must be one of these. Optional; required only if any scene declares a 'modal_style'.",
+      "type": "array",
+      "minItems": 1,
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "domains": {
+      "description": "Top-level grouping. Each key is a domain ID; the value is a domain definition. A domain is 'collapsed' when its ID matches its single root scene (the value carries scene-level fields directly); otherwise it is non-collapsed and contains a 'scenes' list.",
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": { "$ref": "#/$defs/Domain" }
+    },
+    "common": {
+      "description": "Domain-agnostic scenes shared across the app (e.g. a reusable Web component). Same item shape as a route container.",
+      "type": "array",
+      "items": { "$ref": "#/$defs/SceneListItem" }
+    },
+    "todos": {
+      "description": "Cross-cutting TODOs not tied to a single scene. Scene-level TODOs use the 'todo: true' flag on the scene instead.",
+      "type": "array",
+      "items": { "$ref": "#/$defs/Todo" }
+    }
+  },
+  "$defs": {
+    "RouteKind": {
+      "description": "The five route kinds in the UI Map vocabulary.",
+      "enum": ["nav", "modal", "composite", "tab", "child"]
+    },
+    "Domain": {
+      "description": "Either a collapsed domain (scene-level fields directly) or a non-collapsed domain ('scenes' list). Distinguished by the presence of the 'scenes' key.",
+      "oneOf": [
+        { "$ref": "#/$defs/CollapsedDomain" },
+        { "$ref": "#/$defs/NonCollapsedDomain" }
+      ]
+    },
+    "CollapsedDomain": {
+      "description": "Domain whose ID matches a single root scene; the domain entry doubles as that root scene's definition.",
+      "type": "object",
+      "additionalProperties": false,
+      "not": { "required": ["scenes"] },
+      "properties": {
+        "nav": { "$ref": "#/$defs/RouteContainer" },
+        "modal": { "$ref": "#/$defs/RouteContainer" },
+        "composite": { "$ref": "#/$defs/RouteContainer" },
+        "tab": { "$ref": "#/$defs/RouteContainer" },
+        "child": { "$ref": "#/$defs/RouteContainer" },
+        "implements": { "$ref": "#/$defs/ImplementsList" },
+        "platform": { "type": "string" },
+        "modal_style": { "type": "string", "minLength": 1 },
+        "todo": { "type": "boolean" },
+        "note": { "type": "string" },
+        "notes": { "$ref": "#/$defs/NotesList" },
+        "primary_parent": { "type": "string" }
+      }
+    },
+    "NonCollapsedDomain": {
+      "description": "Domain without a single root scene. Contains a list of top-level scenes.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["scenes"],
+      "properties": {
+        "scenes": {
+          "description": "Top-level scenes of the domain. Each item is a scene ID (cross-domain ref) or a single-key mapping (definition).",
+          "type": "array",
+          "items": { "$ref": "#/$defs/SceneListItem" }
+        },
+        "notes": {
+          "description": "Notes attached to the domain (rather than a specific scene).",
+          "$ref": "#/$defs/NotesList"
+        }
+      }
+    },
+    "RouteContainer": {
+      "description": "A list of route destinations. Each item is a scene ID (cross-domain or in-domain reference) or a single-key mapping that defines an in-domain scene.",
+      "type": "array",
+      "items": { "$ref": "#/$defs/SceneListItem" }
+    },
+    "SceneListItem": {
+      "description": "A scene reference (bare string scene ID) or a scene definition (single-key mapping; key is the scene ID, value is the scene body).",
+      "oneOf": [
+        {
+          "description": "Cross-reference: scene defined elsewhere in the document.",
+          "type": "string",
+          "minLength": 1
+        },
+        {
+          "description": "In-place scene definition: single-key mapping from scene ID to scene body.",
+          "type": "object",
+          "minProperties": 1,
+          "maxProperties": 1,
+          "additionalProperties": { "$ref": "#/$defs/SceneBody" }
+        }
+      ]
+    },
+    "SceneBody": {
+      "description": "The definition of a scene's properties. All fields are optional. An empty body {} or null means a leaf scene with no further routes.",
+      "type": ["object", "null"],
+      "additionalProperties": false,
+      "properties": {
+        "nav": {
+          "description": "Nav routes: parent pushes the child onto a navigation stack.",
+          "$ref": "#/$defs/RouteContainer"
+        },
+        "modal": {
+          "description": "Modal routes: parent presents the child modally. The presentation style (sheet, dialog, full-screen) is an implementation detail.",
+          "$ref": "#/$defs/RouteContainer"
+        },
+        "composite": {
+          "description": "Composite routes: the child is embedded as a subview of this scene.",
+          "$ref": "#/$defs/RouteContainer"
+        },
+        "tab": {
+          "description": "Tab routes: the child is one tab in a tab container hosted by this scene.",
+          "$ref": "#/$defs/RouteContainer"
+        },
+        "child": {
+          "description": "Child routes: the child replaces this scene's primary content (mutually exclusive among siblings).",
+          "$ref": "#/$defs/RouteContainer"
+        },
+        "implements": {
+          "description": "Concrete variant names for an abstract scene (e.g., a Web scene implementing 'Privacy Policy' and 'Terms of Service'). Each entry is a variant identifier.",
+          "$ref": "#/$defs/ImplementsList"
+        },
+        "platform": {
+          "description": "Platform scoping for the scene (e.g. 'android', 'ios'). Omit for cross-platform scenes.",
+          "type": "string",
+          "minLength": 1
+        },
+        "modal_style": {
+          "description": "How this scene is presented when reached by a modal route (e.g. sheet, full_screen, card). Must be one of the document's top-level 'modal_styles'. Informational; does not affect routing semantics.",
+          "type": "string",
+          "minLength": 1
+        },
+        "todo": {
+          "description": "Boolean flag: when true, marks this scene as not yet implemented. Independent of the 'note' field.",
+          "type": "boolean"
+        },
+        "note": {
+          "description": "Single free-text note attached to the scene. For multiple notes or container-attached notes, use 'notes'.",
+          "type": "string"
+        },
+        "notes": {
+          "description": "Multiple notes. Each note can be a bare string (attaches to the scene) or an object with 'text' and optional 'on' (attaches to a route container of the named kind).",
+          "$ref": "#/$defs/NotesList"
+        },
+        "primary_parent": {
+          "description": "Scene ID of the parent under which this scene should render its canonical (rounded-rect) instance. Required only for scenes with multiple inbound routes that need a chosen visual home.",
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "ImplementsList": {
+      "description": "Non-empty list of variant identifiers.",
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "NotesList": {
+      "description": "List of notes attached to a scene or container.",
+      "type": "array",
+      "items": { "$ref": "#/$defs/Note" }
+    },
+    "Note": {
+      "description": "A note can be a bare string (attaches to the scene) or an object with 'text' and optional 'at' (route-kind, attaches the note to that route container instead of the scene).",
+      "oneOf": [
+        {
+          "type": "string",
+          "minLength": 1
+        },
+        {
+          "type": "object",
+          "required": ["text"],
+          "additionalProperties": false,
+          "properties": {
+            "text": {
+              "type": "string",
+              "minLength": 1
+            },
+            "at": {
+              "description": "Route kind to attach the note to. Without 'at', the note attaches to the scene itself.",
+              "$ref": "#/$defs/RouteKind"
+            }
+          }
+        }
+      ]
+    },
+    "Todo": {
+      "description": "A cross-cutting TODO. Use 'scope' to reference a scene ID; omit for app-wide concerns.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["note"],
+      "properties": {
+        "scope": {
+          "description": "Optional scene ID this TODO is scoped to.",
+          "type": "string",
+          "minLength": 1
+        },
+        "note": {
+          "description": "Free-text description of the TODO.",
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    }
+  }
+}
